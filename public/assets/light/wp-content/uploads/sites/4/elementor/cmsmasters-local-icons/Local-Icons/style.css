@@ -1,0 +1,141 @@
+@font-face {
+  font-family: 'Local-Icons';
+  src:  url("fonts/Local-Icons.eot");
+  src:  url("fonts/Local-Icons.eot") format('embedded-opentype'),
+    url("fonts/Local-Icons.ttf") format('truetype'),
+    url("fonts/Local-Icons.woff") format('woff'),
+    url("fonts/Local-Icons.svg") format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="cmsms-demo-icons-"], [class*=" cmsms-demo-icons-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Local-Icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cmsms-demo-icons-address:before {
+  content: "\e900";
+}
+.cmsms-demo-icons-arrow-left:before {
+  content: "\e901";
+}
+.cmsms-demo-icons-arrow-right:before {
+  content: "\e902";
+}
+.cmsms-demo-icons-cancel:before {
+  content: "\e903";
+}
+.cmsms-demo-icons-check:before {
+  content: "\e904";
+}
+.cmsms-demo-icons-date:before {
+  content: "\e905";
+}
+.cmsms-demo-icons-dropdown-down:before {
+  content: "\e906";
+}
+.cmsms-demo-icons-dropdown-up:before {
+  content: "\e907";
+}
+.cmsms-demo-icons-letter:before {
+  content: "\e908";
+}
+.cmsms-demo-icons-menu:before {
+  content: "\e909";
+}
+.cmsms-demo-icons-phone:before {
+  content: "\e90a";
+}
+.cmsms-demo-icons-search:before {
+  content: "\e90b";
+}
+.cmsms-demo-icons-Star:before {
+  content: "\e90c";
+}
+.cmsms-demo-icons-time:before {
+  content: "\e90d";
+}
+.cmsms-demo-icons-toggle-down:before {
+  content: "\e90e";
+}
+.cmsms-demo-icons-toggle-up:before {
+  content: "\e90f";
+}
+.cmsms-demo-icons-wellness-1:before {
+  content: "\e910";
+}
+.cmsms-demo-icons-wellness-2:before {
+  content: "\e911";
+}
+.cmsms-demo-icons-wellness-3:before {
+  content: "\e912";
+}
+.cmsms-demo-icons-wellness-4:before {
+  content: "\e913";
+}
+.cmsms-demo-icons-wellness-5:before {
+  content: "\e914";
+}
+.cmsms-demo-icons-wellness-6:before {
+  content: "\e915";
+}
+.cmsms-demo-icons-wellness-7:before {
+  content: "\e916";
+}
+.cmsms-demo-icons-wellness-8:before {
+  content: "\e917";
+}
+.cmsms-demo-icons-wellness-9:before {
+  content: "\e918";
+}
+.cmsms-demo-icons-wellness-10:before {
+  content: "\e919";
+}
+.cmsms-demo-icons-wellness-11:before {
+  content: "\e91a";
+}
+.cmsms-demo-icons-wellness-12:before {
+  content: "\e91b";
+}
+.cmsms-demo-icons-wellness-13:before {
+  content: "\e91c";
+}
+.cmsms-demo-icons-wellness-14:before {
+  content: "\e91d";
+}
+.cmsms-demo-icons-wellness-15:before {
+  content: "\e91e";
+}
+.cmsms-demo-icons-wellness-16:before {
+  content: "\e91f";
+}
+.cmsms-demo-icons-wellness-17:before {
+  content: "\e920";
+}
+.cmsms-demo-icons-wellness-18:before {
+  content: "\e921";
+}
+.cmsms-demo-icons-wellness-19:before {
+  content: "\e922";
+}
+.cmsms-demo-icons-wellness-20:before {
+  content: "\e923";
+}
+.cmsms-demo-icons-wellness-21:before {
+  content: "\e924";
+}
+.cmsms-demo-icons-wellness-bliss:before {
+  content: "\e925";
+}
