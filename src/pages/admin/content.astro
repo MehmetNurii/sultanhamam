@@ -1,0 +1,219 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import siteData from '../../content/data.json';
+
+const site = siteData.site;
+---
+
+<AdminLayout title="İçerik Yönetimi" currentPage="content">
+  <!-- Page Header -->
+  <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
+    <div>
+      <p class="admin-text-muted">Site genelinde kullanılan içerik ve iletişim bilgilerini düzenleyin.</p>
+    </div>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
+    <!-- Site Info Card -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h3 class="admin-card-title">Site Bilgileri</h3>
+      </div>
+      <div class="admin-card-body">
+        <form id="siteInfoForm">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="siteTitle">Site Başlığı</label>
+            <input type="text" id="siteTitle" name="title" class="admin-form-input" value={site.title}>
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="siteDescription">Site Açıklaması</label>
+            <textarea id="siteDescription" name="description" class="admin-form-textarea">{site.description}</textarea>
+          </div>
+          
+          <button type="button" class="admin-btn admin-btn-primary" onclick="saveSiteInfo()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Kaydet
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Contact Info Card -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h3 class="admin-card-title">İletişim Bilgileri</h3>
+      </div>
+      <div class="admin-card-body">
+        <form id="contactForm">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="phone">Telefon</label>
+            <input type="tel" id="phone" name="phone" class="admin-form-input" value={site.phone}>
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="email">E-posta</label>
+            <input type="email" id="email" name="email" class="admin-form-input" value={site.email}>
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="address">Adres</label>
+            <textarea id="address" name="address" class="admin-form-textarea" style="min-height: 80px;">{site.address}</textarea>
+          </div>
+          
+          <button type="button" class="admin-btn admin-btn-primary" onclick="saveContactInfo()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Kaydet
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Social Media Card -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h3 class="admin-card-title">Sosyal Medya</h3>
+      </div>
+      <div class="admin-card-body">
+        <form id="socialForm">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="facebook">
+              <span style="display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                Facebook
+              </span>
+            </label>
+            <input type="url" id="facebook" name="facebook" class="admin-form-input" value={site.socialMedia.facebook} placeholder="https://facebook.com/...">
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="instagram">
+              <span style="display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Instagram
+              </span>
+            </label>
+            <input type="url" id="instagram" name="instagram" class="admin-form-input" value={site.socialMedia.instagram} placeholder="https://instagram.com/...">
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="twitter">
+              <span style="display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                Twitter (X)
+              </span>
+            </label>
+            <input type="url" id="twitter" name="twitter" class="admin-form-input" value={site.socialMedia.twitter} placeholder="https://twitter.com/...">
+          </div>
+          
+          <button type="button" class="admin-btn admin-btn-primary" onclick="saveSocialInfo()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Kaydet
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Quick Edit Texts -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h3 class="admin-card-title">Hero Metinleri</h3>
+      </div>
+      <div class="admin-card-body">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="heroTitle">Ana Sayfa Başlığı</label>
+          <input type="text" id="heroTitle" name="heroTitle" class="admin-form-input" value="Experience the Healing Power of Massage">
+        </div>
+        
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="heroSubtitle">Ana Sayfa Alt Başlığı</label>
+          <textarea id="heroSubtitle" name="heroSubtitle" class="admin-form-textarea">Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature's Calm</textarea>
+        </div>
+        
+        <button type="button" class="admin-btn admin-btn-primary" onclick="saveHeroInfo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Info Card -->
+  <div class="admin-card" style="margin-top: 24px;">
+    <div class="admin-card-body">
+      <div class="admin-flex admin-items-center admin-gap-4">
+        <div class="admin-stat-icon orange">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 4px;">Değişiklikler Hakkında</h4>
+          <p class="admin-text-muted admin-text-sm">
+            Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. 
+            Gerçek bir uygulamada, değişiklikler bir API üzerinden <code>data.json</code> dosyasına yazılır 
+            ve sitenin yeniden derlenmesi tetiklenir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script is:inline>
+  function saveSiteInfo() {
+    const data = {
+      title: document.getElementById('siteTitle').value,
+      description: document.getElementById('siteDescription').value
+    };
+    
+    showSaveMessage('Site bilgileri');
+  }
+  
+  function saveContactInfo() {
+    const data = {
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      address: document.getElementById('address').value
+    };
+    
+    showSaveMessage('İletişim bilgileri');
+  }
+  
+  function saveSocialInfo() {
+    const data = {
+      facebook: document.getElementById('facebook').value,
+      instagram: document.getElementById('instagram').value,
+      twitter: document.getElementById('twitter').value
+    };
+    
+    showSaveMessage('Sosyal medya bilgileri');
+  }
+  
+  function saveHeroInfo() {
+    const data = {
+      heroTitle: document.getElementById('heroTitle').value,
+      heroSubtitle: document.getElementById('heroSubtitle').value
+    };
+    
+    showSaveMessage('Hero metinleri');
+  }
+  
+  function showSaveMessage(section) {
+    alert(`${section} kaydedildi!\n\nNot: Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. Gerçek uygulamada bir API endpoint'e gönderilir ve data.json dosyası güncellenir.`);
+  }
+</script>

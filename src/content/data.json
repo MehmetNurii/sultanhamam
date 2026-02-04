@@ -1,0 +1,99 @@
+{
+  "site": {
+    "title": "Wellness Bliss",
+    "description": "Experience the Healing Power of Massage",
+    "phone": "1-800-123-1234",
+    "email": "info@wellnessbliss.com",
+    "address": "123 Wellness Street, Spa City",
+    "socialMedia": {
+      "facebook": "https://facebook.com/wellnessbliss",
+      "instagram": "https://instagram.com/wellnessbliss",
+      "twitter": "https://twitter.com/wellnessbliss"
+    }
+  },
+  "navigation": {
+    "main": [
+      { "id": 1, "title": "Home", "url": "/", "order": 1, "visible": true },
+      { "id": 2, "title": "Services", "url": "/services", "order": 2, "visible": true },
+      { "id": 3, "title": "About Us", "url": "/about-us", "order": 3, "visible": true },
+      { "id": 4, "title": "Our Team", "url": "/our-team", "order": 4, "visible": true },
+      { "id": 5, "title": "Prices", "url": "/prices-page", "order": 5, "visible": true },
+      { "id": 6, "title": "Contact", "url": "/contacts", "order": 6, "visible": true },
+      { "id": 7, "title": "Appointment", "url": "/appointment", "order": 7, "visible": true }
+    ]
+  },
+  "pages": [
+    {
+      "id": 1,
+      "slug": "index",
+      "title": "Home",
+      "metaTitle": "Home - Wellness Bliss",
+      "metaDescription": "Experience the Healing Power of Massage at Wellness Bliss",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 2,
+      "slug": "services",
+      "title": "Services",
+      "metaTitle": "Our Services - Wellness Bliss",
+      "metaDescription": "Discover our range of massage and wellness services",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 3,
+      "slug": "about-us",
+      "title": "About Us",
+      "metaTitle": "About Us - Wellness Bliss",
+      "metaDescription": "Learn about our wellness center and our mission",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 4,
+      "slug": "our-team",
+      "title": "Our Team",
+      "metaTitle": "Our Team - Wellness Bliss",
+      "metaDescription": "Meet our experienced massage therapists",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 5,
+      "slug": "prices-page",
+      "title": "Prices",
+      "metaTitle": "Prices - Wellness Bliss",
+      "metaDescription": "View our service prices and packages",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 6,
+      "slug": "contacts",
+      "title": "Contact",
+      "metaTitle": "Contact Us - Wellness Bliss",
+      "metaDescription": "Get in touch with us for appointments and inquiries",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 7,
+      "slug": "appointment",
+      "title": "Appointment",
+      "metaTitle": "Book an Appointment - Wellness Bliss",
+      "metaDescription": "Schedule your massage appointment online",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    },
+    {
+      "id": 8,
+      "slug": "services-id",
+      "title": "Service Details",
+      "metaTitle": "Service Details - Wellness Bliss",
+      "metaDescription": "Detailed information about our services",
+      "visible": true,
+      "lastModified": "2026-02-04"
+    }
+  ]
+}

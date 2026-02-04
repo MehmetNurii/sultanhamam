@@ -1,0 +1,133 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import siteData from '../../content/data.json';
+
+const pages = siteData.pages;
+const navItems = siteData.navigation.main;
+---
+
+<AdminLayout title="Dashboard" currentPage="dashboard">
+  <!-- Stats Grid -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon purple">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <div class="admin-stat-content">
+        <h3>{pages.length}</h3>
+        <p>Toplam Sayfa</p>
+      </div>
+    </div>
+    
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon blue">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </div>
+      <div class="admin-stat-content">
+        <h3>{navItems.length}</h3>
+        <p>Menü Öğesi</p>
+      </div>
+    </div>
+    
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon green">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <div class="admin-stat-content">
+        <h3>{pages.filter(p => p.visible).length}</h3>
+        <p>Aktif Sayfa</p>
+      </div>
+    </div>
+    
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon orange">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <div class="admin-stat-content">
+        <h3>Şimdi</h3>
+        <p>Son Güncelleme</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions -->
+  <div class="admin-card admin-mb-6">
+    <div class="admin-card-header">
+      <h3 class="admin-card-title">Hızlı İşlemler</h3>
+    </div>
+    <div class="admin-card-body">
+      <div class="admin-quick-actions">
+        <a href="/admin/pages" class="admin-quick-action">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h4>Sayfaları Yönet</h4>
+        </a>
+        <a href="/admin/navigation" class="admin-quick-action">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <h4>Navigasyonu Düzenle</h4>
+        </a>
+        <a href="/admin/content" class="admin-quick-action">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          <h4>İçerik Düzenle</h4>
+        </a>
+        <a href="/" target="_blank" class="admin-quick-action">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <h4>Siteyi Görüntüle</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Recent Pages -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <h3 class="admin-card-title">Sayfalar</h3>
+      <a href="/admin/pages" class="admin-btn admin-btn-secondary admin-btn-sm">Tümünü Gör</a>
+    </div>
+    <div class="admin-card-body" style="padding: 0;">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Sayfa Adı</th>
+              <th>URL</th>
+              <th>Durum</th>
+              <th>Son Güncelleme</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pages.slice(0, 5).map((page) => (
+              <tr>
+                <td><strong>{page.title}</strong></td>
+                <td class="admin-text-muted">/{page.slug}</td>
+                <td>
+                  <span class={`admin-table-status ${page.visible ? 'active' : 'hidden'}`}>
+                    <span style={`width: 6px; height: 6px; border-radius: 50%; background: currentColor;`}></span>
+                    {page.visible ? 'Aktif' : 'Gizli'}
+                  </span>
+                </td>
+                <td class="admin-text-muted admin-text-sm">{page.lastModified}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</AdminLayout>

@@ -1,0 +1,264 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import siteData from '../../content/data.json';
+
+const pages = siteData.pages;
+---
+
+<AdminLayout title="Sayfa Yönetimi" currentPage="pages">
+  <!-- Page Header -->
+  <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
+    <div>
+      <p class="admin-text-muted">Sitenizdeki tüm sayfaları buradan yönetebilirsiniz.</p>
+    </div>
+  </div>
+  
+  <!-- Pages Table -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <h3 class="admin-card-title">Tüm Sayfalar ({pages.length})</h3>
+    </div>
+    <div class="admin-card-body" style="padding: 0;">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Sayfa Adı</th>
+              <th>Slug</th>
+              <th>Meta Başlık</th>
+              <th>Durum</th>
+              <th>Son Güncelleme</th>
+              <th style="width: 120px;">İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pages.map((page, index) => (
+              <tr data-page-id={page.id}>
+                <td class="admin-text-muted">{index + 1}</td>
+                <td>
+                  <strong>{page.title}</strong>
+                </td>
+                <td>
+                  <code style="background: var(--admin-bg-secondary); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">
+                    /{page.slug === 'index' ? '' : page.slug}
+                  </code>
+                </td>
+                <td class="admin-text-muted admin-text-sm" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  {page.metaTitle}
+                </td>
+                <td>
+                  <span class={`admin-table-status ${page.visible ? 'active' : 'hidden'}`}>
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+                    {page.visible ? 'Aktif' : 'Gizli'}
+                  </span>
+                </td>
+                <td class="admin-text-muted admin-text-sm">{page.lastModified}</td>
+                <td>
+                  <div class="admin-flex admin-gap-2">
+                    <button class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" title="Düzenle" onclick={`openEditModal(${page.id})`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <a href={`/${page.slug === 'index' ? '' : page.slug}`} target="_blank" class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" title="Görüntüle">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Info Card -->
+  <div class="admin-card" style="margin-top: 24px;">
+    <div class="admin-card-body">
+      <div class="admin-flex admin-items-center admin-gap-4">
+        <div class="admin-stat-icon blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 4px;">Sayfa Düzenleme Hakkında</h4>
+          <p class="admin-text-muted admin-text-sm">
+            Sayfaların meta bilgilerini (başlık, açıklama) buradan düzenleyebilirsiniz. 
+            Sayfa içeriklerini düzenlemek için ilgili .astro dosyasını düzenlemeniz gerekmektedir.
+            Değişikliklerin yansıması için sitenin yeniden derlenmesi (rebuild) gerekir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<style is:inline>
+  /* Edit Modal Styles */
+  .admin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .admin-modal-overlay.active {
+    display: flex;
+  }
+  
+  .admin-modal {
+    background: var(--admin-bg-card);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .admin-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--admin-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .admin-modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .admin-modal-close {
+    background: none;
+    border: none;
+    color: var(--admin-text-muted);
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  .admin-modal-close:hover {
+    color: var(--admin-text-primary);
+  }
+  
+  .admin-modal-body {
+    padding: 24px;
+  }
+  
+  .admin-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--admin-border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+</style>
+
+<!-- Edit Modal -->
+<div id="editModal" class="admin-modal-overlay">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h3 class="admin-modal-title">Sayfa Düzenle</h3>
+      <button class="admin-modal-close" onclick="closeEditModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="admin-modal-body">
+      <form id="editPageForm">
+        <input type="hidden" id="pageId" name="pageId">
+        
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="pageTitle">Sayfa Başlığı</label>
+          <input type="text" id="pageTitle" name="title" class="admin-form-input" placeholder="Sayfa başlığı">
+        </div>
+        
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="metaTitle">Meta Başlık (SEO)</label>
+          <input type="text" id="metaTitle" name="metaTitle" class="admin-form-input" placeholder="Tarayıcı sekmesinde görünecek başlık">
+        </div>
+        
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="metaDescription">Meta Açıklama (SEO)</label>
+          <textarea id="metaDescription" name="metaDescription" class="admin-form-textarea" placeholder="Arama motorlarında görünecek açıklama"></textarea>
+        </div>
+        
+        <div class="admin-form-group">
+          <div class="admin-flex admin-items-center admin-justify-between">
+            <label class="admin-form-label" style="margin-bottom: 0;">Sayfa Görünür</label>
+            <label class="admin-toggle">
+              <input type="checkbox" id="pageVisible" name="visible" checked>
+              <span class="admin-toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="admin-modal-footer">
+      <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditModal()">İptal</button>
+      <button type="button" class="admin-btn admin-btn-primary" onclick="savePageChanges()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Page data from server
+  const pagesData = JSON.parse(`${JSON.stringify(pages)}`);
+  
+  function openEditModal(pageId) {
+    const page = pagesData.find(p => p.id === pageId);
+    if (!page) return;
+    
+    document.getElementById('pageId').value = page.id;
+    document.getElementById('pageTitle').value = page.title;
+    document.getElementById('metaTitle').value = page.metaTitle;
+    document.getElementById('metaDescription').value = page.metaDescription;
+    document.getElementById('pageVisible').checked = page.visible;
+    
+    document.getElementById('editModal').classList.add('active');
+  }
+  
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('active');
+  }
+  
+  function savePageChanges() {
+    const formData = {
+      id: parseInt(document.getElementById('pageId').value),
+      title: document.getElementById('pageTitle').value,
+      metaTitle: document.getElementById('metaTitle').value,
+      metaDescription: document.getElementById('metaDescription').value,
+      visible: document.getElementById('pageVisible').checked
+    };
+    
+    // In a real app, this would send to an API
+    // For now, just show a message
+    alert('Değişiklikler kaydedildi!\n\nNot: Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. Gerçek uygulamada bir API endpoint\'e gönderilir ve data.json dosyası güncellenir.');
+    
+    closeEditModal();
+  }
+  
+  // Close modal on outside click
+  document.getElementById('editModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeEditModal();
+    }
+  });
+  
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeEditModal();
+    }
+  });
+</script>
