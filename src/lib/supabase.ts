@@ -176,3 +176,147 @@ export async function deleteNavItem(id: number) {
 
     return true;
 }
+
+// Page Sections
+export interface PageSection {
+    id: number;
+    page_slug: string;
+    section_key: string;
+    section_type: string;
+    title: string | null;
+    subtitle: string | null;
+    description: string | null;
+    button_text: string | null;
+    button_url: string | null;
+    image_url: string | null;
+    extra_data: Record<string, unknown>;
+    sort_order: number;
+    visible: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export async function getPageSections(pageSlug: string): Promise<PageSection[]> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('page_sections')
+            .select('*')
+            .eq('page_slug', pageSlug)
+            .order('sort_order', { ascending: true });
+
+        if (error) {
+            console.error('Error fetching page sections:', error);
+            return [];
+        }
+
+        return data || [];
+    } catch (err) {
+        console.error('Error in getPageSections:', err);
+        return [];
+    }
+}
+
+export async function getPageSection(pageSlug: string, sectionKey: string): Promise<PageSection | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('page_sections')
+            .select('*')
+            .eq('page_slug', pageSlug)
+            .eq('section_key', sectionKey)
+            .single();
+
+        if (error) {
+            console.error('Error fetching page section:', error);
+            return null;
+        }
+
+        return data;
+    } catch (err) {
+        console.error('Error in getPageSection:', err);
+        return null;
+    }
+}
+
+export async function getAllPageSections(): Promise<PageSection[]> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('page_sections')
+            .select('*')
+            .order('page_slug', { ascending: true })
+            .order('sort_order', { ascending: true });
+
+        if (error) {
+            console.error('Error fetching all page sections:', error);
+            return [];
+        }
+
+        return data || [];
+    } catch (err) {
+        console.error('Error in getAllPageSections:', err);
+        return [];
+    }
+}
+
+export async function updatePageSection(id: number, updates: Partial<Omit<PageSection, 'id' | 'created_at' | 'updated_at'>>) {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('page_sections')
+            .update({ ...updates, updated_at: new Date().toISOString() })
+            .eq('id', id)
+            .select();
+
+        if (error) {
+            console.error('Error updating page section:', error);
+            return null;
+        }
+
+        return data;
+    } catch (err) {
+        console.error('Error in updatePageSection:', err);
+        return null;
+    }
+}
+
+export async function createPageSection(section: Omit<PageSection, 'id' | 'created_at' | 'updated_at'>) {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('page_sections')
+            .insert(section)
+            .select();
+
+        if (error) {
+            console.error('Error creating page section:', error);
+            return null;
+        }
+
+        return data;
+    } catch (err) {
+        console.error('Error in createPageSection:', err);
+        return null;
+    }
+}
+
+export async function deletePageSection(id: number) {
+    try {
+        const client = getSupabaseClient();
+        const { error } = await client
+            .from('page_sections')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error deleting page section:', error);
+            return false;
+        }
+
+        return true;
+    } catch (err) {
+        console.error('Error in deletePageSection:', err);
+        return false;
+    }
+}

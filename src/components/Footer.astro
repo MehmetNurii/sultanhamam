@@ -2,6 +2,7 @@
 // Footer Component
 // Shared across all pages
 import { getSiteSettings } from '../lib/supabase';
+import Popup from './Popup.astro';
 
 const settings = await getSiteSettings();
 const email = settings.email || 'example@wellness-bliss.com';
@@ -183,3 +184,4 @@ const address = settings.address || '511 SW 10th Ave 1206, Portland, OR, United 
 						</div>
 			</div>
 		</footer>
+<Popup />
