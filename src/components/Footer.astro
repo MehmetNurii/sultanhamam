@@ -1,6 +1,13 @@
 ---
 // Footer Component
 // Shared across all pages
+import { getSiteSettings } from '../lib/supabase';
+
+const settings = await getSiteSettings();
+const email = settings.email || 'example@wellness-bliss.com';
+const phone = settings.phone || '+1 800-123-1234';
+const phoneHref = phone.replace(/\s/g, '');
+const address = settings.address || '511 SW 10th Ave 1206, Portland, OR, United States';
 ---
 <footer data-elementor-type="cmsmasters_footer" data-elementor-id="189" class="elementor elementor-189 cmsmasters-location-cmsmasters_footer cmsmasters-header-position-absolute-yes" data-cms-icon="&lt;i aria-hidden=&quot;true&quot; aria-label=&quot;Popup Close&quot; class=&quot;cmsmsdemo-icons- cmsms-demo-icons-cancel&quot;&gt;&lt;/i&gt;">			<div class="elementor-inner">
 				<div class="elementor-section-wrap">
@@ -39,7 +46,7 @@
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-cbcbbd3">
 						<span class="cmsmasters-widget-icon-list-item-text">
-							511 SW 10th Ave 1206, Portland, OR, United States						</span>
+							{address}						</span>
 											</span>
 				</span>
 								</li>
@@ -99,7 +106,7 @@
 						</span>
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9b9a38f active-link-item">
 						<span class="cmsmasters-widget-icon-list-item-text">
-							<a href="tel:+1%20800-123-1234">+1 800-123-1234</a>						</span>
+							<a href={`tel:${phoneHref}`}>{phone}</a>						</span>
 											</span>
 				</span>
 								</li>
@@ -111,7 +118,7 @@
 						</span>
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-d51248a active-link-item">
 						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							<a href="mailto:spa@example.com">spa@example.com</a>						</span>
+							<a href={`mailto:${email}`}>{email}</a>						</span>
 											</span>
 				</span>
 								</li>

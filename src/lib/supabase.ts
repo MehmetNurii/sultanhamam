@@ -1,28 +1,47 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.SUPABASE_URL;
-const supabaseKey = import.meta.env.SUPABASE_KEY;
+const supabaseUrl = import.meta.env.SUPABASE_URL || '';
+const supabaseKey = import.meta.env.SUPABASE_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Lazy initialization with singleton pattern
+let supabaseInstance: SupabaseClient | null = null;
+
+function getSupabaseClient(): SupabaseClient {
+    if (!supabaseInstance && supabaseUrl && supabaseKey) {
+        supabaseInstance = createClient(supabaseUrl, supabaseKey);
+    }
+    if (!supabaseInstance) {
+        throw new Error('Supabase client could not be initialized. Check your environment variables.');
+    }
+    return supabaseInstance;
+}
+
+export const supabase = getSupabaseClient();
 
 // Helper functions for admin panel
 
 // Site Settings
 export async function getSiteSettings() {
-    const { data, error } = await supabase
-        .from('site_settings')
-        .select('*');
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('site_settings')
+            .select('*');
 
-    if (error) {
-        console.error('Error fetching site settings:', error);
+        if (error) {
+            console.error('Error fetching site settings:', error);
+            return {};
+        }
+
+        // Convert array to object
+        return data.reduce((acc: Record<string, string>, item: { key: string; value: string }) => {
+            acc[item.key] = item.value;
+            return acc;
+        }, {});
+    } catch (err) {
+        console.error('Error in getSiteSettings:', err);
         return {};
     }
-
-    // Convert array to object
-    return data.reduce((acc, item) => {
-        acc[item.key] = item.value;
-        return acc;
-    }, {});
 }
 
 export async function updateSiteSetting(key: string, value: string) {
