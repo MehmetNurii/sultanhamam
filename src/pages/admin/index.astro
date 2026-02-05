@@ -1,9 +1,9 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import siteData from '../../content/data.json';
+import { getPages, getNavigation } from '../../lib/supabase';
 
-const pages = siteData.pages;
-const navItems = siteData.navigation.main;
+const pages = await getPages();
+const navItems = await getNavigation();
 ---
 
 <AdminLayout title="Dashboard" currentPage="dashboard">
@@ -48,12 +48,12 @@ const navItems = siteData.navigation.main;
     <div class="admin-stat-card">
       <div class="admin-stat-icon orange">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
         </svg>
       </div>
       <div class="admin-stat-content">
-        <h3>Şimdi</h3>
-        <p>Son Güncelleme</p>
+        <h3>Supabase</h3>
+        <p>Bağlantı Aktif</p>
       </div>
     </div>
   </div>
@@ -115,14 +115,14 @@ const navItems = siteData.navigation.main;
             {pages.slice(0, 5).map((page) => (
               <tr>
                 <td><strong>{page.title}</strong></td>
-                <td class="admin-text-muted">/{page.slug}</td>
+                <td class="admin-text-muted">/{page.slug === 'index' ? '' : page.slug}</td>
                 <td>
                   <span class={`admin-table-status ${page.visible ? 'active' : 'hidden'}`}>
-                    <span style={`width: 6px; height: 6px; border-radius: 50%; background: currentColor;`}></span>
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
                     {page.visible ? 'Aktif' : 'Gizli'}
                   </span>
                 </td>
-                <td class="admin-text-muted admin-text-sm">{page.lastModified}</td>
+                <td class="admin-text-muted admin-text-sm">{new Date(page.updated_at).toLocaleDateString('tr-TR')}</td>
               </tr>
             ))}
           </tbody>

@@ -1,16 +1,70 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import siteData from '../../content/data.json';
+import { getSiteSettings, updateSiteSetting } from '../../lib/supabase';
 
-const site = siteData.site;
+// Handle form submission
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const section = formData.get('section');
+  
+  if (section === 'site') {
+    await updateSiteSetting('site_title', formData.get('site_title') as string);
+    await updateSiteSetting('site_description', formData.get('site_description') as string);
+  }
+  
+  if (section === 'contact') {
+    await updateSiteSetting('phone', formData.get('phone') as string);
+    await updateSiteSetting('email', formData.get('email') as string);
+    await updateSiteSetting('address', formData.get('address') as string);
+  }
+  
+  if (section === 'social') {
+    await updateSiteSetting('facebook', formData.get('facebook') as string);
+    await updateSiteSetting('instagram', formData.get('instagram') as string);
+    await updateSiteSetting('twitter', formData.get('twitter') as string);
+  }
+  
+  if (section === 'hero') {
+    await updateSiteSetting('hero_title', formData.get('hero_title') as string);
+    await updateSiteSetting('hero_subtitle', formData.get('hero_subtitle') as string);
+  }
+  
+  return Astro.redirect('/admin/content?updated=' + section);
+}
+
+const settings = await getSiteSettings();
+const updated = Astro.url.searchParams.get('updated');
+
+const sectionNames: Record<string, string> = {
+  site: 'Site bilgileri',
+  contact: 'İletişim bilgileri',
+  social: 'Sosyal medya bilgileri',
+  hero: 'Hero metinleri'
+};
 ---
 
 <AdminLayout title="İçerik Yönetimi" currentPage="content">
+  <!-- Success Message -->
+  {updated && (
+    <div class="admin-alert admin-alert-success admin-mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{sectionNames[updated] || 'Ayarlar'} başarıyla güncellendi!</span>
+    </div>
+  )}
+
   <!-- Page Header -->
   <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
     <div>
-      <p class="admin-text-muted">Site genelinde kullanılan içerik ve iletişim bilgilerini düzenleyin.</p>
+      <p class="admin-text-muted">Site genelinde kullanılan içerik ve iletişim bilgilerini düzenleyin. Değişiklikler Supabase'e kaydedilir.</p>
     </div>
+    <span class="admin-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      </svg>
+      Supabase
+    </span>
   </div>
   
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
@@ -20,18 +74,20 @@ const site = siteData.site;
         <h3 class="admin-card-title">Site Bilgileri</h3>
       </div>
       <div class="admin-card-body">
-        <form id="siteInfoForm">
+        <form method="POST">
+          <input type="hidden" name="section" value="site">
+          
           <div class="admin-form-group">
             <label class="admin-form-label" for="siteTitle">Site Başlığı</label>
-            <input type="text" id="siteTitle" name="title" class="admin-form-input" value={site.title}>
+            <input type="text" id="siteTitle" name="site_title" class="admin-form-input" value={settings.site_title || ''}>
           </div>
           
           <div class="admin-form-group">
             <label class="admin-form-label" for="siteDescription">Site Açıklaması</label>
-            <textarea id="siteDescription" name="description" class="admin-form-textarea">{site.description}</textarea>
+            <textarea id="siteDescription" name="site_description" class="admin-form-textarea">{settings.site_description || ''}</textarea>
           </div>
           
-          <button type="button" class="admin-btn admin-btn-primary" onclick="saveSiteInfo()">
+          <button type="submit" class="admin-btn admin-btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
@@ -47,23 +103,25 @@ const site = siteData.site;
         <h3 class="admin-card-title">İletişim Bilgileri</h3>
       </div>
       <div class="admin-card-body">
-        <form id="contactForm">
+        <form method="POST">
+          <input type="hidden" name="section" value="contact">
+          
           <div class="admin-form-group">
             <label class="admin-form-label" for="phone">Telefon</label>
-            <input type="tel" id="phone" name="phone" class="admin-form-input" value={site.phone}>
+            <input type="tel" id="phone" name="phone" class="admin-form-input" value={settings.phone || ''}>
           </div>
           
           <div class="admin-form-group">
             <label class="admin-form-label" for="email">E-posta</label>
-            <input type="email" id="email" name="email" class="admin-form-input" value={site.email}>
+            <input type="email" id="email" name="email" class="admin-form-input" value={settings.email || ''}>
           </div>
           
           <div class="admin-form-group">
             <label class="admin-form-label" for="address">Adres</label>
-            <textarea id="address" name="address" class="admin-form-textarea" style="min-height: 80px;">{site.address}</textarea>
+            <textarea id="address" name="address" class="admin-form-textarea" style="min-height: 80px;">{settings.address || ''}</textarea>
           </div>
           
-          <button type="button" class="admin-btn admin-btn-primary" onclick="saveContactInfo()">
+          <button type="submit" class="admin-btn admin-btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
@@ -79,7 +137,9 @@ const site = siteData.site;
         <h3 class="admin-card-title">Sosyal Medya</h3>
       </div>
       <div class="admin-card-body">
-        <form id="socialForm">
+        <form method="POST">
+          <input type="hidden" name="section" value="social">
+          
           <div class="admin-form-group">
             <label class="admin-form-label" for="facebook">
               <span style="display: flex; align-items: center; gap: 8px;">
@@ -89,7 +149,7 @@ const site = siteData.site;
                 Facebook
               </span>
             </label>
-            <input type="url" id="facebook" name="facebook" class="admin-form-input" value={site.socialMedia.facebook} placeholder="https://facebook.com/...">
+            <input type="url" id="facebook" name="facebook" class="admin-form-input" value={settings.facebook || ''} placeholder="https://facebook.com/...">
           </div>
           
           <div class="admin-form-group">
@@ -101,7 +161,7 @@ const site = siteData.site;
                 Instagram
               </span>
             </label>
-            <input type="url" id="instagram" name="instagram" class="admin-form-input" value={site.socialMedia.instagram} placeholder="https://instagram.com/...">
+            <input type="url" id="instagram" name="instagram" class="admin-form-input" value={settings.instagram || ''} placeholder="https://instagram.com/...">
           </div>
           
           <div class="admin-form-group">
@@ -113,10 +173,10 @@ const site = siteData.site;
                 Twitter (X)
               </span>
             </label>
-            <input type="url" id="twitter" name="twitter" class="admin-form-input" value={site.socialMedia.twitter} placeholder="https://twitter.com/...">
+            <input type="url" id="twitter" name="twitter" class="admin-form-input" value={settings.twitter || ''} placeholder="https://twitter.com/...">
           </div>
           
-          <button type="button" class="admin-btn admin-btn-primary" onclick="saveSocialInfo()">
+          <button type="submit" class="admin-btn admin-btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
@@ -126,94 +186,62 @@ const site = siteData.site;
       </div>
     </div>
     
-    <!-- Quick Edit Texts -->
+    <!-- Hero Texts -->
     <div class="admin-card">
       <div class="admin-card-header">
         <h3 class="admin-card-title">Hero Metinleri</h3>
       </div>
       <div class="admin-card-body">
-        <div class="admin-form-group">
-          <label class="admin-form-label" for="heroTitle">Ana Sayfa Başlığı</label>
-          <input type="text" id="heroTitle" name="heroTitle" class="admin-form-input" value="Experience the Healing Power of Massage">
-        </div>
-        
-        <div class="admin-form-group">
-          <label class="admin-form-label" for="heroSubtitle">Ana Sayfa Alt Başlığı</label>
-          <textarea id="heroSubtitle" name="heroSubtitle" class="admin-form-textarea">Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature's Calm</textarea>
-        </div>
-        
-        <button type="button" class="admin-btn admin-btn-primary" onclick="saveHeroInfo()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          Kaydet
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Info Card -->
-  <div class="admin-card" style="margin-top: 24px;">
-    <div class="admin-card-body">
-      <div class="admin-flex admin-items-center admin-gap-4">
-        <div class="admin-stat-icon orange">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <div>
-          <h4 style="margin-bottom: 4px;">Değişiklikler Hakkında</h4>
-          <p class="admin-text-muted admin-text-sm">
-            Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. 
-            Gerçek bir uygulamada, değişiklikler bir API üzerinden <code>data.json</code> dosyasına yazılır 
-            ve sitenin yeniden derlenmesi tetiklenir.
-          </p>
-        </div>
+        <form method="POST">
+          <input type="hidden" name="section" value="hero">
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="heroTitle">Ana Sayfa Başlığı</label>
+            <input type="text" id="heroTitle" name="hero_title" class="admin-form-input" value={settings.hero_title || ''}>
+          </div>
+          
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="heroSubtitle">Ana Sayfa Alt Başlığı</label>
+            <textarea id="heroSubtitle" name="hero_subtitle" class="admin-form-textarea">{settings.hero_subtitle || ''}</textarea>
+          </div>
+          
+          <button type="submit" class="admin-btn admin-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Kaydet
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </AdminLayout>
 
-<script is:inline>
-  function saveSiteInfo() {
-    const data = {
-      title: document.getElementById('siteTitle').value,
-      description: document.getElementById('siteDescription').value
-    };
-    
-    showSaveMessage('Site bilgileri');
+<style is:inline>
+  .admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: var(--admin-radius-md);
+    font-size: 0.875rem;
   }
   
-  function saveContactInfo() {
-    const data = {
-      phone: document.getElementById('phone').value,
-      email: document.getElementById('email').value,
-      address: document.getElementById('address').value
-    };
-    
-    showSaveMessage('İletişim bilgileri');
+  .admin-alert-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--admin-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
   }
   
-  function saveSocialInfo() {
-    const data = {
-      facebook: document.getElementById('facebook').value,
-      instagram: document.getElementById('instagram').value,
-      twitter: document.getElementById('twitter').value
-    };
-    
-    showSaveMessage('Sosyal medya bilgileri');
+  .admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(124, 58, 237, 0.2);
+    color: var(--admin-accent-secondary);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
-  
-  function saveHeroInfo() {
-    const data = {
-      heroTitle: document.getElementById('heroTitle').value,
-      heroSubtitle: document.getElementById('heroSubtitle').value
-    };
-    
-    showSaveMessage('Hero metinleri');
-  }
-  
-  function showSaveMessage(section) {
-    alert(`${section} kaydedildi!\n\nNot: Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. Gerçek uygulamada bir API endpoint'e gönderilir ve data.json dosyası güncellenir.`);
-  }
-</script>
+</style>

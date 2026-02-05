@@ -1,15 +1,46 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import siteData from '../../content/data.json';
+import { getPages, updatePage } from '../../lib/supabase';
 
-const pages = siteData.pages;
+const pages = await getPages();
+
+// Handle form submission
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const action = formData.get('action');
+  
+  if (action === 'update') {
+    const id = parseInt(formData.get('id') as string);
+    const updates = {
+      title: formData.get('title') as string,
+      meta_title: formData.get('meta_title') as string,
+      meta_description: formData.get('meta_description') as string,
+      visible: formData.get('visible') === 'true'
+    };
+    
+    await updatePage(id, updates);
+    return Astro.redirect('/admin/pages?updated=true');
+  }
+}
+
+const updated = Astro.url.searchParams.get('updated');
 ---
 
 <AdminLayout title="Sayfa Yönetimi" currentPage="pages">
+  <!-- Success Message -->
+  {updated && (
+    <div class="admin-alert admin-alert-success admin-mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Sayfa başarıyla güncellendi!</span>
+    </div>
+  )}
+
   <!-- Page Header -->
   <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
     <div>
-      <p class="admin-text-muted">Sitenizdeki tüm sayfaları buradan yönetebilirsiniz.</p>
+      <p class="admin-text-muted">Sitenizdeki tüm sayfaları buradan yönetebilirsiniz. Veriler Supabase'den geliyor.</p>
     </div>
   </div>
   
@@ -17,6 +48,12 @@ const pages = siteData.pages;
   <div class="admin-card">
     <div class="admin-card-header">
       <h3 class="admin-card-title">Tüm Sayfalar ({pages.length})</h3>
+      <span class="admin-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+        Supabase
+      </span>
     </div>
     <div class="admin-card-body" style="padding: 0;">
       <div class="admin-table-wrapper">
@@ -28,7 +65,7 @@ const pages = siteData.pages;
               <th>Slug</th>
               <th>Meta Başlık</th>
               <th>Durum</th>
-              <th>Son Güncelleme</th>
+              <th>Güncelleme</th>
               <th style="width: 120px;">İşlemler</th>
             </tr>
           </thead>
@@ -45,7 +82,7 @@ const pages = siteData.pages;
                   </code>
                 </td>
                 <td class="admin-text-muted admin-text-sm" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                  {page.metaTitle}
+                  {page.meta_title}
                 </td>
                 <td>
                   <span class={`admin-table-status ${page.visible ? 'active' : 'hidden'}`}>
@@ -53,10 +90,14 @@ const pages = siteData.pages;
                     {page.visible ? 'Aktif' : 'Gizli'}
                   </span>
                 </td>
-                <td class="admin-text-muted admin-text-sm">{page.lastModified}</td>
+                <td class="admin-text-muted admin-text-sm">{new Date(page.updated_at).toLocaleDateString('tr-TR')}</td>
                 <td>
                   <div class="admin-flex admin-gap-2">
-                    <button class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" title="Düzenle" onclick={`openEditModal(${page.id})`}>
+                    <button 
+                      class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" 
+                      title="Düzenle" 
+                      onclick={`openEditModal(${JSON.stringify(page)})`}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                       </svg>
@@ -75,31 +116,36 @@ const pages = siteData.pages;
       </div>
     </div>
   </div>
-  
-  <!-- Info Card -->
-  <div class="admin-card" style="margin-top: 24px;">
-    <div class="admin-card-body">
-      <div class="admin-flex admin-items-center admin-gap-4">
-        <div class="admin-stat-icon blue">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div>
-          <h4 style="margin-bottom: 4px;">Sayfa Düzenleme Hakkında</h4>
-          <p class="admin-text-muted admin-text-sm">
-            Sayfaların meta bilgilerini (başlık, açıklama) buradan düzenleyebilirsiniz. 
-            Sayfa içeriklerini düzenlemek için ilgili .astro dosyasını düzenlemeniz gerekmektedir.
-            Değişikliklerin yansıması için sitenin yeniden derlenmesi (rebuild) gerekir.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
 </AdminLayout>
 
 <style is:inline>
-  /* Edit Modal Styles */
+  .admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: var(--admin-radius-md);
+    font-size: 0.875rem;
+  }
+  
+  .admin-alert-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--admin-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  
+  .admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(124, 58, 237, 0.2);
+    color: var(--admin-accent-secondary);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
   .admin-modal-overlay {
     position: fixed;
     inset: 0;
@@ -146,10 +192,6 @@ const pages = siteData.pages;
     padding: 4px;
   }
   
-  .admin-modal-close:hover {
-    color: var(--admin-text-primary);
-  }
-  
   .admin-modal-body {
     padding: 24px;
   }
@@ -174,56 +216,61 @@ const pages = siteData.pages;
         </svg>
       </button>
     </div>
-    <div class="admin-modal-body">
-      <form id="editPageForm">
-        <input type="hidden" id="pageId" name="pageId">
-        
+    <form method="POST">
+      <input type="hidden" name="action" value="update">
+      <input type="hidden" id="pageId" name="id">
+      
+      <div class="admin-modal-body">
         <div class="admin-form-group">
           <label class="admin-form-label" for="pageTitle">Sayfa Başlığı</label>
-          <input type="text" id="pageTitle" name="title" class="admin-form-input" placeholder="Sayfa başlığı">
+          <input type="text" id="pageTitle" name="title" class="admin-form-input" placeholder="Sayfa başlığı" required>
         </div>
         
         <div class="admin-form-group">
           <label class="admin-form-label" for="metaTitle">Meta Başlık (SEO)</label>
-          <input type="text" id="metaTitle" name="metaTitle" class="admin-form-input" placeholder="Tarayıcı sekmesinde görünecek başlık">
+          <input type="text" id="metaTitle" name="meta_title" class="admin-form-input" placeholder="Tarayıcı sekmesinde görünecek başlık">
         </div>
         
         <div class="admin-form-group">
           <label class="admin-form-label" for="metaDescription">Meta Açıklama (SEO)</label>
-          <textarea id="metaDescription" name="metaDescription" class="admin-form-textarea" placeholder="Arama motorlarında görünecek açıklama"></textarea>
+          <textarea id="metaDescription" name="meta_description" class="admin-form-textarea" placeholder="Arama motorlarında görünecek açıklama"></textarea>
         </div>
         
         <div class="admin-form-group">
           <div class="admin-flex admin-items-center admin-justify-between">
             <label class="admin-form-label" style="margin-bottom: 0;">Sayfa Görünür</label>
             <label class="admin-toggle">
-              <input type="checkbox" id="pageVisible" name="visible" checked>
+              <input type="checkbox" id="pageVisible" name="visible" value="true" checked>
               <span class="admin-toggle-slider"></span>
             </label>
           </div>
+          <input type="hidden" id="visibleHidden" name="visible" value="false">
         </div>
-      </form>
-    </div>
-    <div class="admin-modal-footer">
-      <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditModal()">İptal</button>
-      <button type="button" class="admin-btn admin-btn-primary" onclick="savePageChanges()">Kaydet</button>
-    </div>
+      </div>
+      
+      <div class="admin-modal-footer">
+        <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditModal()">İptal</button>
+        <button type="submit" class="admin-btn admin-btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Kaydet
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
 <script is:inline>
-  // Page data from server
-  const pagesData = JSON.parse(`${JSON.stringify(pages)}`);
-  
-  function openEditModal(pageId) {
-    const page = pagesData.find(p => p.id === pageId);
-    if (!page) return;
-    
+  function openEditModal(page) {
     document.getElementById('pageId').value = page.id;
     document.getElementById('pageTitle').value = page.title;
-    document.getElementById('metaTitle').value = page.metaTitle;
-    document.getElementById('metaDescription').value = page.metaDescription;
+    document.getElementById('metaTitle').value = page.meta_title || '';
+    document.getElementById('metaDescription').value = page.meta_description || '';
     document.getElementById('pageVisible').checked = page.visible;
+    
+    // Update hidden field based on checkbox
+    updateVisibleField();
     
     document.getElementById('editModal').classList.add('active');
   }
@@ -232,21 +279,14 @@ const pages = siteData.pages;
     document.getElementById('editModal').classList.remove('active');
   }
   
-  function savePageChanges() {
-    const formData = {
-      id: parseInt(document.getElementById('pageId').value),
-      title: document.getElementById('pageTitle').value,
-      metaTitle: document.getElementById('metaTitle').value,
-      metaDescription: document.getElementById('metaDescription').value,
-      visible: document.getElementById('pageVisible').checked
-    };
-    
-    // In a real app, this would send to an API
-    // For now, just show a message
-    alert('Değişiklikler kaydedildi!\n\nNot: Bu demo versiyonunda değişiklikler kalıcı olarak kaydedilmez. Gerçek uygulamada bir API endpoint\'e gönderilir ve data.json dosyası güncellenir.');
-    
-    closeEditModal();
+  function updateVisibleField() {
+    const checkbox = document.getElementById('pageVisible');
+    const hidden = document.getElementById('visibleHidden');
+    hidden.disabled = checkbox.checked;
   }
+  
+  // Update visible field when checkbox changes
+  document.getElementById('pageVisible').addEventListener('change', updateVisibleField);
   
   // Close modal on outside click
   document.getElementById('editModal').addEventListener('click', function(e) {
