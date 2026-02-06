@@ -3,16 +3,17 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.SUPABASE_URL || '';
 const supabaseKey = import.meta.env.SUPABASE_KEY || '';
 
-// Lazy initialization with singleton pattern
+// Singleton Supabase client
 let supabaseInstance: SupabaseClient | null = null;
 
 function getSupabaseClient(): SupabaseClient {
-    if (!supabaseInstance && supabaseUrl && supabaseKey) {
-        supabaseInstance = createClient(supabaseUrl, supabaseKey);
-    }
-    if (!supabaseInstance) {
+    if (supabaseInstance) return supabaseInstance;
+
+    if (!supabaseUrl || !supabaseKey) {
         throw new Error('Supabase client could not be initialized. Check your environment variables.');
     }
+
+    supabaseInstance = createClient(supabaseUrl, supabaseKey);
     return supabaseInstance;
 }
 
