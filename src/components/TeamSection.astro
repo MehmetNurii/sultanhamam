@@ -3,6 +3,11 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "team");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 const title = section?.title || "Our Massage Therapists";
 const buttonText = section?.button_text || "View all Therapists";
 const buttonUrl =

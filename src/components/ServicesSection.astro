@@ -3,7 +3,14 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "services");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 const title = section?.title || "Our Services";
+const subtitle = section?.subtitle || null;
+const description = section?.description || null;
 const buttonText = section?.button_text || "View all Services";
 const buttonUrl =
 	section?.button_url ||

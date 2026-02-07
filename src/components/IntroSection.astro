@@ -3,6 +3,11 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "intro");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 // Fallback data if DB is empty
 const title = section?.title || "Welcome to Wellness Bliss";
 const description =

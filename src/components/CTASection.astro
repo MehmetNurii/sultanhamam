@@ -3,6 +3,11 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "cta");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 const title = section?.title || "What’s Your Next Step?";
 const description =
 	section?.description ||

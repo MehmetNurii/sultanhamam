@@ -1,3 +1,26 @@
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("index", "instagram_gallery");
+
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
+// Instagram gallery image URL'lerini extra_data'dan çek
+const defaultInstagramImages = [
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
+	"https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
+];
+
+const instagramImages = section?.extra_data?.instagram_images || defaultInstagramImages;
+---
+
 								<div
 									class="elementor-element elementor-element-aaa501f e-con-full e-flex cmsmasters-block-default e-con e-parent e-lazyloaded"
 									data-id="aaa501f"
@@ -15,87 +38,24 @@
 										<div class="elementor-widget-container">
 											<div
 												class="elementor-widget-cmsmasters-gallery__container e-gallery-container e-gallery-grid e-gallery--ltr e-gallery--lazyload"
-												style="--hgap: 0px; --vgap: 0px; --animation-duration: 500ms; --columns: 6; --rows: 1; --aspect-ratio: 100%; --container-aspect-ratio: 16.666249999999998%;"
+												style={`--hgap: 0px; --vgap: 0px; --animation-duration: 500ms; --columns: ${instagramImages.length}; --rows: 1; --aspect-ratio: 100%; --container-aspect-ratio: ${100 / instagramImages.length}%;`}
 											>
-												<div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 0; --row: 0;"
-												>
+												{instagramImages.map((imageUrl: string, index: number) => (
 													<div
+														class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
 														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp"
-														data-width="768"
-														data-height="768"
+														style={`--column: ${index}; --row: 0;`}
 													>
+														<div
+															alt="Gallery item image"
+															class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
+															data-thumbnail={imageUrl}
+															data-width="768"
+															data-height="768"
+														>
+														</div>
 													</div>
-												</div><div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 1; --row: 0;"
-												>
-													<div
-														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp"
-														data-width="768"
-														data-height="768"
-													>
-													</div>
-												</div><div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 2; --row: 0;"
-												>
-													<div
-														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp"
-														data-width="768"
-														data-height="768"
-													>
-													</div>
-												</div><div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 3; --row: 0;"
-												>
-													<div
-														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp"
-														data-width="768"
-														data-height="768"
-													>
-													</div>
-												</div><div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 4; --row: 0;"
-												>
-													<div
-														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp"
-														data-width="768"
-														data-height="768"
-													>
-													</div>
-												</div><div
-													class="e-gallery-item elementor-widget-cmsmasters-gallery__item"
-													alt="Gallery item image"
-													style="--column: 5; --row: 0;"
-												>
-													<div
-														alt="Gallery item image"
-														class="e-gallery-image elementor-widget-cmsmasters-gallery__item-image elementor-widget-cmsmasters-gallery__animated-item--undefined"
-														data-thumbnail="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
-														data-width="768"
-														data-height="768"
-													>
-													</div>
-												</div>
+												))}
 											</div>
 										</div>
 									</div>

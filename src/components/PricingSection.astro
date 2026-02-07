@@ -3,6 +3,11 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "pricing");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 const title = section?.title || "Pricing plans for your wellness journey";
 const description =
 	section?.description ||

@@ -3,6 +3,11 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "features");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
 const title = section?.title || "The Healing Power of Touch";
 const subtitle =
 	section?.subtitle ||

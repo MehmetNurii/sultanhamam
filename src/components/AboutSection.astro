@@ -3,9 +3,16 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "about");
 
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
+const title = section?.title || null;
+const subtitle = section?.subtitle || null;
 const description =
     section?.description ||
-    "At Wellness Bliss, we believe true healing begins with presence and touch. Each session is a one-on-one experience with a skilled therapist who takes the time to understand your body’s needs, helping you achieve real, lasting results.";
+    "At Wellness Bliss, we believe true healing begins with presence and touch. Each session is a one-on-one experience with a skilled therapist who takes the time to understand your body's needs, helping you achieve real, lasting results.";
 const imageUrl =
     section?.image_url ||
     "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp";

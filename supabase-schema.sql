@@ -75,7 +75,10 @@ INSERT INTO site_settings (key, value) VALUES
     ('instagram', 'https://instagram.com/wellnessbliss'),
     ('twitter', 'https://twitter.com/wellnessbliss'),
     ('hero_title', 'Experience the Healing Power of Massage'),
-    ('hero_subtitle', 'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm');
+    ('hero_subtitle', 'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm'),
+    ('footer_discount_text', 'Get a special 50% new client discount and unleash your health.'),
+    ('footer_newsletter_title', 'Sign up to Newsletter'),
+    ('footer_newsletter_button', 'Sign Up');
 
 -- Pages
 INSERT INTO pages (slug, title, meta_title, meta_description, visible) VALUES
@@ -142,7 +145,14 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('index', 'gallery', 'gallery',
      'Photo Gallery',
      'A visual journey of mind and body harmony',
-     NULL, NULL, NULL, NULL, '{}'::jsonb, 7, true),
+     NULL, NULL, NULL, NULL, 
+     '{"gallery_images": [
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
+     ]}'::jsonb, 7, true),
     ('index', 'pricing', 'pricing',
      'Pricing plans for your wellness journey', NULL, 
      'We offer simple, flat rate pricing for all our services. All initial consultations include treatment unless further testing is required.',
@@ -150,7 +160,34 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('index', 'testimonials', 'testimonials',
      'What our clients say about us',
      'More than 250 five-star reviews on Google',
-     NULL, NULL, NULL, NULL, '{}'::jsonb, 9, true),
+     NULL, NULL, NULL, NULL, 
+     '{"testimonials": [
+        {
+          "name": "Sarah L.",
+          "text": "I came in carrying weeks of stress, tension, and sleepless nights. One session here changed everything. The therapist worked through the tightness in my back and shoulders with such skill and care. I left feeling grounded, peaceful, and for the first time in a long while—pain-free. This place is truly healing.",
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp"
+        },
+        {
+          "name": "James T.",
+          "text": "I came in carrying weeks of stress, tension, and sleepless nights. One session here changed everything. The therapist worked through the tightness in my back and shoulders with such skill and care. I left feeling grounded, peaceful, and for the first time in a long while—pain-free. This place is truly healing.",
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp"
+        },
+        {
+          "name": "Alina M.",
+          "text": "It''s not just a massage—it''s a full-body reset. The energy, the warmth, the atmosphere... everything is designed to make you feel safe and at ease. Every visit feels like a mini retreat from the world. I always leave with a calm mind and a body that feels brand new.",
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp"
+        },
+        {
+          "name": "Daniel K.",
+          "text": "Incredible experience from start to finish. The therapist had an intuitive touch and created a space that felt calm and restorative. My chronic neck and shoulder pain has improved so much, and the effects last long after the session. I feel genuinely cared for every time I visit.",
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp"
+        },
+        {
+          "name": "Emma R.",
+          "text": "The best massage I''ve ever had. The attention to detail, the personalized approach, and the genuine care shown by the staff make this place special. I''ve been coming regularly for months, and each session is better than the last.",
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp"
+        }
+     ]}'::jsonb, 9, true),
     ('index', 'blog', 'blog',
      'Wellness Blog', NULL, NULL,
      'More Blog Posts', '/blog-page', NULL, '{}'::jsonb, 10, true),
@@ -159,7 +196,15 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'Make a step to start your journey to holistic healing with Wellness Bliss.',
      NULL, NULL, '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg', '{}'::jsonb, 11, true),
     ('index', 'instagram_gallery', 'gallery',
-     NULL, NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, 12, true);
+     NULL, NULL, NULL, NULL, NULL, NULL, 
+     '{"instagram_images": [
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
+     ]}'::jsonb, 12, true);
 
 -- Page Sections: About Us
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
