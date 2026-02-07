@@ -8,13 +8,15 @@ if (!section || !section.visible) {
 	return null;
 }
 
-const title = section?.title || "What’s Your Next Step?";
+const title = section?.title || "What's Your Next Step?";
 const description =
 	section?.description ||
 	"Make a step to start your journey to holistic healing with Wellness Bliss.";
 const iconUrl =
 	section?.image_url ||
 	"/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg";
+const buttonText = section?.button_text || "VIew Our Services";
+const buttonUrl = section?.button_url || "/prices-page";
 ---
 
 <section
@@ -82,7 +84,7 @@ const iconUrl =
 								class="elementor-widget-cmsmasters-button__button-container-inner"
 							>
 								<a
-									href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
+									href={buttonUrl}
 									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
 									role="button"
 									tabindex="0"
@@ -90,7 +92,7 @@ const iconUrl =
 										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
 										><span
 											class="elementor-widget-cmsmasters-button__text"
-											>VIew Our Services</span
+											>{buttonText}</span
 										></span
 									></a
 								>

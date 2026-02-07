@@ -78,7 +78,10 @@ INSERT INTO site_settings (key, value) VALUES
     ('hero_subtitle', 'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm'),
     ('footer_discount_text', 'Get a special 50% new client discount and unleash your health.'),
     ('footer_newsletter_title', 'Sign up to Newsletter'),
-    ('footer_newsletter_button', 'Sign Up');
+    ('footer_newsletter_button', 'Sign Up'),
+    ('site_url', 'https://wellness-bliss.cmsmasters.studio/light'),
+    ('home_two_url', 'https://wellness-bliss.cmsmasters.studio/light/home-two/')
+ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 
 -- Pages
 INSERT INTO pages (slug, title, meta_title, meta_description, visible) VALUES
@@ -114,7 +117,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
     ('index', 'hero', 'hero', 
      'Experience the Healing Power of Massage', NULL, NULL,
-     'Explore Our Services', '/services', NULL, '{}'::jsonb, 1, true),
+     'Explore Our Services', '/services-page', NULL, '{}'::jsonb, 1, true),
     ('index', 'intro', 'intro',
      'Welcome to Wellness Bliss', NULL, 
      'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm. Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out.',
@@ -123,10 +126,10 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm',
      'Welcome to Wellness Bliss',
      'Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out. At Wellness Bliss, we believe true healing begins with presence and touch.',
-     'More About Us', '/about-us', NULL, '{}'::jsonb, 3, true),
+     'More About Us', '/about-us', '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp', '{}'::jsonb, 3, true),
     ('index', 'services', 'services',
      'Our Services', NULL, NULL,
-     'View all Services', '/services-page', NULL, '{}'::jsonb, 3, true), -- Note: services was 4 in original, but 3 in update. Let's make it 4 to keep about at 3. Actually I will use 4 for Services.
+     'View all Services', '/services-page', NULL, '{}'::jsonb, 4, true),
     ('index', 'features', 'features',
      'The Healing Power of Touch',
      'Restore Balance, Ease Tension, and Reconnect with Your Body',
@@ -165,27 +168,32 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
         {
           "name": "Sarah L.",
           "text": "I came in carrying weeks of stress, tension, and sleepless nights. One session here changed everything. The therapist worked through the tightness in my back and shoulders with such skill and care. I left feeling grounded, peaceful, and for the first time in a long while—pain-free. This place is truly healing.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp"
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp",
+          "rating": 5
         },
         {
           "name": "James T.",
           "text": "I came in carrying weeks of stress, tension, and sleepless nights. One session here changed everything. The therapist worked through the tightness in my back and shoulders with such skill and care. I left feeling grounded, peaceful, and for the first time in a long while—pain-free. This place is truly healing.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp"
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp",
+          "rating": 5
         },
         {
           "name": "Alina M.",
           "text": "It''s not just a massage—it''s a full-body reset. The energy, the warmth, the atmosphere... everything is designed to make you feel safe and at ease. Every visit feels like a mini retreat from the world. I always leave with a calm mind and a body that feels brand new.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp"
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp",
+          "rating": 5
         },
         {
           "name": "Daniel K.",
           "text": "Incredible experience from start to finish. The therapist had an intuitive touch and created a space that felt calm and restorative. My chronic neck and shoulder pain has improved so much, and the effects last long after the session. I feel genuinely cared for every time I visit.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp"
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp",
+          "rating": 5
         },
         {
           "name": "Emma R.",
           "text": "The best massage I''ve ever had. The attention to detail, the personalized approach, and the genuine care shown by the staff make this place special. I''ve been coming regularly for months, and each session is better than the last.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp"
+          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp",
+          "rating": 5
         }
      ]}'::jsonb, 9, true),
     ('index', 'blog', 'blog',
@@ -194,16 +202,16 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('index', 'cta', 'cta',
      'What''s Your Next Step?', NULL, 
      'Make a step to start your journey to holistic healing with Wellness Bliss.',
-     NULL, NULL, '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg', '{}'::jsonb, 11, true),
+     'VIew Our Services', '/prices-page', '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg', '{}'::jsonb, 11, true),
     ('index', 'instagram_gallery', 'gallery',
      NULL, NULL, NULL, NULL, NULL, NULL, 
      '{"instagram_images": [
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
-        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
      ]}'::jsonb, 12, true);
 
 -- Page Sections: About Us

@@ -1,7 +1,9 @@
 ---
 import { getPageSection } from "../lib/supabase";
+import { getSiteSettings } from "../lib/supabase";
 
 const section = await getPageSection("index", "testimonials");
+const settings = await getSiteSettings();
 
 // Eğer section görünür değilse, hiçbir şey render etme
 if (!section || !section.visible) {
@@ -11,6 +13,7 @@ if (!section || !section.visible) {
 const title = section?.title || "What our clients say about us";
 const subtitle =
 	section?.subtitle || "More than 250 five-star reviews on Google";
+const siteUrl = settings.site_url || "https://wellness-bliss.cmsmasters.studio/light";
 
 // Testimonials verilerini extra_data'dan çek
 const defaultTestimonials = [
@@ -116,7 +119,7 @@ const testimonials = section?.extra_data?.testimonials || defaultTestimonials;
 									/>
 									<meta
 										itemprop="url"
-										content="https://wellness-bliss.cmsmasters.studio/light"
+										content={siteUrl}
 									/>
 								</div><div
 									class="cmsmasters-testimonial__inner"
@@ -314,7 +317,7 @@ const testimonials = section?.extra_data?.testimonials || defaultTestimonials;
 									/>
 									<meta
 										itemprop="url"
-										content="https://wellness-bliss.cmsmasters.studio/light"
+										content={siteUrl}
 									/>
 								</div><div
 									class="cmsmasters-testimonial__inner"
@@ -513,7 +516,7 @@ const testimonials = section?.extra_data?.testimonials || defaultTestimonials;
 									/>
 									<meta
 										itemprop="url"
-										content="https://wellness-bliss.cmsmasters.studio/light"
+										content={siteUrl}
 									/>
 								</div><div
 									class="cmsmasters-testimonial__inner"
@@ -709,7 +712,7 @@ const testimonials = section?.extra_data?.testimonials || defaultTestimonials;
 									/>
 									<meta
 										itemprop="url"
-										content="https://wellness-bliss.cmsmasters.studio/light"
+										content={siteUrl}
 									/>
 								</div><div
 									class="cmsmasters-testimonial__inner"
@@ -906,7 +909,7 @@ const testimonials = section?.extra_data?.testimonials || defaultTestimonials;
 									/>
 									<meta
 										itemprop="url"
-										content="https://wellness-bliss.cmsmasters.studio/light"
+										content={siteUrl}
 									/>
 								</div><div
 									class="cmsmasters-testimonial__inner"
