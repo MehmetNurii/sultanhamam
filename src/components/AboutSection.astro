@@ -1,5 +1,18 @@
 ---
+import { getPageSection } from "../lib/supabase";
 
+const section = await getPageSection("index", "about");
+
+const description =
+    section?.description ||
+    "At Wellness Bliss, we believe true healing begins with presence and touch. Each session is a one-on-one experience with a skilled therapist who takes the time to understand your body’s needs, helping you achieve real, lasting results.";
+const imageUrl =
+    section?.image_url ||
+    "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp";
+const buttonText = section?.button_text || "More About Us";
+const buttonUrl =
+    section?.button_url ||
+    "https://wellness-bliss.cmsmasters.studio/light/about-us/";
 ---
 
 <section
@@ -37,7 +50,7 @@
                     decoding="async"
                     width="250"
                     height="290"
-                    src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp"
+                    src={imageUrl}
                     class="attachment-medium size-medium wp-image-44309"
                     alt=""
                 />
@@ -75,11 +88,7 @@
         >
             <div class="elementor-widget-container">
                 <p class="elementor-heading-title elementor-size-default">
-                    At Wellness Bliss, we believe true healing begins with
-                    presence and touch. Each session is a one-on-one experience
-                    with a skilled therapist who takes the time to understand
-                    your body’s needs, helping you achieve real, lasting
-                    results.
+                    {description}
                 </p>
             </div>
         </div>
@@ -99,7 +108,7 @@
                         class="elementor-widget-cmsmasters-button__button-container-inner"
                     >
                         <a
-                            href="https://wellness-bliss.cmsmasters.studio/light/about-us/"
+                            href={buttonUrl}
                             class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
                             role="button"
                             tabindex="0"
@@ -107,7 +116,7 @@
                                 class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
                                 ><span
                                     class="elementor-widget-cmsmasters-button__text"
-                                    >More About Us</span
+                                    >{buttonText}</span
                                 ></span
                             ></a
                         >

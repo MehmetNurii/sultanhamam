@@ -1,832 +1,702 @@
-								<section
-									class="elementor-element elementor-element-ab3654b e-flex e-con-boxed cmsmasters-block-default e-con e-parent"
-									data-id="ab3654b"
-									data-element_type="container"
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("index", "pricing");
+
+const title = section?.title || "Pricing plans for your wellness journey";
+const description =
+	section?.description ||
+	"We offer simple, flat rate pricing for all our services. All initial consultations include treatment unless further testing is required.";
+const buttonText = section?.button_text || "Full Price List";
+const buttonUrl =
+	section?.button_url ||
+	"https://wellness-bliss.cmsmasters.studio/light/prices-page/";
+---
+
+<section
+	class="elementor-element elementor-element-ab3654b e-flex e-con-boxed cmsmasters-block-default e-con e-parent"
+	data-id="ab3654b"
+	data-element_type="container"
+>
+	<div class="e-con-inner">
+		<div
+			class="elementor-element elementor-element-505454a e-con-full e-flex cmsmasters-block-default e-con e-child"
+			data-id="505454a"
+			data-element_type="container"
+		>
+			<div
+				class="elementor-element elementor-element-40d50dd elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+				data-id="40d50dd"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn"}'
+				data-widget_type="heading.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">
+						{title}
+					</h2>
+				</div>
+			</div>
+			<div
+				data-animation-type="block"
+				class="animation_type_block elementor-element elementor-element-5cf60d6 cmsmasters-featured-box__graphic-align-right cmsmasters-featured-box__link-button elementor-widget__width-initial cmsmasters-featured-box__graphic-align-mobile-left cmsmasters-featured-box__button-border-solid cmsmasters-featured-box__graphic-align-tablet-left cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box animated fadeIn"
+				data-animation-stagger=""
+				data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
+				data-text-animation-class="sequental, random"
+				data-id="5cf60d6"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":250}'
+				data-widget_type="cmsmasters-featured-box.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<div
+						class="elementor-widget-cmsmasters-featured-box__wrapper"
+					>
+						<div
+							class="elementor-widget-cmsmasters-featured-box__content"
+						>
+							<div
+								class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
+							>
+								<div
+									class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
 								>
-									<div class="e-con-inner">
-										<div
-											class="elementor-element elementor-element-505454a e-con-full e-flex cmsmasters-block-default e-con e-child"
-											data-id="505454a"
-											data-element_type="container"
+									<div
+										class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
+									>
+										{description}
+									</div><div
+										class="elementor-widget-cmsmasters-featured-box__button-wrapper elementor-widget-cmsmasters-featured-box__content-item"
+									>
+										<a
+											class="elementor-widget-cmsmasters-featured-box__button elementor-widget-cmsmasters-featured-box__content-item cmsmasters-theme-button"
+											href={buttonUrl}>{buttonText}</a
 										>
-											<div
-												class="elementor-element elementor-element-40d50dd elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-												data-id="40d50dd"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn"}'
-												data-widget_type="heading.default"
-												style="visibility: visible; opacity: 1;"
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div
+			class="elementor-element elementor-element-b3c7823 e-grid e-con-full cmsmasters-block-default e-con e-child"
+			data-id="b3c7823"
+			data-element_type="container"
+		>
+			<section
+				class="elementor-element elementor-element-51201cc e-con-full e-flex cmsmasters-block-default e-con e-child"
+				data-id="51201cc"
+				data-element_type="container"
+				data-settings='{"background_background":"gradient","animation":"fadeIn"}'
+				style="visibility: visible; opacity: 1;"
+			>
+				<div
+					data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
+					data-text-animation-class="sequental, random"
+					class="elementor-element elementor-element-ebc0ca2 cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
+					data-id="ebc0ca2"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-featured-box.default"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-featured-box__wrapper"
+						>
+							<div
+								class="elementor-widget-cmsmasters-featured-box__content"
+							>
+								<div
+									class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
+								>
+									<div
+										class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Massage Therapy
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
+										>
+											<i
+												aria-hidden="true"
+												class="cmsmsdemo-icons- cmsms-demo-icons-wellness-bliss"
 											>
-												<div
-													class="elementor-widget-container"
-												>
-													<h2
-														class="elementor-heading-title elementor-size-default"
-													>
-														Pricing&nbsp;plans&nbsp;for
-														yourwellness&nbsp;journey
-													</h2>
-												</div>
-											</div>
-											<div
-												data-animation-type="block"
-												class="animation_type_block elementor-element elementor-element-5cf60d6 cmsmasters-featured-box__graphic-align-right cmsmasters-featured-box__link-button elementor-widget__width-initial cmsmasters-featured-box__graphic-align-mobile-left cmsmasters-featured-box__button-border-solid cmsmasters-featured-box__graphic-align-tablet-left cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box animated fadeIn"
-												data-animation-stagger=""
-												data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
-												data-text-animation-class="sequental, random"
-												data-id="5cf60d6"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn","_animation_delay":250}'
-												data-widget_type="cmsmasters-featured-box.default"
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													class="elementor-widget-container"
-												>
-													<div
-														class="elementor-widget-cmsmasters-featured-box__wrapper"
-													>
-														<div
-															class="elementor-widget-cmsmasters-featured-box__content"
-														>
-															<div
-																class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
-															>
-																<div
-																	class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
-																	>
-																		We offer
-																		simple,
-																		flat
-																		rate
-																		pricing
-																		for all
-																		our
-																		services.
-																		All
-																		initial
-																		consultations
-																		include
-																		treatment
-																		unless
-																		further
-																		testing
-																		is
-																		required.
-																	</div><div
-																		class="elementor-widget-cmsmasters-featured-box__button-wrapper elementor-widget-cmsmasters-featured-box__content-item"
-																	>
-																		<a
-																			class="elementor-widget-cmsmasters-featured-box__button elementor-widget-cmsmasters-featured-box__content-item cmsmasters-theme-button"
-																			href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
-																			>Full
-																			Price
-																			List</a
-																		>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+											</i>
 										</div>
-										<div
-											class="elementor-element elementor-element-b3c7823 e-grid e-con-full cmsmasters-block-default e-con e-child"
-											data-id="b3c7823"
-											data-element_type="container"
+									</div><div
+										class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
 										>
-											<section
-												class="elementor-element elementor-element-51201cc e-con-full e-flex cmsmasters-block-default e-con e-child"
-												data-id="51201cc"
-												data-element_type="container"
-												data-settings='{"background_background":"gradient","animation":"fadeIn"}'
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
-													data-text-animation-class="sequental, random"
-													class="elementor-element elementor-element-ebc0ca2 cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
-													data-id="ebc0ca2"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-featured-box.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-featured-box__wrapper"
-														>
-															<div
-																class="elementor-widget-cmsmasters-featured-box__content"
-															>
-																<div
-																	class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Massage
-																			Therapy
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
-																		>
-																			<i
-																				aria-hidden="true"
-																				class="cmsmsdemo-icons- cmsms-demo-icons-wellness-bliss"
-																			>
-																			</i>
-																		</div>
-																	</div><div
-																		class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Massage
-																			Therapy
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Stimulate
-																			the
-																			body’s
-																			own
-																			healing
-																			response.
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-1dab02a cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="1dab02a"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			Relaxation
-																			Massage
-																			- 60
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$70</span
-																>
-															</li>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
-																		>
-																			Relaxation
-																			Massage
-																			- 90
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$95</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-e32a3ed cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="e32a3ed"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			Deep
-																			Tissue
-																			Massage
-																			- 60
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$75</span
-																>
-															</li>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
-																		>
-																			Deep
-																			Tissue
-																			Massage
-																			- 90
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$100</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-7394205 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="7394205"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			Hot
-																			Stone
-																			Massage
-																			- 60
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$80</span
-																>
-															</li>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
-																		>
-																			Hot
-																			Stone
-																			Massage
-																			- 90
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$115</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													class="elementor-element elementor-element-fb40b2b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-													data-id="fb40b2b"
-													data-element_type="widget"
-													data-settings='{"_animation":"fadeIn","_animation_delay":300}'
-													data-widget_type="cmsmasters-button.default"
-													style="visibility: visible; opacity: 1;"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-button__button-container"
-														>
-															<div
-																class="elementor-widget-cmsmasters-button__button-container-inner"
-															>
-																<a
-																	href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
-																	class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																	role="button"
-																	tabindex="0"
-																	><span
-																		class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																		><span
-																			class="elementor-widget-cmsmasters-button__text"
-																			>View
-																			Details</span
-																		></span
-																	></a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</section>
-											<section
-												class="elementor-element elementor-element-6fafec1 e-con-full e-flex cmsmasters-block-default e-con e-child"
-												data-id="6fafec1"
-												data-element_type="container"
-												data-settings='{"background_background":"classic","animation":"fadeIn","animation_delay":250}'
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
-													data-text-animation-class="sequental, random"
-													class="elementor-element elementor-element-575e14b cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
-													data-id="575e14b"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-featured-box.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-featured-box__wrapper"
-														>
-															<div
-																class="elementor-widget-cmsmasters-featured-box__content"
-															>
-																<div
-																	class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Reflexology
-																			Therapy
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
-																		>
-																			<i
-																				aria-hidden="true"
-																				class="cmsmsdemo-icons- cmsms-demo-icons-wellness-15"
-																			>
-																			</i>
-																		</div>
-																	</div><div
-																		class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Reflexology
-																			Therapy
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Relieve
-																			pain
-																			and
-																			limitation
-																			of
-																			movement.
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-92cb895 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="92cb895"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<h4
-															class="cmsmasters-widget-icon-list-title"
-														>
-															Initial Consultation
-														</h4>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			45
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$50</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-79a6d77 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="79a6d77"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<h4
-															class="cmsmasters-widget-icon-list-title"
-														>
-															Follow Up Treatment
-														</h4>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			30
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$45</span
-																>
-															</li>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-10e1cd5"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
-																		>
-																			60
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$60</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													class="elementor-element elementor-element-307b15b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-													data-id="307b15b"
-													data-element_type="widget"
-													data-settings='{"_animation":"fadeIn","_animation_delay":300}'
-													data-widget_type="cmsmasters-button.default"
-													style="visibility: visible; opacity: 1;"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-button__button-container"
-														>
-															<div
-																class="elementor-widget-cmsmasters-button__button-container-inner"
-															>
-																<a
-																	href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
-																	class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																	role="button"
-																	tabindex="0"
-																	><span
-																		class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																		><span
-																			class="elementor-widget-cmsmasters-button__text"
-																			>View
-																			Details</span
-																		></span
-																	></a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</section>
-											<section
-												class="elementor-element elementor-element-91c0ac3 e-con-full e-flex cmsmasters-block-default e-con e-child"
-												data-id="91c0ac3"
-												data-element_type="container"
-												data-settings='{"background_background":"classic","animation":"fadeIn","animation_delay":500}'
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
-													data-text-animation-class="sequental, random"
-													class="elementor-element elementor-element-d4336ef cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
-													data-id="d4336ef"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-featured-box.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-featured-box__wrapper"
-														>
-															<div
-																class="elementor-widget-cmsmasters-featured-box__content"
-															>
-																<div
-																	class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Acupuncture
-																			Session
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
-																		>
-																			<i
-																				aria-hidden="true"
-																				class="cmsmsdemo-icons- cmsms-demo-icons-wellness-11"
-																			>
-																			</i>
-																		</div>
-																	</div><div
-																		class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
-																	>
-																		<h3
-																			class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Acupuncture
-																			Session
-																		</h3><div
-																			class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
-																		>
-																			Stimulate
-																			the
-																			body’s
-																			own
-																			healing
-																			response.
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-8eff959 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="8eff959"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<h4
-															class="cmsmasters-widget-icon-list-title"
-														>
-															Initial Consultation
-														</h4>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			45
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$50</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
-													data-text-animation-class="sequental, random, line, word, char"
-													class="elementor-element elementor-element-71a93e5 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
-													data-id="71a93e5"
-													data-element_type="widget"
-													data-widget_type="cmsmasters-icon-list.default"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<h4
-															class="cmsmasters-widget-icon-list-title"
-														>
-															Follow Up Treatment
-														</h4>
-														<ul
-															class="cmsmasters-widget-icon-list-items"
-														>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text"
-																		>
-																			30
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$45</span
-																>
-															</li>
-															<li
-																class="cmsmasters-widget-icon-list-item"
-															>
-																<span
-																	class="cmsmasters-widget-icon-list-item-text-wrap"
-																>
-																	<span
-																		class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-10e1cd5"
-																	>
-																		<span
-																			class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
-																		>
-																			60
-																			mins
-																		</span>
-																	</span>
-																</span>
-																<span
-																	class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
-																	>$60</span
-																>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div
-													class="elementor-element elementor-element-2b8033a cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-													data-id="2b8033a"
-													data-element_type="widget"
-													data-settings='{"_animation":"fadeIn","_animation_delay":300}'
-													data-widget_type="cmsmasters-button.default"
-													style="visibility: visible; opacity: 1;"
-												>
-													<div
-														class="elementor-widget-container"
-													>
-														<div
-															class="elementor-widget-cmsmasters-button__button-container"
-														>
-															<div
-																class="elementor-widget-cmsmasters-button__button-container-inner"
-															>
-																<a
-																	href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
-																	class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																	role="button"
-																	tabindex="0"
-																	><span
-																		class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																		><span
-																			class="elementor-widget-cmsmasters-button__text"
-																			>View
-																			Details</span
-																		></span
-																	></a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</section>
+											Massage Therapy
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Stimulate the body’s own healing
+											response.
 										</div>
 									</div>
-								</section>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-1dab02a cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="1dab02a"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											Relaxation Massage - 60 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$70</span
+								>
+							</li>
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
+										>
+											Relaxation Massage - 90 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$95</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-e32a3ed cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="e32a3ed"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											Deep Tissue Massage - 60 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$75</span
+								>
+							</li>
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
+										>
+											Deep Tissue Massage - 90 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$100</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-7394205 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="7394205"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											Hot Stone Massage - 60 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$80</span
+								>
+							</li>
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-9268d43"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
+										>
+											Hot Stone Massage - 90 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$115</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					class="elementor-element elementor-element-fb40b2b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
+					data-id="fb40b2b"
+					data-element_type="widget"
+					data-settings='{"_animation":"fadeIn","_animation_delay":300}'
+					data-widget_type="cmsmasters-button.default"
+					style="visibility: visible; opacity: 1;"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-button__button-container"
+						>
+							<div
+								class="elementor-widget-cmsmasters-button__button-container-inner"
+							>
+								<a
+									href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
+									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
+									role="button"
+									tabindex="0"
+									><span
+										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
+										><span
+											class="elementor-widget-cmsmasters-button__text"
+											>View Details</span
+										></span
+									></a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section
+				class="elementor-element elementor-element-6fafec1 e-con-full e-flex cmsmasters-block-default e-con e-child"
+				data-id="6fafec1"
+				data-element_type="container"
+				data-settings='{"background_background":"classic","animation":"fadeIn","animation_delay":250}'
+				style="visibility: visible; opacity: 1;"
+			>
+				<div
+					data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
+					data-text-animation-class="sequental, random"
+					class="elementor-element elementor-element-575e14b cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
+					data-id="575e14b"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-featured-box.default"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-featured-box__wrapper"
+						>
+							<div
+								class="elementor-widget-cmsmasters-featured-box__content"
+							>
+								<div
+									class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
+								>
+									<div
+										class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Reflexology Therapy
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
+										>
+											<i
+												aria-hidden="true"
+												class="cmsmsdemo-icons- cmsms-demo-icons-wellness-15"
+											>
+											</i>
+										</div>
+									</div><div
+										class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Reflexology Therapy
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Relieve pain and limitation of
+											movement.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-92cb895 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="92cb895"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<h4 class="cmsmasters-widget-icon-list-title">
+							Initial Consultation
+						</h4>
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											45 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$50</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-79a6d77 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="79a6d77"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<h4 class="cmsmasters-widget-icon-list-title">
+							Follow Up Treatment
+						</h4>
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											30 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$45</span
+								>
+							</li>
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-10e1cd5"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
+										>
+											60 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$60</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					class="elementor-element elementor-element-307b15b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
+					data-id="307b15b"
+					data-element_type="widget"
+					data-settings='{"_animation":"fadeIn","_animation_delay":300}'
+					data-widget_type="cmsmasters-button.default"
+					style="visibility: visible; opacity: 1;"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-button__button-container"
+						>
+							<div
+								class="elementor-widget-cmsmasters-button__button-container-inner"
+							>
+								<a
+									href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
+									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
+									role="button"
+									tabindex="0"
+									><span
+										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
+										><span
+											class="elementor-widget-cmsmasters-button__text"
+											>View Details</span
+										></span
+									></a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section
+				class="elementor-element elementor-element-91c0ac3 e-con-full e-flex cmsmasters-block-default e-con e-child"
+				data-id="91c0ac3"
+				data-element_type="container"
+				data-settings='{"background_background":"classic","animation":"fadeIn","animation_delay":500}'
+				style="visibility: visible; opacity: 1;"
+			>
+				<div
+					data-separate-animation-selector=".elementor-widget-cmsmasters-featured-box__icon-wrap, .elementor-widget-cmsmasters-featured-box__image-wrap, .elementor-widget-cmsmasters-featured-box__title, .elementor-widget-cmsmasters-featured-box__description, .elementor-widget-cmsmasters-featured-box__button-wrapper"
+					data-text-animation-class="sequental, random"
+					class="elementor-element elementor-element-d4336ef cmsmasters-featured-box__graphic-align-left cmsmasters-featured-box__graphic-position-row-reverse cmsmasters-featured-box__graphic-position-tablet-row-reverse cmsmasters-featured-box__graphic-position-mobile-row-reverse cmsmasters-featured-box__graphic-position-tablet-v-top cmsmasters-featured-box__graphic-position-mobile-v-top cmsmasters-featured-box__graphic-position-v-top cmsmasters-featured-box__text-valign-middle cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-featured-box"
+					data-id="d4336ef"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-featured-box.default"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-featured-box__wrapper"
+						>
+							<div
+								class="elementor-widget-cmsmasters-featured-box__content"
+							>
+								<div
+									class="elementor-widget-cmsmasters-featured-box__content-vertical-inner"
+								>
+									<div
+										class="elementor-widget-cmsmasters-featured-box__graphic-wrapper elementor-widget-cmsmasters-featured-box__content-item elementor-widget-cmsmasters-featured-box__icon"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Acupuncture Session
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__icon-wrap elementor-widget-cmsmasters-featured-box__graphic-item"
+										>
+											<i
+												aria-hidden="true"
+												class="cmsmsdemo-icons- cmsms-demo-icons-wellness-11"
+											>
+											</i>
+										</div>
+									</div><div
+										class="elementor-widget-cmsmasters-featured-box__type-wrap elementor-widget-cmsmasters-featured-box__content-item"
+									>
+										<h3
+											class="elementor-widget-cmsmasters-featured-box__title elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Acupuncture Session
+										</h3><div
+											class="elementor-widget-cmsmasters-featured-box__description elementor-widget-cmsmasters-featured-box__content-item"
+										>
+											Stimulate the body’s own healing
+											response.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-8eff959 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="8eff959"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<h4 class="cmsmasters-widget-icon-list-title">
+							Initial Consultation
+						</h4>
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											45 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$50</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					data-separate-animation-selector=".cmsmasters-widget-icon-list-item"
+					data-text-animation-class="sequental, random, line, word, char"
+					class="elementor-element elementor-element-71a93e5 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list"
+					data-id="71a93e5"
+					data-element_type="widget"
+					data-widget_type="cmsmasters-icon-list.default"
+				>
+					<div class="elementor-widget-container">
+						<h4 class="cmsmasters-widget-icon-list-title">
+							Follow Up Treatment
+						</h4>
+						<ul class="cmsmasters-widget-icon-list-items">
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-4ec200c"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text"
+										>
+											30 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$45</span
+								>
+							</li>
+							<li class="cmsmasters-widget-icon-list-item">
+								<span
+									class="cmsmasters-widget-icon-list-item-text-wrap"
+								>
+									<span
+										class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-10e1cd5"
+									>
+										<span
+											class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text"
+										>
+											60 mins
+										</span>
+									</span>
+								</span>
+								<span
+									class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value"
+									>$60</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					class="elementor-element elementor-element-2b8033a cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
+					data-id="2b8033a"
+					data-element_type="widget"
+					data-settings='{"_animation":"fadeIn","_animation_delay":300}'
+					data-widget_type="cmsmasters-button.default"
+					style="visibility: visible; opacity: 1;"
+				>
+					<div class="elementor-widget-container">
+						<div
+							class="elementor-widget-cmsmasters-button__button-container"
+						>
+							<div
+								class="elementor-widget-cmsmasters-button__button-container-inner"
+							>
+								<a
+									href="https://wellness-bliss.cmsmasters.studio/light/prices-page/"
+									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
+									role="button"
+									tabindex="0"
+									><span
+										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
+										><span
+											class="elementor-widget-cmsmasters-button__text"
+											>View Details</span
+										></span
+									></a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</section>

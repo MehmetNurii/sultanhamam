@@ -1,635 +1,622 @@
-								<section
-									class="elementor-element elementor-element-44656dd e-con-full e-flex cmsmasters-block-default e-con e-parent"
-									data-id="44656dd"
-									data-element_type="container"
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("index", "gallery");
+
+const title = section?.title || "Photo Gallery";
+const subtitle =
+	section?.subtitle || "A visual journey of mind and body harmony";
+---
+
+<section
+	class="elementor-element elementor-element-44656dd e-con-full e-flex cmsmasters-block-default e-con e-parent"
+	data-id="44656dd"
+	data-element_type="container"
+>
+	<div
+		class="elementor-element elementor-element-eabc1ea e-flex e-con-boxed cmsmasters-block-default e-con e-child"
+		data-id="eabc1ea"
+		data-element_type="container"
+	>
+		<div class="e-con-inner">
+			<div
+				class="elementor-element elementor-element-34a5eb8 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title"
+				data-id="34a5eb8"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn"}'
+				data-widget_type="cmsmasters-title.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h2 class="cmsmasters-widget-title__heading">
+						<span class="title-inner-element">{title}</span>
+					</h2>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-7786e5b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+				data-id="7786e5b"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":250}'
+				data-widget_type="heading.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">
+						{subtitle}
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		class="elementor-element elementor-element-7ec54a1 elementor-widget__width-initial cmsmasters-slider--effect-slide cmsmasters-slider--slider-direction-horizontal cmsmasters-media-carousel__image-fit-cover cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-media-carousel e-widget-swiper"
+		data-id="7ec54a1"
+		data-element_type="widget"
+		data-settings='{"slider_free_mode":"yes","slider_navigation":"bullets","slider_space_between":{"unit":"px","size":90,"sizes":[]},"slider_width":{"unit":"%","size":100,"sizes":[]},"slider_per_view_tablet":"1","_animation":"fadeInRight","_animation_delay":200,"slider_space_between_mobile":{"unit":"px","size":20,"sizes":[]},"slider_type":"carousel","slider_effect":"slide","slider_direction":"horizontal","slider_height_type":"auto","slider_per_view":"3","ytb_fs":"yes","facebook_fs":"yes","twitch_fs":"yes","hosted_fs":"yes","aspect_ratio":"169","slider_autoplay":"yes","slider_autoplay_speed":5000,"slider_speed":500,"slider_pause_on_hover":"yes","slider_infinite":"yes","slider_space_between_widescreen":{"unit":"px","size":"","sizes":[]},"slider_space_between_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_widescreen":{"unit":"px","size":"","sizes":[]},"slider_width_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_mobile":{"unit":"px","size":"","sizes":[]},"slider_scrollbar_circle":"circle"}'
+		data-widget_type="cmsmasters-media-carousel.default"
+		style="visibility: visible; opacity: 1;"
+	>
+		<div class="elementor-widget-container">
+			<div
+				id="cmsmasters-slider-7ec54a1"
+				class="cmsmasters-slider cmsmasters-slider--init cmsmasters-slider--dir-horizontal cmsmasters-slider--effect-slide cmsmasters-slider--nav cmsmasters-slider--nav-bullets cmsmasters-slider-per-view-3"
+			>
+				<div
+					class="swiper cmsmasters-swiper-container swiper-initialized swiper-horizontal swiper-pointer-events swiper-free-mode swiper-autoheight"
+				>
+					<div
+						class="swiper-wrapper"
+						style="cursor: grab; transform: translate3d(-5586px, 0px, 0px); height: 401px; transition-duration: 500ms;"
+						id="swiper-wrapper-ecfd2210d2d2afedd"
+						aria-live="off"
+					>
+						<div
+							class="swiper-slide swiper-slide-duplicate"
+							data-swiper-slide-index="0"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="1 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
 								>
 									<div
-										class="elementor-element elementor-element-eabc1ea e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-										data-id="eabc1ea"
-										data-element_type="container"
+										class="elementor-widget-cmsmasters-media-carousel__inner"
 									>
-										<div class="e-con-inner">
-											<div
-												class="elementor-element elementor-element-34a5eb8 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title"
-												data-id="34a5eb8"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn"}'
-												data-widget_type="cmsmasters-title.default"
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													class="elementor-widget-container"
-												>
-													<h2
-														class="cmsmasters-widget-title__heading"
-													>
-														<span
-															class="title-inner-element"
-															>Photo Gallery</span>
-													</h2>
-												</div>
-											</div>
-											<div
-												class="elementor-element elementor-element-7786e5b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-												data-id="7786e5b"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn","_animation_delay":250}'
-												data-widget_type="heading.default"
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													class="elementor-widget-container"
-												>
-													<h3
-														class="elementor-heading-title elementor-size-default"
-													>
-														A
-														visual&nbsp;journey&nbsp;of
-														mind and&nbsp;body
-														harmony
-													</h3>
-												</div>
-											</div>
-										</div>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
+											class="attachment-large size-large wp-image-44463"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
 									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
+							data-swiper-slide-index="1"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="2 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
 									<div
-										class="elementor-element elementor-element-7ec54a1 elementor-widget__width-initial cmsmasters-slider--effect-slide cmsmasters-slider--slider-direction-horizontal cmsmasters-media-carousel__image-fit-cover cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-media-carousel e-widget-swiper"
-										data-id="7ec54a1"
-										data-element_type="widget"
-										data-settings='{"slider_free_mode":"yes","slider_navigation":"bullets","slider_space_between":{"unit":"px","size":90,"sizes":[]},"slider_width":{"unit":"%","size":100,"sizes":[]},"slider_per_view_tablet":"1","_animation":"fadeInRight","_animation_delay":200,"slider_space_between_mobile":{"unit":"px","size":20,"sizes":[]},"slider_type":"carousel","slider_effect":"slide","slider_direction":"horizontal","slider_height_type":"auto","slider_per_view":"3","ytb_fs":"yes","facebook_fs":"yes","twitch_fs":"yes","hosted_fs":"yes","aspect_ratio":"169","slider_autoplay":"yes","slider_autoplay_speed":5000,"slider_speed":500,"slider_pause_on_hover":"yes","slider_infinite":"yes","slider_space_between_widescreen":{"unit":"px","size":"","sizes":[]},"slider_space_between_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_widescreen":{"unit":"px","size":"","sizes":[]},"slider_width_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_mobile":{"unit":"px","size":"","sizes":[]},"slider_scrollbar_circle":"circle"}'
-										data-widget_type="cmsmasters-media-carousel.default"
-										style="visibility: visible; opacity: 1;"
+										class="elementor-widget-cmsmasters-media-carousel__inner"
 									>
-										<div class="elementor-widget-container">
-											<div
-												id="cmsmasters-slider-7ec54a1"
-												class="cmsmasters-slider cmsmasters-slider--init cmsmasters-slider--dir-horizontal cmsmasters-slider--effect-slide cmsmasters-slider--nav cmsmasters-slider--nav-bullets cmsmasters-slider-per-view-3"
-											>
-												<div
-													class="swiper cmsmasters-swiper-container swiper-initialized swiper-horizontal swiper-pointer-events swiper-free-mode swiper-autoheight"
-												>
-													<div
-														class="swiper-wrapper"
-														style="cursor: grab; transform: translate3d(-5586px, 0px, 0px); height: 401px; transition-duration: 500ms;"
-														id="swiper-wrapper-ecfd2210d2d2afedd"
-														aria-live="off"
-													>
-														<div
-															class="swiper-slide swiper-slide-duplicate"
-															data-swiper-slide-index="0"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="1 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
-																			class="attachment-large size-large wp-image-44463"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
-															data-swiper-slide-index="1"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="2 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
-																			class="attachment-large size-large wp-image-44464"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-															data-swiper-slide-index="2"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="3 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
-																			class="attachment-large size-large wp-image-44472"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-															data-swiper-slide-index="3"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="4 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
-																			class="attachment-large size-large wp-image-44473"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate"
-															data-swiper-slide-index="4"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="5 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
-																			class="attachment-large size-large wp-image-44474"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide"
-															data-swiper-slide-index="0"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="1 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
-																			class="attachment-large size-large wp-image-44463"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-prev"
-															data-swiper-slide-index="1"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="2 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
-																			class="attachment-large size-large wp-image-44464"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-active"
-															data-swiper-slide-index="2"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="3 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
-																			class="attachment-large size-large wp-image-44472"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-next"
-															data-swiper-slide-index="3"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="4 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
-																			class="attachment-large size-large wp-image-44473"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide"
-															data-swiper-slide-index="4"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="5 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
-																			class="attachment-large size-large wp-image-44474"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate"
-															data-swiper-slide-index="0"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="1 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
-																			class="attachment-large size-large wp-image-44463"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
-															data-swiper-slide-index="1"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="2 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
-																			class="attachment-large size-large wp-image-44464"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-															data-swiper-slide-index="2"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="3 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
-																			class="attachment-large size-large wp-image-44472"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-															data-swiper-slide-index="3"
-															style="width: 708px; margin-right: 90px;"
-															role="group"
-															aria-label="4 / 5"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
-																			class="attachment-large size-large wp-image-44473"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div><div
-															class="swiper-slide swiper-slide-duplicate"
-															data-swiper-slide-index="4"
-															role="group"
-															aria-label="5 / 5"
-															style="width: 708px; margin-right: 90px;"
-														>
-															<figure
-																class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
-															>
-																<a
-																	class="elementor-widget-cmsmasters-media-carousel__outer"
-																	href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
-																	data-elementor-open-lightbox="yes"
-																	data-elementor-lightbox-slideshow="7ec54a1"
-																	aria-label="Image lightbox open"
-																>
-																	<div
-																		class="elementor-widget-cmsmasters-media-carousel__inner"
-																	>
-																		<img
-																			loading="lazy"
-																			decoding="async"
-																			width="1024"
-																			height="580"
-																			src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
-																			class="attachment-large size-large wp-image-44474"
-																			alt=""
-																			srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
-																			sizes="(max-width: 1024px) 100vw, 1024px"
-																		/>
-																	</div>
-																</a>
-															</figure>
-														</div>
-													</div><span
-														class="swiper-notification"
-														aria-live="assertive"
-														aria-atomic="true"
-													></span>
-												</div><div
-													class="swiper-pagination-wrap"
-												>
-													<div
-														class="swiper-pagination-outer"
-													>
-														<div
-															class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"
-														>
-															<span
-																class="swiper-pagination-bullet"
-																tabindex="0"
-																role="button"
-																aria-label="Go to slide 1"
-															></span><span
-																class="swiper-pagination-bullet"
-																tabindex="0"
-																role="button"
-																aria-label="Go to slide 2"
-															></span><span
-																class="swiper-pagination-bullet swiper-pagination-bullet-active"
-																tabindex="0"
-																role="button"
-																aria-label="Go to slide 3"
-																aria-current="true"
-															></span><span
-																class="swiper-pagination-bullet"
-																tabindex="0"
-																role="button"
-																aria-label="Go to slide 4"
-															></span><span
-																class="swiper-pagination-bullet"
-																tabindex="0"
-																role="button"
-																aria-label="Go to slide 5"
-															></span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
+											class="attachment-large size-large wp-image-44464"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
 									</div>
-								</section>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
+							data-swiper-slide-index="2"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="3 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
+											class="attachment-large size-large wp-image-44472"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
+							data-swiper-slide-index="3"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="4 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
+											class="attachment-large size-large wp-image-44473"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate"
+							data-swiper-slide-index="4"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="5 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
+											class="attachment-large size-large wp-image-44474"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide"
+							data-swiper-slide-index="0"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="1 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
+											class="attachment-large size-large wp-image-44463"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-prev"
+							data-swiper-slide-index="1"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="2 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
+											class="attachment-large size-large wp-image-44464"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-active"
+							data-swiper-slide-index="2"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="3 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
+											class="attachment-large size-large wp-image-44472"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-next"
+							data-swiper-slide-index="3"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="4 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
+											class="attachment-large size-large wp-image-44473"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide"
+							data-swiper-slide-index="4"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="5 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
+											class="attachment-large size-large wp-image-44474"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate"
+							data-swiper-slide-index="0"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="1 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-c04b5d2"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp"
+											class="attachment-large size-large wp-image-44463"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
+							data-swiper-slide-index="1"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="2 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-f203911"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp"
+											class="attachment-large size-large wp-image-44464"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
+							data-swiper-slide-index="2"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="3 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-e72fb6a"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp"
+											class="attachment-large size-large wp-image-44472"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
+							data-swiper-slide-index="3"
+							style="width: 708px; margin-right: 90px;"
+							role="group"
+							aria-label="4 / 5"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-194fe6f"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp"
+											class="attachment-large size-large wp-image-44473"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div><div
+							class="swiper-slide swiper-slide-duplicate"
+							data-swiper-slide-index="4"
+							role="group"
+							aria-label="5 / 5"
+							style="width: 708px; margin-right: 90px;"
+						>
+							<figure
+								class="elementor-widget-cmsmasters-media-carousel__wrapper elementor-repeater-item-919a430"
+							>
+								<a
+									class="elementor-widget-cmsmasters-media-carousel__outer"
+									href="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
+									data-elementor-open-lightbox="yes"
+									data-elementor-lightbox-slideshow="7ec54a1"
+									aria-label="Image lightbox open"
+								>
+									<div
+										class="elementor-widget-cmsmasters-media-carousel__inner"
+									>
+										<img
+											loading="lazy"
+											decoding="async"
+											width="1024"
+											height="580"
+											src="/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp"
+											class="attachment-large size-large wp-image-44474"
+											alt=""
+											srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-1024x580.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-768x435.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-530x300.webp 530w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9-600x340.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp 1180w"
+											sizes="(max-width: 1024px) 100vw, 1024px"
+										/>
+									</div>
+								</a>
+							</figure>
+						</div>
+					</div><span
+						class="swiper-notification"
+						aria-live="assertive"
+						aria-atomic="true"></span>
+				</div><div class="swiper-pagination-wrap">
+					<div class="swiper-pagination-outer">
+						<div
+							class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"
+						>
+							<span
+								class="swiper-pagination-bullet"
+								tabindex="0"
+								role="button"
+								aria-label="Go to slide 1"></span><span
+								class="swiper-pagination-bullet"
+								tabindex="0"
+								role="button"
+								aria-label="Go to slide 2"></span><span
+								class="swiper-pagination-bullet swiper-pagination-bullet-active"
+								tabindex="0"
+								role="button"
+								aria-label="Go to slide 3"
+								aria-current="true"></span><span
+								class="swiper-pagination-bullet"
+								tabindex="0"
+								role="button"
+								aria-label="Go to slide 4"></span><span
+								class="swiper-pagination-bullet"
+								tabindex="0"
+								role="button"
+								aria-label="Go to slide 5"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

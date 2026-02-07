@@ -1,1230 +1,1064 @@
-								<section
-									class="elementor-element elementor-element-fa9fde8 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-									data-id="fa9fde8"
-									data-element_type="container"
-									data-settings='{"background_background":"classic"}'
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("index", "testimonials");
+
+const title = section?.title || "What our clients say about us";
+const subtitle =
+	section?.subtitle || "More than 250 five-star reviews on Google";
+---
+
+<section
+	class="elementor-element elementor-element-fa9fde8 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
+	data-id="fa9fde8"
+	data-element_type="container"
+	data-settings='{"background_background":"classic"}'
+>
+	<div
+		class="elementor-element elementor-element-62f2f6d e-flex e-con-boxed cmsmasters-block-default e-con e-child"
+		data-id="62f2f6d"
+		data-element_type="container"
+	>
+		<div class="e-con-inner">
+			<div
+				class="elementor-element elementor-element-3417355 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+				data-id="3417355"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn"}'
+				data-widget_type="heading.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">
+						{title}
+					</h2>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-528b5a0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+				data-id="528b5a0"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":100}'
+				data-widget_type="heading.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<span class="elementor-heading-title elementor-size-default"
+						>{subtitle}</span
+					>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		class="elementor-element elementor-element-7fc8d63 cmsmasters-testimonial-author-width-full elementor-widget__width-initial elementor-widget-mobile__width-initial cmsmasters-slider--effect-slide cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-avatar-top cmsmasters-testimonial-author-text-view-vertical cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonials-slider"
+		data-id="7fc8d63"
+		data-element_type="widget"
+		data-settings='{"slider_per_view":"5","slider_autoplay":"yes","slider_navigation":"bullets","slider_space_between":{"unit":"px","size":120,"sizes":[]},"slider_per_view_tablet":"3","slider_free_mode":"yes","slider_space_between_tablet":{"unit":"px","size":40,"sizes":[]},"slider_infinite":"yes","_animation":"fadeInRight","_animation_delay":200,"slider_type":"carousel","slider_effect":"slide","slider_direction":"horizontal","slider_height_type":"auto","slider_to_scroll":"1","slider_autoplay_speed":5000,"slider_speed":500,"slider_pause_on_hover":"yes","slider_space_between_widescreen":{"unit":"px","size":"","sizes":[]},"slider_space_between_mobile":{"unit":"px","size":"","sizes":[]},"slider_width":{"unit":"%","size":"","sizes":[]},"slider_width_widescreen":{"unit":"px","size":"","sizes":[]},"slider_width_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_mobile":{"unit":"px","size":"","sizes":[]},"slider_scrollbar_circle":"circle"}'
+		data-widget_type="cmsmasters-testimonials-slider.default"
+		style="visibility: visible; opacity: 1;"
+	>
+		<div class="elementor-widget-container">
+			<div id="cmsmasters-slider-7fc8d63" class="cmsmasters-slider">
+				<div class="swiper cmsmasters-swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div
+								class="cmsmasters-testimonial"
+								itemscope=""
+								itemtype="https://schema.org/Review"
+							>
+								<div
+									class="elementor-screen-only"
+									itemprop="itemReviewed"
+									itemscope=""
+									itemtype="https://schema.org/Organization"
+								>
+									<meta
+										itemprop="name"
+										content="Light Demo"
+									/>
+									<meta
+										itemprop="url"
+										content="https://wellness-bliss.cmsmasters.studio/light"
+									/>
+								</div><div
+									class="cmsmasters-testimonial__inner"
 								>
 									<div
-										class="elementor-element elementor-element-62f2f6d e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-										data-id="62f2f6d"
-										data-element_type="container"
+										class="cmsmasters-testimonial__main-area"
 									>
-										<div class="e-con-inner">
+										<div
+											class="cmsmasters-testimonial__content"
+										>
 											<div
-												class="elementor-element elementor-element-3417355 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-												data-id="3417355"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn"}'
-												data-widget_type="heading.default"
-												style="visibility: visible; opacity: 1;"
+												class="cmsmasters-testimonial__content-outer"
 											>
 												<div
-													class="elementor-widget-container"
-												>
-													<h2
-														class="elementor-heading-title elementor-size-default"
-													>
-														What our clients say
-														about us
-													</h2>
-												</div>
-											</div>
-											<div
-												class="elementor-element elementor-element-528b5a0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-												data-id="528b5a0"
-												data-element_type="widget"
-												data-settings='{"_animation":"fadeIn","_animation_delay":100}'
-												data-widget_type="heading.default"
-												style="visibility: visible; opacity: 1;"
-											>
-												<div
-													class="elementor-widget-container"
-												>
-													<span
-														class="elementor-heading-title elementor-size-default"
-														>More than 250 five-star
-														reviews on Google</span
-													>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div
-										class="elementor-element elementor-element-7fc8d63 cmsmasters-testimonial-author-width-full elementor-widget__width-initial elementor-widget-mobile__width-initial cmsmasters-slider--effect-slide cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-avatar-top cmsmasters-testimonial-author-text-view-vertical cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonials-slider"
-										data-id="7fc8d63"
-										data-element_type="widget"
-										data-settings='{"slider_per_view":"5","slider_autoplay":"yes","slider_navigation":"bullets","slider_space_between":{"unit":"px","size":120,"sizes":[]},"slider_per_view_tablet":"3","slider_free_mode":"yes","slider_space_between_tablet":{"unit":"px","size":40,"sizes":[]},"slider_infinite":"yes","_animation":"fadeInRight","_animation_delay":200,"slider_type":"carousel","slider_effect":"slide","slider_direction":"horizontal","slider_height_type":"auto","slider_to_scroll":"1","slider_autoplay_speed":5000,"slider_speed":500,"slider_pause_on_hover":"yes","slider_space_between_widescreen":{"unit":"px","size":"","sizes":[]},"slider_space_between_mobile":{"unit":"px","size":"","sizes":[]},"slider_width":{"unit":"%","size":"","sizes":[]},"slider_width_widescreen":{"unit":"px","size":"","sizes":[]},"slider_width_tablet":{"unit":"px","size":"","sizes":[]},"slider_width_mobile":{"unit":"px","size":"","sizes":[]},"slider_scrollbar_circle":"circle"}'
-										data-widget_type="cmsmasters-testimonials-slider.default"
-										style="visibility: visible; opacity: 1;"
-									>
-										<div class="elementor-widget-container">
-											<div
-												id="cmsmasters-slider-7fc8d63"
-												class="cmsmasters-slider"
-											>
-												<div
-													class="swiper cmsmasters-swiper-container"
-												>
-													<div class="swiper-wrapper">
-														<div
-															class="swiper-slide"
-														>
-															<div
-																class="cmsmasters-testimonial"
-																itemscope=""
-																itemtype="https://schema.org/Review"
-															>
-																<div
-																	class="elementor-screen-only"
-																	itemprop="itemReviewed"
-																	itemscope=""
-																	itemtype="https://schema.org/Organization"
-																>
-																	<meta
-																		itemprop="name"
-																		content="Light Demo"
-																	/>
-																	<meta
-																		itemprop="url"
-																		content="https://wellness-bliss.cmsmasters.studio/light"
-																	/>
-																</div><div
-																	class="cmsmasters-testimonial__inner"
-																>
-																	<div
-																		class="cmsmasters-testimonial__main-area"
-																	>
-																		<div
-																			class="cmsmasters-testimonial__content"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__content-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__content-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__rating"
-																					>
-																						<div
-																							class="cmsmasters-testimonial__rating-inner"
-																							title="5/5"
-																							itemtype="http://schema.org/Rating"
-																							itemscope=""
-																							itemprop="reviewRating"
-																						>
-																							<div
-																								class="cmsmasters-testimonial__rating-icons"
-																							>
-																								<div
-																									class="cmsmasters-testimonial__rating-icons-empty"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div><div
-																									class="cmsmasters-testimonial__rating-icons-filled"
-																									style="width: 100%"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div>
-																							</div><span
-																								itemprop="ratingValue"
-																								class="elementor-screen-only"
-																								>5/5</span>
-																						</div>
-																					</div><div
-																						class="cmsmasters-testimonial__text"
-																						itemprop="reviewBody"
-																					>
-																						<p
-																						>
-																							"From
-																							the
-																							moment
-																							I
-																							walked
-																							in,
-																							I
-																							felt
-																							held
-																							and
-																							supported.
-																							The
-																							therapist
-																							took
-																							the
-																							time
-																							to
-																							understand
-																							what
-																							my
-																							body
-																							needed,
-																							and
-																							the
-																							massage
-																							was
-																							both
-																							deeply
-																							relaxing
-																							and
-																							therapeutic.
-																							I
-																							walked
-																							out
-																							feeling
-																							lighter—physically,
-																							mentally,
-																							and
-																							emotionally.
-																							This
-																							experience
-																							went
-																							far
-																							beyond
-																							my
-																							expectations."
-																						</p>
-																					</div>
-																				</div>
-																			</div>
-																		</div><div
-																			class="cmsmasters-testimonial__author-info"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__avatar"
-																			>
-																				<img
-																					loading="lazy"
-																					decoding="async"
-																					width="100"
-																					height="100"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp"
-																					class="attachment-thumbnail size-thumbnail wp-image-44442"
-																					alt=""
-																				/>
-																			</div><div
-																				class="cmsmasters-testimonial__author-info-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__author-info-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__author-info-wrap"
-																					>
-																						<span
-																							class="cmsmasters-testimonial__author-name"
-																							><span
-																								itemprop="author"
-																								>Samantha
-																								L.</span
-																							></span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div><div
-															class="swiper-slide"
-														>
-															<div
-																class="cmsmasters-testimonial"
-																itemscope=""
-																itemtype="https://schema.org/Review"
-															>
-																<div
-																	class="elementor-screen-only"
-																	itemprop="itemReviewed"
-																	itemscope=""
-																	itemtype="https://schema.org/Organization"
-																>
-																	<meta
-																		itemprop="name"
-																		content="Light Demo"
-																	/>
-																	<meta
-																		itemprop="url"
-																		content="https://wellness-bliss.cmsmasters.studio/light"
-																	/>
-																</div><div
-																	class="cmsmasters-testimonial__inner"
-																>
-																	<div
-																		class="cmsmasters-testimonial__main-area"
-																	>
-																		<div
-																			class="cmsmasters-testimonial__content"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__content-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__content-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__rating"
-																					>
-																						<div
-																							class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
-																							title="5/5 5/5"
-																							itemtype="http://schema.org/Rating http://schema.org/Rating"
-																							itemscope=" "
-																							itemprop="reviewRating reviewRating"
-																						>
-																							<div
-																								class="cmsmasters-testimonial__rating-icons"
-																							>
-																								<div
-																									class="cmsmasters-testimonial__rating-icons-empty"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div><div
-																									class="cmsmasters-testimonial__rating-icons-filled"
-																									style="width: 100%"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div>
-																							</div><span
-																								itemprop="ratingValue"
-																								class="elementor-screen-only"
-																								>5/5</span>
-																						</div>
-																					</div><div
-																						class="cmsmasters-testimonial__text"
-																						itemprop="reviewBody"
-																					>
-																						<p
-																						>
-																							"I
-																							came
-																							in
-																							carrying
-																							weeks
-																							of
-																							stress,
-																							tension,
-																							and
-																							sleepless
-																							nights.
-																							One
-																							session
-																							here
-																							changed
-																							everything.
-																							The
-																							therapist
-																							worked
-																							through
-																							the
-																							tightness
-																							in
-																							my
-																							back
-																							and
-																							shoulders
-																							with
-																							such
-																							skill
-																							and
-																							care.
-																							I
-																							left
-																							feeling
-																							grounded,
-																							peaceful,
-																							and
-																							for
-																							the
-																							first
-																							time
-																							in
-																							a
-																							long
-																							while—pain-free.
-																							This
-																							place
-																							is
-																							truly
-																							healing."
-																						</p>
-																					</div>
-																				</div>
-																			</div>
-																		</div><div
-																			class="cmsmasters-testimonial__author-info"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__avatar"
-																			>
-																				<img
-																					loading="lazy"
-																					decoding="async"
-																					width="100"
-																					height="100"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp"
-																					class="attachment-thumbnail size-thumbnail wp-image-44443"
-																					alt=""
-																				/>
-																			</div><div
-																				class="cmsmasters-testimonial__author-info-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__author-info-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__author-info-wrap"
-																					>
-																						<span
-																							class="cmsmasters-testimonial__author-name"
-																							><span
-																								itemprop="author"
-																								>James
-																								T.</span
-																							></span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div><div
-															class="swiper-slide"
-														>
-															<div
-																class="cmsmasters-testimonial"
-																itemscope=""
-																itemtype="https://schema.org/Review"
-															>
-																<div
-																	class="elementor-screen-only"
-																	itemprop="itemReviewed"
-																	itemscope=""
-																	itemtype="https://schema.org/Organization"
-																>
-																	<meta
-																		itemprop="name"
-																		content="Light Demo"
-																	/>
-																	<meta
-																		itemprop="url"
-																		content="https://wellness-bliss.cmsmasters.studio/light"
-																	/>
-																</div><div
-																	class="cmsmasters-testimonial__inner"
-																>
-																	<div
-																		class="cmsmasters-testimonial__main-area"
-																	>
-																		<div
-																			class="cmsmasters-testimonial__content"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__content-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__content-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__rating"
-																					>
-																						<div
-																							class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
-																							title="5/5 5/5 5/5"
-																							itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
-																							itemscope="  "
-																							itemprop="reviewRating reviewRating reviewRating"
-																						>
-																							<div
-																								class="cmsmasters-testimonial__rating-icons"
-																							>
-																								<div
-																									class="cmsmasters-testimonial__rating-icons-empty"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div><div
-																									class="cmsmasters-testimonial__rating-icons-filled"
-																									style="width: 100%"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div>
-																							</div><span
-																								itemprop="ratingValue"
-																								class="elementor-screen-only"
-																								>5/5</span>
-																						</div>
-																					</div><div
-																						class="cmsmasters-testimonial__text"
-																						itemprop="reviewBody"
-																					>
-																						<p
-																						>
-																							"It’s
-																							not
-																							just
-																							a
-																							massage—it’s
-																							a
-																							full-body
-																							reset.
-																							The
-																							energy,
-																							the
-																							warmth,
-																							the
-																							atmosphere...
-																							everything
-																							is
-																							designed
-																							to
-																							make
-																							you
-																							feel
-																							safe
-																							and
-																							at
-																							ease.
-																							Every
-																							visit
-																							feels
-																							like
-																							a
-																							mini
-																							retreat
-																							from
-																							the
-																							world.
-																							I
-																							always
-																							leave
-																							with
-																							a
-																							calm
-																							mind
-																							and
-																							a
-																							body
-																							that
-																							feels
-																							brand
-																							new."
-																						</p>
-																					</div>
-																				</div>
-																			</div>
-																		</div><div
-																			class="cmsmasters-testimonial__author-info"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__avatar"
-																			>
-																				<img
-																					loading="lazy"
-																					decoding="async"
-																					width="100"
-																					height="100"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp"
-																					class="attachment-thumbnail size-thumbnail wp-image-44444"
-																					alt=""
-																				/>
-																			</div><div
-																				class="cmsmasters-testimonial__author-info-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__author-info-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__author-info-wrap"
-																					>
-																						<span
-																							class="cmsmasters-testimonial__author-name"
-																							><span
-																								itemprop="author"
-																								>Alina
-																								M.</span
-																							></span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div><div
-															class="swiper-slide"
-														>
-															<div
-																class="cmsmasters-testimonial"
-																itemscope=""
-																itemtype="https://schema.org/Review"
-															>
-																<div
-																	class="elementor-screen-only"
-																	itemprop="itemReviewed"
-																	itemscope=""
-																	itemtype="https://schema.org/Organization"
-																>
-																	<meta
-																		itemprop="name"
-																		content="Light Demo"
-																	/>
-																	<meta
-																		itemprop="url"
-																		content="https://wellness-bliss.cmsmasters.studio/light"
-																	/>
-																</div><div
-																	class="cmsmasters-testimonial__inner"
-																>
-																	<div
-																		class="cmsmasters-testimonial__main-area"
-																	>
-																		<div
-																			class="cmsmasters-testimonial__content"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__content-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__content-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__rating"
-																					>
-																						<div
-																							class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
-																							title="5/5 5/5 5/5 5/5"
-																							itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
-																							itemscope="   "
-																							itemprop="reviewRating reviewRating reviewRating reviewRating"
-																						>
-																							<div
-																								class="cmsmasters-testimonial__rating-icons"
-																							>
-																								<div
-																									class="cmsmasters-testimonial__rating-icons-empty"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div><div
-																									class="cmsmasters-testimonial__rating-icons-filled"
-																									style="width: 100%"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div>
-																							</div><span
-																								itemprop="ratingValue"
-																								class="elementor-screen-only"
-																								>5/5</span>
-																						</div>
-																					</div><div
-																						class="cmsmasters-testimonial__text"
-																						itemprop="reviewBody"
-																					>
-																						<p
-																						>
-																							"Incredible
-																							experience
-																							from
-																							start
-																							to
-																							finish.
-																							The
-																							therapist
-																							had
-																							an
-																							intuitive
-																							touch
-																							and
-																							created
-																							a
-																							space
-																							that
-																							felt
-																							calm
-																							and
-																							restorative.
-																							My
-																							chronic
-																							neck
-																							and
-																							shoulder
-																							pain
-																							has
-																							improved
-																							so
-																							much,
-																							and
-																							the
-																							effects
-																							last
-																							long
-																							after
-																							the
-																							session.
-																							I
-																							feel
-																							genuinely
-																							cared
-																							for
-																							every
-																							time
-																							I
-																							visit."
-																						</p>
-																					</div>
-																				</div>
-																			</div>
-																		</div><div
-																			class="cmsmasters-testimonial__author-info"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__avatar"
-																			>
-																				<img
-																					loading="lazy"
-																					decoding="async"
-																					width="100"
-																					height="100"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp"
-																					class="attachment-thumbnail size-thumbnail wp-image-44445"
-																					alt=""
-																				/>
-																			</div><div
-																				class="cmsmasters-testimonial__author-info-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__author-info-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__author-info-wrap"
-																					>
-																						<span
-																							class="cmsmasters-testimonial__author-name"
-																							><span
-																								itemprop="author"
-																								>Daniel
-																								K.</span
-																							></span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div><div
-															class="swiper-slide"
-														>
-															<div
-																class="cmsmasters-testimonial"
-																itemscope=""
-																itemtype="https://schema.org/Review"
-															>
-																<div
-																	class="elementor-screen-only"
-																	itemprop="itemReviewed"
-																	itemscope=""
-																	itemtype="https://schema.org/Organization"
-																>
-																	<meta
-																		itemprop="name"
-																		content="Light Demo"
-																	/>
-																	<meta
-																		itemprop="url"
-																		content="https://wellness-bliss.cmsmasters.studio/light"
-																	/>
-																</div><div
-																	class="cmsmasters-testimonial__inner"
-																>
-																	<div
-																		class="cmsmasters-testimonial__main-area"
-																	>
-																		<div
-																			class="cmsmasters-testimonial__content"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__content-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__content-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__rating"
-																					>
-																						<div
-																							class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
-																							title="5/5 5/5 5/5 5/5 5/5"
-																							itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
-																							itemscope="    "
-																							itemprop="reviewRating reviewRating reviewRating reviewRating reviewRating"
-																						>
-																							<div
-																								class="cmsmasters-testimonial__rating-icons"
-																							>
-																								<div
-																									class="cmsmasters-testimonial__rating-icons-empty"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div><div
-																									class="cmsmasters-testimonial__rating-icons-filled"
-																									style="width: 100%"
-																								>
-																									<span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span
-																									><span
-																										class="cmsmasters-wrap-icon"
-																										><i
-																											aria-hidden="true"
-																											class="cmsmsdemo-icons- cmsms-demo-icons-Star"
-																										>
-																										</i></span>
-																								</div>
-																							</div><span
-																								itemprop="ratingValue"
-																								class="elementor-screen-only"
-																								>5/5</span>
-																						</div>
-																					</div><div
-																						class="cmsmasters-testimonial__text"
-																						itemprop="reviewBody"
-																					>
-																						<p
-																						>
-																							"The
-																							environment
-																							is
-																							serene,
-																							beautifully
-																							designed,
-																							and
-																							incredibly
-																							welcoming.
-																							I’ve
-																							had
-																							multiple
-																							sessions
-																							here,
-																							and
-																							each
-																							one
-																							feels
-																							unique,
-																							thoughtful,
-																							and
-																							deeply
-																							healing.
-																							Adding
-																							these
-																							massages
-																							to
-																							my
-																							monthly
-																							wellness
-																							routine
-																							has
-																							made
-																							a
-																							huge
-																							difference
-																							in
-																							how
-																							I
-																							feel,
-																							sleep,
-																							and
-																							move
-																							through
-																							life."
-																						</p>
-																					</div>
-																				</div>
-																			</div>
-																		</div><div
-																			class="cmsmasters-testimonial__author-info"
-																		>
-																			<div
-																				class="cmsmasters-testimonial__avatar"
-																			>
-																				<img
-																					loading="lazy"
-																					decoding="async"
-																					width="100"
-																					height="100"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp"
-																					class="attachment-thumbnail size-thumbnail wp-image-44446"
-																					alt=""
-																				/>
-																			</div><div
-																				class="cmsmasters-testimonial__author-info-outer"
-																			>
-																				<div
-																					class="cmsmasters-testimonial__author-info-inner"
-																				>
-																					<div
-																						class="cmsmasters-testimonial__author-info-wrap"
-																					>
-																						<span
-																							class="cmsmasters-testimonial__author-name"
-																							><span
-																								itemprop="author"
-																								>Lena
-																								R.</span
-																							></span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div><div
-													class="swiper-pagination-wrap"
+													class="cmsmasters-testimonial__content-inner"
 												>
 													<div
-														class="swiper-pagination-outer"
+														class="cmsmasters-testimonial__rating"
 													>
 														<div
-															class="swiper-pagination"
+															class="cmsmasters-testimonial__rating-inner"
+															title="5/5"
+															itemtype="http://schema.org/Rating"
+															itemscope=""
+															itemprop="reviewRating"
 														>
+															<div
+																class="cmsmasters-testimonial__rating-icons"
+															>
+																<div
+																	class="cmsmasters-testimonial__rating-icons-empty"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div><div
+																	class="cmsmasters-testimonial__rating-icons-filled"
+																	style="width: 100%"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div>
+															</div><span
+																itemprop="ratingValue"
+																class="elementor-screen-only"
+																>5/5</span
+															>
 														</div>
+													</div><div
+														class="cmsmasters-testimonial__text"
+														itemprop="reviewBody"
+													>
+														<p>
+															"From the moment I
+															walked in, I felt
+															held and supported.
+															The therapist took
+															the time to
+															understand what my
+															body needed, and the
+															massage was both
+															deeply relaxing and
+															therapeutic. I
+															walked out feeling
+															lighter—physically,
+															mentally, and
+															emotionally. This
+															experience went far
+															beyond my
+															expectations."
+														</p>
+													</div>
+												</div>
+											</div>
+										</div><div
+											class="cmsmasters-testimonial__author-info"
+										>
+											<div
+												class="cmsmasters-testimonial__avatar"
+											>
+												<img
+													loading="lazy"
+													decoding="async"
+													width="100"
+													height="100"
+													src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp"
+													class="attachment-thumbnail size-thumbnail wp-image-44442"
+													alt=""
+												/>
+											</div><div
+												class="cmsmasters-testimonial__author-info-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__author-info-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__author-info-wrap"
+													>
+														<span
+															class="cmsmasters-testimonial__author-name"
+															><span
+																itemprop="author"
+																>Samantha L.</span
+															></span
+														>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</section>
+								</div>
+							</div>
+						</div><div class="swiper-slide">
+							<div
+								class="cmsmasters-testimonial"
+								itemscope=""
+								itemtype="https://schema.org/Review"
+							>
+								<div
+									class="elementor-screen-only"
+									itemprop="itemReviewed"
+									itemscope=""
+									itemtype="https://schema.org/Organization"
+								>
+									<meta
+										itemprop="name"
+										content="Light Demo"
+									/>
+									<meta
+										itemprop="url"
+										content="https://wellness-bliss.cmsmasters.studio/light"
+									/>
+								</div><div
+									class="cmsmasters-testimonial__inner"
+								>
+									<div
+										class="cmsmasters-testimonial__main-area"
+									>
+										<div
+											class="cmsmasters-testimonial__content"
+										>
+											<div
+												class="cmsmasters-testimonial__content-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__content-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__rating"
+													>
+														<div
+															class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
+															title="5/5 5/5"
+															itemtype="http://schema.org/Rating http://schema.org/Rating"
+															itemscope=" "
+															itemprop="reviewRating reviewRating"
+														>
+															<div
+																class="cmsmasters-testimonial__rating-icons"
+															>
+																<div
+																	class="cmsmasters-testimonial__rating-icons-empty"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div><div
+																	class="cmsmasters-testimonial__rating-icons-filled"
+																	style="width: 100%"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div>
+															</div><span
+																itemprop="ratingValue"
+																class="elementor-screen-only"
+																>5/5</span
+															>
+														</div>
+													</div><div
+														class="cmsmasters-testimonial__text"
+														itemprop="reviewBody"
+													>
+														<p>
+															"I came in carrying
+															weeks of stress,
+															tension, and
+															sleepless nights.
+															One session here
+															changed everything.
+															The therapist worked
+															through the
+															tightness in my back
+															and shoulders with
+															such skill and care.
+															I left feeling
+															grounded, peaceful,
+															and for the first
+															time in a long
+															while—pain-free.
+															This place is truly
+															healing."
+														</p>
+													</div>
+												</div>
+											</div>
+										</div><div
+											class="cmsmasters-testimonial__author-info"
+										>
+											<div
+												class="cmsmasters-testimonial__avatar"
+											>
+												<img
+													loading="lazy"
+													decoding="async"
+													width="100"
+													height="100"
+													src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp"
+													class="attachment-thumbnail size-thumbnail wp-image-44443"
+													alt=""
+												/>
+											</div><div
+												class="cmsmasters-testimonial__author-info-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__author-info-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__author-info-wrap"
+													>
+														<span
+															class="cmsmasters-testimonial__author-name"
+															><span
+																itemprop="author"
+																>James T.</span
+															></span
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><div class="swiper-slide">
+							<div
+								class="cmsmasters-testimonial"
+								itemscope=""
+								itemtype="https://schema.org/Review"
+							>
+								<div
+									class="elementor-screen-only"
+									itemprop="itemReviewed"
+									itemscope=""
+									itemtype="https://schema.org/Organization"
+								>
+									<meta
+										itemprop="name"
+										content="Light Demo"
+									/>
+									<meta
+										itemprop="url"
+										content="https://wellness-bliss.cmsmasters.studio/light"
+									/>
+								</div><div
+									class="cmsmasters-testimonial__inner"
+								>
+									<div
+										class="cmsmasters-testimonial__main-area"
+									>
+										<div
+											class="cmsmasters-testimonial__content"
+										>
+											<div
+												class="cmsmasters-testimonial__content-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__content-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__rating"
+													>
+														<div
+															class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
+															title="5/5 5/5 5/5"
+															itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
+															itemscope="  "
+															itemprop="reviewRating reviewRating reviewRating"
+														>
+															<div
+																class="cmsmasters-testimonial__rating-icons"
+															>
+																<div
+																	class="cmsmasters-testimonial__rating-icons-empty"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div><div
+																	class="cmsmasters-testimonial__rating-icons-filled"
+																	style="width: 100%"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div>
+															</div><span
+																itemprop="ratingValue"
+																class="elementor-screen-only"
+																>5/5</span
+															>
+														</div>
+													</div><div
+														class="cmsmasters-testimonial__text"
+														itemprop="reviewBody"
+													>
+														<p>
+															"It’s not just a
+															massage—it’s a
+															full-body reset. The
+															energy, the warmth,
+															the atmosphere...
+															everything is
+															designed to make you
+															feel safe and at
+															ease. Every visit
+															feels like a mini
+															retreat from the
+															world. I always
+															leave with a calm
+															mind and a body that
+															feels brand new."
+														</p>
+													</div>
+												</div>
+											</div>
+										</div><div
+											class="cmsmasters-testimonial__author-info"
+										>
+											<div
+												class="cmsmasters-testimonial__avatar"
+											>
+												<img
+													loading="lazy"
+													decoding="async"
+													width="100"
+													height="100"
+													src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp"
+													class="attachment-thumbnail size-thumbnail wp-image-44444"
+													alt=""
+												/>
+											</div><div
+												class="cmsmasters-testimonial__author-info-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__author-info-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__author-info-wrap"
+													>
+														<span
+															class="cmsmasters-testimonial__author-name"
+															><span
+																itemprop="author"
+																>Alina M.</span
+															></span
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><div class="swiper-slide">
+							<div
+								class="cmsmasters-testimonial"
+								itemscope=""
+								itemtype="https://schema.org/Review"
+							>
+								<div
+									class="elementor-screen-only"
+									itemprop="itemReviewed"
+									itemscope=""
+									itemtype="https://schema.org/Organization"
+								>
+									<meta
+										itemprop="name"
+										content="Light Demo"
+									/>
+									<meta
+										itemprop="url"
+										content="https://wellness-bliss.cmsmasters.studio/light"
+									/>
+								</div><div
+									class="cmsmasters-testimonial__inner"
+								>
+									<div
+										class="cmsmasters-testimonial__main-area"
+									>
+										<div
+											class="cmsmasters-testimonial__content"
+										>
+											<div
+												class="cmsmasters-testimonial__content-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__content-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__rating"
+													>
+														<div
+															class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
+															title="5/5 5/5 5/5 5/5"
+															itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
+															itemscope="   "
+															itemprop="reviewRating reviewRating reviewRating reviewRating"
+														>
+															<div
+																class="cmsmasters-testimonial__rating-icons"
+															>
+																<div
+																	class="cmsmasters-testimonial__rating-icons-empty"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div><div
+																	class="cmsmasters-testimonial__rating-icons-filled"
+																	style="width: 100%"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div>
+															</div><span
+																itemprop="ratingValue"
+																class="elementor-screen-only"
+																>5/5</span
+															>
+														</div>
+													</div><div
+														class="cmsmasters-testimonial__text"
+														itemprop="reviewBody"
+													>
+														<p>
+															"Incredible
+															experience from
+															start to finish. The
+															therapist had an
+															intuitive touch and
+															created a space that
+															felt calm and
+															restorative. My
+															chronic neck and
+															shoulder pain has
+															improved so much,
+															and the effects last
+															long after the
+															session. I feel
+															genuinely cared for
+															every time I visit."
+														</p>
+													</div>
+												</div>
+											</div>
+										</div><div
+											class="cmsmasters-testimonial__author-info"
+										>
+											<div
+												class="cmsmasters-testimonial__avatar"
+											>
+												<img
+													loading="lazy"
+													decoding="async"
+													width="100"
+													height="100"
+													src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp"
+													class="attachment-thumbnail size-thumbnail wp-image-44445"
+													alt=""
+												/>
+											</div><div
+												class="cmsmasters-testimonial__author-info-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__author-info-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__author-info-wrap"
+													>
+														<span
+															class="cmsmasters-testimonial__author-name"
+															><span
+																itemprop="author"
+																>Daniel K.</span
+															></span
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><div class="swiper-slide">
+							<div
+								class="cmsmasters-testimonial"
+								itemscope=""
+								itemtype="https://schema.org/Review"
+							>
+								<div
+									class="elementor-screen-only"
+									itemprop="itemReviewed"
+									itemscope=""
+									itemtype="https://schema.org/Organization"
+								>
+									<meta
+										itemprop="name"
+										content="Light Demo"
+									/>
+									<meta
+										itemprop="url"
+										content="https://wellness-bliss.cmsmasters.studio/light"
+									/>
+								</div><div
+									class="cmsmasters-testimonial__inner"
+								>
+									<div
+										class="cmsmasters-testimonial__main-area"
+									>
+										<div
+											class="cmsmasters-testimonial__content"
+										>
+											<div
+												class="cmsmasters-testimonial__content-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__content-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__rating"
+													>
+														<div
+															class="cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner cmsmasters-testimonial__rating-inner"
+															title="5/5 5/5 5/5 5/5 5/5"
+															itemtype="http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating http://schema.org/Rating"
+															itemscope="    "
+															itemprop="reviewRating reviewRating reviewRating reviewRating reviewRating"
+														>
+															<div
+																class="cmsmasters-testimonial__rating-icons"
+															>
+																<div
+																	class="cmsmasters-testimonial__rating-icons-empty"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div><div
+																	class="cmsmasters-testimonial__rating-icons-filled"
+																	style="width: 100%"
+																>
+																	<span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	><span
+																		class="cmsmasters-wrap-icon"
+																		><i
+																			aria-hidden="true"
+																			class="cmsmsdemo-icons- cmsms-demo-icons-Star"
+																		>
+																		</i></span
+																	>
+																</div>
+															</div><span
+																itemprop="ratingValue"
+																class="elementor-screen-only"
+																>5/5</span
+															>
+														</div>
+													</div><div
+														class="cmsmasters-testimonial__text"
+														itemprop="reviewBody"
+													>
+														<p>
+															"The environment is
+															serene, beautifully
+															designed, and
+															incredibly
+															welcoming. I’ve had
+															multiple sessions
+															here, and each one
+															feels unique,
+															thoughtful, and
+															deeply healing.
+															Adding these
+															massages to my
+															monthly wellness
+															routine has made a
+															huge difference in
+															how I feel, sleep,
+															and move through
+															life."
+														</p>
+													</div>
+												</div>
+											</div>
+										</div><div
+											class="cmsmasters-testimonial__author-info"
+										>
+											<div
+												class="cmsmasters-testimonial__avatar"
+											>
+												<img
+													loading="lazy"
+													decoding="async"
+													width="100"
+													height="100"
+													src="/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp"
+													class="attachment-thumbnail size-thumbnail wp-image-44446"
+													alt=""
+												/>
+											</div><div
+												class="cmsmasters-testimonial__author-info-outer"
+											>
+												<div
+													class="cmsmasters-testimonial__author-info-inner"
+												>
+													<div
+														class="cmsmasters-testimonial__author-info-wrap"
+													>
+														<span
+															class="cmsmasters-testimonial__author-name"
+															><span
+																itemprop="author"
+																>Lena R.</span
+															></span
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><div class="swiper-pagination-wrap">
+					<div class="swiper-pagination-outer">
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

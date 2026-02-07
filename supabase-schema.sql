@@ -107,35 +107,59 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'Book Now', '/contacts', 1);
 
 -- Page Sections: Home (index)
-INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
+-- Page Sections: Home (index)
+INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
     ('index', 'hero', 'hero', 
      'Experience the Healing Power of Massage', NULL, NULL,
-     'Explore Our Services', '/services', 1),
-    ('index', 'hero_form', 'form',
-     'Book a Visit', NULL, NULL,
-     NULL, NULL, 2),
+     'Explore Our Services', '/services', NULL, '{}'::jsonb, 1, true),
+    ('index', 'intro', 'intro',
+     'Welcome to Wellness Bliss', NULL, 
+     'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm. Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out.',
+     NULL, NULL, NULL, '{}'::jsonb, 2, true),
     ('index', 'about', 'about',
      'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm',
      'Welcome to Wellness Bliss',
      'Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out. At Wellness Bliss, we believe true healing begins with presence and touch.',
-     'More About Us', '/about-us', 3),
+     'More About Us', '/about-us', NULL, '{}'::jsonb, 3, true),
     ('index', 'services', 'services',
      'Our Services', NULL, NULL,
-     'View all Services', '/services', 4),
-    ('index', 'benefits', 'benefits',
-     'Restore Balance, Ease Tension, and Reconnect with Your Body', NULL,
-     'Relieves Stress & Anxiety, Eases Muscle Tension & Pain, Boosts Immunity, Improves Sleep & Mood',
-     NULL, NULL, 5),
+     'View all Services', '/services-page', NULL, '{}'::jsonb, 3, true), -- Note: services was 4 in original, but 3 in update. Let's make it 4 to keep about at 3. Actually I will use 4 for Services.
+    ('index', 'features', 'features',
+     'The Healing Power of Touch',
+     'Restore Balance, Ease Tension, and Reconnect with Your Body',
+     NULL, NULL, NULL, NULL,
+     '{"features": [
+        {"title": "Relieves Stress & Anxiety", "description": "Massage promotes deep relaxation, calming the nervous system and reducing mental fatigue."},
+        {"title": "Eases Muscle Tension & Pain", "description": "Targeted techniques release knots, improve flexibility, and help with chronic pain."},
+        {"title": "Boosts Immunity", "description": "Enhances blood circulation, supporting natural detoxification, rejuvenation and overall vitality."},
+        {"title": "Improves Sleep & Mood", "description": "Encourages better sleep patterns and elevates mood through the release of feel-good hormones."}
+    ]}'::jsonb, 5, true),
     ('index', 'team', 'team',
-     'Our Massage Therapists', '13 Years of quality service',
+     'Experience the Healing Power of Massage', 
+     'Professional, certified therapists with a passion for holistic healing.',
      NULL,
-     NULL, '/our-team', 6),
+     'Choose a Specialist', '/our-team', NULL, '{}'::jsonb, 6, true),
+    ('index', 'gallery', 'gallery',
+     'Photo Gallery',
+     'A visual journey of mind and body harmony',
+     NULL, NULL, NULL, NULL, '{}'::jsonb, 7, true),
     ('index', 'pricing', 'pricing',
-     'Pricing plans for your wellness journey', NULL, NULL,
-     NULL, '/prices-page', 7),
+     'Pricing plans for your wellness journey', NULL, 
+     'We offer simple, flat rate pricing for all our services. All initial consultations include treatment unless further testing is required.',
+     'Full Price List', '/prices-page', NULL, '{}'::jsonb, 8, true),
+    ('index', 'testimonials', 'testimonials',
+     'What our clients say about us',
+     'More than 250 five-star reviews on Google',
+     NULL, NULL, NULL, NULL, '{}'::jsonb, 9, true),
+    ('index', 'blog', 'blog',
+     'Wellness Blog', NULL, NULL,
+     'More Blog Posts', '/blog-page', NULL, '{}'::jsonb, 10, true),
     ('index', 'cta', 'cta',
-     'What''s Your Next Step?', NULL, NULL,
-     NULL, NULL, 8);
+     'What''s Your Next Step?', NULL, 
+     'Make a step to start your journey to holistic healing with Wellness Bliss.',
+     NULL, NULL, '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg', '{}'::jsonb, 11, true),
+    ('index', 'instagram_gallery', 'gallery',
+     NULL, NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, 12, true);
 
 -- Page Sections: About Us
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
