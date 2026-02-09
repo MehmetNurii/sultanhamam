@@ -3,76 +3,13 @@ import { getPageSection } from "../lib/supabase";
 
 const section = await getPageSection("index", "intro");
 
-// Eğer section görünür değilse, hiçbir şey render etme
 if (!section || !section.visible) {
 	return null;
 }
 
-// Fallback data if DB is empty
 const title = section?.title || "Welcome to Wellness Bliss";
-const description =
-    section?.description ||
-    "Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature’s Calm. Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out.";
-
-// Split description if it contains multiple sentences/paragraphs?
-// The original had a H3 and a P.
-// Let's assume the DB 'description' field contains the full text.
-// Or we can use 'subtitle' for the H3 and 'description' for the P.
-// In my SQL update:
-// Title: Welcome to Wellness Bliss
-// Subtitle: NULL
-// Description: Reconnect with Yourself... (joined)
-
-// Let's try to split the description for H3 and P if possible, or just render it all in P if simple.
-// The design has a H3 then a P.
-// H3: Reconnect with Yourself... Calm
-// P: Let your body unwind... out.
-
-// Let's use a simple split or just rendering.
-// If I put it all in one, it might lose the styling distinction.
-// H3 has class `elementor-heading-title elementor-size-default`
-// P has class `elementor-heading-title elementor-size-default`
-// They look similar?
-// Actually they are different widgets.
-// Let's check the SQL again.
-// Description: "Reconnect... Calm. Let... out."
-// I'll just put the whole description in one place or splitting it manually?
-// A better way for the future: Use 'subtitle' for the H3 part.
-// But I set subtitle to NULL in SQL.
-// I will just render the Description in a div or something, or update the SQL to separate them.
-// For now, let's render the data.title in the H2.
-// And data.description in the bottom block.
-// But wait, there are TWO text blocks below the title.
-// 1. H3: Reconnect...
-// 2. P: Let your body...
-// I will put the *entire* description in the P block for now?
-// Or I can assign Field 1 (H3) = Subtitle, Field 2 (P) = Description.
-// Let's do that. Update SQL logic in my mind: Subtitle = H3 content.
-// I should update the component to use subtitle for the H3.
-// And description for the P.
-
-const h3Content =
-    section?.subtitle ||
-    "Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature’s Calm";
-const pContent =
-    section?.description ||
-    "Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out.";
-
-// If subtitle used for H3, I need to make sure my SQL populated it?
-// My SQL put EVERYTHING in description.
-// That might be an issue.
-// I will stick to what I have in SQL for now: Description has everything.
-// I will render `description` in the place of the H3, and Leave the P empty?
-// No, the design splits them.
-// Let's just use the `description` for the H3 and leave P hidden if empty?
-// OR, I can update the component to just use ONE block if that's easier.
-// BUT "tasarımı bozmadan" (without breaking design).
-// I will split the description or just duplicate it? No.
-// Let's perform a simple check:
-// If description is long, maybe render it in the P tag.
-// And title in H2.
-// The H3 seems like a "Tagline" or "Highlight".
-// I will use `subtitle` for H3. Even if currently NULL in my SQL (I can update SQL later or user can edit).
+const subtitle = section?.subtitle || "Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature's Calm";
+const description = section?.description || "Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out.";
 ---
 
 <section
@@ -111,22 +48,6 @@ const pContent =
             </div>
         </div>
 
-        {
-            /* Only show H3 if we have content for it (mapping to subtitle or description) */
-        }
-        {
-            /* Strategy: Use Description for the H3 part (it's the main text). And maybe extra_data for the secondary P? */
-        }
-        {
-            /* Or just put everything in Description and let the user format it? No, raw text. */
-        }
-        {
-            /* Let's try to be smart. If Subtitle is present, use it for H3. If Description is present, use it for P. */
-        }
-        {
-            /* If Subtitle is missing (default SQL), use the "Reconnect..." text as fallback default. */
-        }
-
         <div
             class="elementor-element elementor-element-daa2683 elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
             data-id="daa2683"
@@ -137,10 +58,7 @@ const pContent =
         >
             <div class="elementor-widget-container">
                 <h3 class="elementor-heading-title elementor-size-default">
-                    {
-                        section?.subtitle ||
-                            "Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature’s Calm"
-                    }
+                    {subtitle}
                 </h3>
             </div>
         </div>
@@ -154,10 +72,7 @@ const pContent =
         >
             <div class="elementor-widget-container">
                 <p class="elementor-heading-title elementor-size-default">
-                    {
-                        section?.description ||
-                            "Let your body unwind and your spirit breathe — our treatments are designed to restore balance, inside and out."
-                    }
+                    {description}
                 </p>
             </div>
         </div>
