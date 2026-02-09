@@ -19,6 +19,45 @@ function getSupabaseClient(): SupabaseClient {
 
 export const supabase = getSupabaseClient();
 
+// Navigation types
+export interface NavItem {
+    title: string;
+    url: string;
+    visible: boolean;
+    menu_type?: string;
+    image_url?: string;
+    children?: NavItem[];
+}
+
+// Get navigation items from site_settings JSON
+export async function getHeaderNavigation(): Promise<NavItem[]> {
+    try {
+        const settings = await getSiteSettings();
+        const json = settings.header_navigation;
+        if (json) {
+            return JSON.parse(json) as NavItem[];
+        }
+        return [];
+    } catch (err) {
+        console.error('Error parsing header navigation:', err);
+        return [];
+    }
+}
+
+export async function getFooterNavigation(): Promise<NavItem[]> {
+    try {
+        const settings = await getSiteSettings();
+        const json = settings.footer_navigation;
+        if (json) {
+            return JSON.parse(json) as NavItem[];
+        }
+        return [];
+    } catch (err) {
+        console.error('Error parsing footer navigation:', err);
+        return [];
+    }
+}
+
 // Helper functions for admin panel
 
 // Site Settings

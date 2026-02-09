@@ -1,10 +1,20 @@
 ---
 // Footer Component
 // Shared across all pages
-import { getSiteSettings } from '../lib/supabase';
+import { getSiteSettings, type NavItem } from '../lib/supabase';
 import Popup from './Popup.astro';
 
 const settings = await getSiteSettings();
+
+// Footer navigation from DB
+let footerNav: NavItem[] = [];
+try {
+    const navJson = settings.footer_navigation;
+    if (navJson) footerNav = JSON.parse(navJson);
+} catch (e) {
+    console.error('Error parsing footer_navigation:', e);
+}
+const visibleFooterNav = footerNav.filter((item: NavItem) => item.visible !== false);
 const email = settings.email || 'example@wellness-bliss.com';
 const phone = settings.phone || '+1 800-123-1234';
 const phoneHref = phone.replace(/\s/g, '');
@@ -30,6 +40,12 @@ const workHoursLabel = settings.work_hours_label || 'Work Hours';
 const contactsLabel = settings.contacts_label || 'Contacts';
 const viewDirectionsText = settings.view_directions_text || 'View Directions';
 const viewDirectionsUrl = settings.view_directions_url || '/contacts';
+
+// Render footer navigation HTML
+const footerNavHtml = visibleFooterNav.map((item: NavItem) => {
+    const linkHref = item.url && item.url !== '#' ? ` href="${item.url}"` : '';
+    return `<li class="menu-item menu-item-type-custom menu-item-object-custom"><a${linkHref} class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">${item.title}</span></span><span class="cmsmasters-animation"></span></a></li>`;
+}).join('');
 ---
 <footer data-elementor-type="cmsmasters_footer" data-elementor-id="189" class="elementor elementor-189 cmsmasters-location-cmsmasters_footer cmsmasters-header-position-absolute-yes" data-cms-icon="&lt;i aria-hidden=&quot;true&quot; aria-label=&quot;Popup Close&quot; class=&quot;cmsmsdemo-icons- cmsms-demo-icons-cancel&quot;&gt;&lt;/i&gt;">			<div class="elementor-inner">
 				<div class="elementor-section-wrap">
@@ -174,12 +190,7 @@ const viewDirectionsUrl = settings.view_directions_url || '/contacts';
 		<div class="elementor-element elementor-element-8e50521 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="8e50521" data-element_type="container">
 				<div class="elementor-element elementor-element-6a9e462 cmsmasters-menu-alignment-flex-start cmsmasters-menu-alignment-tablet-center cmsmasters-dropdown-breakpoints-none cmsmasters-toggle-view-stacked cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-nav-menu" data-id="6a9e462" data-element_type="widget" data-settings="{&quot;dropdown_breakpoints&quot;:&quot;none&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;dropdown_horizontal_distance&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="cmsmasters-nav-menu.default">
 				<div class="elementor-widget-container">
-					<nav class="elementor-widget-cmsmasters-nav-menu__main elementor-widget-cmsmasters-nav-menu__container cmsmasters-layout-horizontal" aria-label="Menu"><ul id="menu-1-6a9e462" class="elementor-widget-cmsmasters-nav-menu__container-inner"><li id="menu-item-44956" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-44956"><a href="https://wellness-bliss.cmsmasters.studio/light/" class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">Home</span></span><span class="cmsmasters-animation"></span></a></li>
-<li id="menu-item-44957" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44957"><a href="https://wellness-bliss.cmsmasters.studio/light/about-us/" class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">About Us</span></span><span class="cmsmasters-animation"></span></a></li>
-<li id="menu-item-45765" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-45765"><a href="https://wellness-bliss.cmsmasters.studio/light/shop/" class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">Shop</span></span><span class="cmsmasters-animation"></span></a></li>
-<li id="menu-item-44958" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44958"><a href="https://wellness-bliss.cmsmasters.studio/light/blog-page/" class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">Blog</span></span><span class="cmsmasters-animation"></span></a></li>
-<li id="menu-item-44959" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44959"><a href="https://wellness-bliss.cmsmasters.studio/light/contacts/" class="elementor-widget-cmsmasters-nav-menu__dropdown-item elementor-widget-cmsmasters-nav-menu__item-link-top" aria-label="Menu item"><span class="elementor-widget-cmsmasters-nav-menu__item-text-wrap"><span class="elementor-widget-cmsmasters-nav-menu__item-text">Contacts</span></span><span class="cmsmasters-animation"></span></a></li>
-</ul></nav><div class="elementor-widget-cmsmasters-nav-menu__toggle-container cmsmasters-layout-horizontal cmsmasters-menu-dropdown-type-"><div class="elementor-widget-cmsmasters-nav-menu__toggle cmsmasters-icon-align-" role="button" tabindex="0"><span class="cmsmasters-toggle-icon"><svg aria-hidden="true" aria-label="Menu Toggle" class="e-font-icon-svg e-fas-bars" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg></span><span class="cmsmasters-toggle-icon-active"><svg aria-hidden="true" aria-label="Menu Active Toggle" class="e-font-icon-svg e-fas-times" viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></span></div></div>				</div>
+					<nav class="elementor-widget-cmsmasters-nav-menu__main elementor-widget-cmsmasters-nav-menu__container cmsmasters-layout-horizontal" aria-label="Menu"><ul id="menu-1-6a9e462" class="elementor-widget-cmsmasters-nav-menu__container-inner" set:html={footerNavHtml}></ul></nav><div class="elementor-widget-cmsmasters-nav-menu__toggle-container cmsmasters-layout-horizontal cmsmasters-menu-dropdown-type-"><div class="elementor-widget-cmsmasters-nav-menu__toggle cmsmasters-icon-align-" role="button" tabindex="0"><span class="cmsmasters-toggle-icon"><svg aria-hidden="true" aria-label="Menu Toggle" class="e-font-icon-svg e-fas-bars" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg></span><span class="cmsmasters-toggle-icon-active"><svg aria-hidden="true" aria-label="Menu Active Toggle" class="e-font-icon-svg e-fas-times" viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></span></div></div>				</div>
 				</div>
 				</div>
 		<div class="elementor-element elementor-element-bb6148f e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="bb6148f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">

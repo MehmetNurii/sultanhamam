@@ -1,157 +1,246 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { getNavigation, updateNavItem, createNavItem, deleteNavItem } from '../../lib/supabase';
+import { getSiteSettings, updateSiteSetting } from '../../lib/supabase';
 
 // Handle form submission
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   const action = formData.get('action');
   
-  if (action === 'update') {
-    const id = parseInt(formData.get('id') as string);
-    const updates = {
-      title: formData.get('title') as string,
-      url: formData.get('url') as string,
-      sort_order: parseInt(formData.get('sort_order') as string),
-      visible: formData.get('visible') === 'true'
-    };
-    
-    await updateNavItem(id, updates);
-    return Astro.redirect('/admin/navigation?updated=true');
+  if (action === 'save_header') {
+    const json = formData.get('nav_json') as string;
+    try {
+      JSON.parse(json); // validate
+      await updateSiteSetting('header_navigation', json);
+      return Astro.redirect('/admin/navigation?saved=header');
+    } catch (e) {
+      return Astro.redirect('/admin/navigation?error=invalid_json');
+    }
   }
   
-  if (action === 'create') {
-    const item = {
-      title: formData.get('title') as string,
-      url: formData.get('url') as string,
-      sort_order: parseInt(formData.get('sort_order') as string),
-      visible: formData.get('visible') === 'true'
-    };
-    
-    await createNavItem(item);
-    return Astro.redirect('/admin/navigation?created=true');
-  }
-  
-  if (action === 'delete') {
-    const id = parseInt(formData.get('id') as string);
-    await deleteNavItem(id);
-    return Astro.redirect('/admin/navigation?deleted=true');
+  if (action === 'save_footer') {
+    const json = formData.get('nav_json') as string;
+    try {
+      JSON.parse(json); // validate
+      await updateSiteSetting('footer_navigation', json);
+      return Astro.redirect('/admin/navigation?saved=footer');
+    } catch (e) {
+      return Astro.redirect('/admin/navigation?error=invalid_json');
+    }
   }
 }
 
-const navItems = await getNavigation();
+const settings = await getSiteSettings();
 
-const updated = Astro.url.searchParams.get('updated');
-const created = Astro.url.searchParams.get('created');
-const deleted = Astro.url.searchParams.get('deleted');
+let headerNav: any[] = [];
+let footerNav: any[] = [];
+try { if (settings.header_navigation) headerNav = JSON.parse(settings.header_navigation); } catch(e) {}
+try { if (settings.footer_navigation) footerNav = JSON.parse(settings.footer_navigation); } catch(e) {}
+
+const saved = Astro.url.searchParams.get('saved');
+const error = Astro.url.searchParams.get('error');
 ---
 
 <AdminLayout title="Navigasyon Yönetimi" currentPage="navigation">
-  <!-- Success Messages -->
-  {updated && (
+  <!-- Success / Error Messages -->
+  {saved && (
     <div class="admin-alert admin-alert-success admin-mb-6">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <span>Menü öğesi başarıyla güncellendi!</span>
+      <span>{saved === 'header' ? 'Header navigasyonu başarıyla kaydedildi!' : 'Footer navigasyonu başarıyla kaydedildi!'}</span>
     </div>
   )}
   
-  {created && (
-    <div class="admin-alert admin-alert-success admin-mb-6">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      <span>Yeni menü öğesi başarıyla eklendi!</span>
-    </div>
-  )}
-  
-  {deleted && (
+  {error && (
     <div class="admin-alert admin-alert-warning admin-mb-6">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
       </svg>
-      <span>Menü öğesi silindi!</span>
+      <span>Geçersiz JSON formatı! Lütfen kontrol edin.</span>
     </div>
   )}
 
   <!-- Page Header -->
   <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
     <div>
-      <p class="admin-text-muted">Site menü öğelerini buradan yönetebilirsiniz. Değişiklikler Supabase'e kaydedilir.</p>
+      <p class="admin-text-muted">Header ve footer navigasyonunu buradan yönetebilirsiniz. Alt menüler hiyerarşik olarak düzenlenebilir.</p>
     </div>
   </div>
-  
-  <!-- Navigation Items -->
-  <div class="admin-card">
-    <div class="admin-card-header">
-      <div class="admin-flex admin-items-center admin-gap-4">
-        <h3 class="admin-card-title">Ana Menü ({navItems.length} öğe)</h3>
-        <span class="admin-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-          </svg>
-          Supabase
-        </span>
+
+  <!-- Tabs -->
+  <div class="nav-tabs admin-mb-6">
+    <button class="nav-tab active" data-tab="header" onclick="switchTab('header')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      Header Navigasyonu
+    </button>
+    <button class="nav-tab" data-tab="footer" onclick="switchTab('footer')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+      Footer Navigasyonu
+    </button>
+  </div>
+
+  <!-- Header Navigation Panel -->
+  <div id="panel-header" class="nav-panel">
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <div class="admin-flex admin-items-center admin-gap-4">
+          <h3 class="admin-card-title">Header Menüsü</h3>
+          <span class="admin-badge" id="headerCount">{headerNav.length} öğe</span>
+        </div>
+        <div class="admin-flex admin-gap-2">
+          <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="toggleJsonEditor('header')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+            JSON
+          </button>
+          <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="addNewItem('header')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Yeni Öğe Ekle
+          </button>
+        </div>
       </div>
-      <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="openAddModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Yeni Öğe Ekle
-      </button>
+      <div class="admin-card-body" style="padding: 0;">
+        <div id="headerTree" class="nav-tree"></div>
+        <div id="headerJsonEditor" class="json-editor-wrap" style="display:none;">
+          <textarea id="headerJsonTextarea" class="admin-form-textarea json-textarea" spellcheck="false"></textarea>
+          <div class="admin-flex admin-justify-between" style="padding: 12px 16px;">
+            <span class="admin-text-muted admin-text-sm">JSON formatında düzenleyebilirsiniz</span>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="applyJsonToTree('header')">JSON'dan Uygula</button>
+          </div>
+        </div>
+      </div>
+      <div class="admin-card-footer">
+        <form method="POST" id="headerForm">
+          <input type="hidden" name="action" value="save_header">
+          <input type="hidden" name="nav_json" id="headerNavJson">
+          <button type="submit" class="admin-btn admin-btn-primary" onclick="prepareSubmit('header')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Header'ı Kaydet
+          </button>
+        </form>
+      </div>
     </div>
-    <div class="admin-card-body" style="padding: 0;">
-      <ul class="admin-list" id="navList">
-        {navItems.map((item, index) => (
-          <li class="admin-list-item" data-id={item.id}>
-            <div class="admin-flex admin-items-center admin-gap-4" style="flex: 1;">
-              <!-- Order Number -->
-              <span class="admin-text-muted" style="width: 24px; text-align: center;">{item.sort_order}</span>
-              
-              <!-- Title -->
-              <div style="flex: 1;">
-                <strong>{item.title}</strong>
-                <div class="admin-text-muted admin-text-sm">{item.url}</div>
-              </div>
-              
-              <!-- Status -->
-              <span class={`admin-table-status ${item.visible ? 'active' : 'hidden'}`}>
-                <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
-                {item.visible ? 'Görünür' : 'Gizli'}
-              </span>
-            </div>
-            
-            <!-- Actions -->
-            <div class="admin-flex admin-gap-2">
-              <button 
-                class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" 
-                title="Düzenle" 
-                onclick={`openEditModal(${JSON.stringify(item)})`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </button>
-              <button 
-                class="admin-btn admin-btn-secondary admin-btn-icon admin-btn-sm" 
-                title="Sil" 
-                style="color: var(--admin-danger);"
-                onclick={`confirmDelete(${item.id}, '${item.title}')`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+  </div>
+
+  <!-- Footer Navigation Panel -->
+  <div id="panel-footer" class="nav-panel" style="display: none;">
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <div class="admin-flex admin-items-center admin-gap-4">
+          <h3 class="admin-card-title">Footer Menüsü</h3>
+          <span class="admin-badge" id="footerCount">{footerNav.length} öğe</span>
+        </div>
+        <div class="admin-flex admin-gap-2">
+          <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="toggleJsonEditor('footer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+            JSON
+          </button>
+          <button class="admin-btn admin-btn-primary admin-btn-sm" onclick="addNewItem('footer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Yeni Öğe Ekle
+          </button>
+        </div>
+      </div>
+      <div class="admin-card-body" style="padding: 0;">
+        <div id="footerTree" class="nav-tree"></div>
+        <div id="footerJsonEditor" class="json-editor-wrap" style="display:none;">
+          <textarea id="footerJsonTextarea" class="admin-form-textarea json-textarea" spellcheck="false"></textarea>
+          <div class="admin-flex admin-justify-between" style="padding: 12px 16px;">
+            <span class="admin-text-muted admin-text-sm">JSON formatında düzenleyebilirsiniz</span>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="applyJsonToTree('footer')">JSON'dan Uygula</button>
+          </div>
+        </div>
+      </div>
+      <div class="admin-card-footer">
+        <form method="POST" id="footerForm">
+          <input type="hidden" name="action" value="save_footer">
+          <input type="hidden" name="nav_json" id="footerNavJson">
+          <button type="submit" class="admin-btn admin-btn-primary" onclick="prepareSubmit('footer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Footer'ı Kaydet
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </AdminLayout>
 
+<!-- Edit Modal -->
+<div id="navModal" class="admin-modal-overlay">
+  <div class="admin-modal" style="max-width: 560px;">
+    <div class="admin-modal-header">
+      <h3 class="admin-modal-title" id="modalTitle">Menü Öğesi Düzenle</h3>
+      <button class="admin-modal-close" onclick="closeModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="admin-modal-body">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="editTitle">Başlık</label>
+        <input type="text" id="editTitle" class="admin-form-input" placeholder="Menü başlığı">
+      </div>
+      
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="editUrl">URL</label>
+        <input type="text" id="editUrl" class="admin-form-input" placeholder="/sayfa-adi veya #">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="editMenuType">Menü Tipi</label>
+        <select id="editMenuType" class="admin-form-select">
+          <option value="">Normal</option>
+          <option value="mega_menu">Mega Menü</option>
+        </select>
+        <span class="admin-text-muted admin-text-sm" style="margin-top:4px; display:block;">Mega menü sadece üst seviye öğelerde çalışır (resimli alt menüler)</span>
+      </div>
+
+      <div class="admin-form-group" id="imageUrlGroup" style="display:none;">
+        <label class="admin-form-label" for="editImageUrl">Resim URL (Mega Menü)</label>
+        <input type="text" id="editImageUrl" class="admin-form-input" placeholder="/assets/light/...">
+      </div>
+      
+      <div class="admin-form-group">
+        <div class="admin-flex admin-items-center admin-justify-between">
+          <label class="admin-form-label" style="margin-bottom: 0;">Görünür</label>
+          <label class="admin-toggle">
+            <input type="checkbox" id="editVisible" checked>
+            <span class="admin-toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button type="button" class="admin-btn admin-btn-secondary" onclick="closeModal()">İptal</button>
+      <button type="button" class="admin-btn admin-btn-primary" onclick="saveModalItem()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Uygula
+      </button>
+    </div>
+  </div>
+</div>
+
 <style is:inline>
+  /* Alerts */
   .admin-alert {
     display: flex;
     align-items: center;
@@ -160,19 +249,16 @@ const deleted = Astro.url.searchParams.get('deleted');
     border-radius: var(--admin-radius-md);
     font-size: 0.875rem;
   }
-  
   .admin-alert-success {
     background: rgba(16, 185, 129, 0.15);
     color: var(--admin-success);
     border: 1px solid rgba(16, 185, 129, 0.3);
   }
-  
   .admin-alert-warning {
     background: rgba(245, 158, 11, 0.15);
     color: var(--admin-warning);
     border: 1px solid rgba(245, 158, 11, 0.3);
   }
-  
   .admin-badge {
     display: inline-flex;
     align-items: center;
@@ -185,6 +271,173 @@ const deleted = Astro.url.searchParams.get('deleted');
     font-weight: 500;
   }
 
+  /* Tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--admin-border-color);
+    padding-bottom: 0;
+  }
+  .nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--admin-text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    margin-bottom: -1px;
+  }
+  .nav-tab:hover { color: var(--admin-text-primary); }
+  .nav-tab.active {
+    color: var(--admin-accent-secondary);
+    border-bottom-color: var(--admin-accent-primary);
+  }
+  .nav-tab svg { width: 16px; height: 16px; }
+
+  /* Card Footer */
+  .admin-card-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--admin-border-color);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* Tree */
+  .nav-tree { min-height: 60px; }
+  .nav-tree-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--admin-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .nav-tree-item {
+    border-bottom: 1px solid var(--admin-border-color);
+  }
+  .nav-tree-item:last-child { border-bottom: none; }
+
+  .nav-tree-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .nav-tree-row:hover { background: var(--admin-bg-hover); }
+
+  .nav-tree-indent {
+    display: flex;
+    align-items: center;
+  }
+  .nav-tree-indent-bar {
+    width: 20px;
+    height: 1px;
+    background: var(--admin-border-color);
+    margin-left: 10px;
+  }
+
+  .nav-tree-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--admin-text-muted);
+    border-radius: 4px;
+    transition: var(--admin-transition);
+    flex-shrink: 0;
+  }
+  .nav-tree-toggle:hover { background: var(--admin-bg-card); color: var(--admin-text-primary); }
+  .nav-tree-toggle svg { width: 14px; height: 14px; }
+  .nav-tree-toggle.open svg { transform: rotate(90deg); }
+  .nav-tree-toggle.placeholder { visibility: hidden; }
+
+  .nav-tree-info { flex: 1; min-width: 0; }
+  .nav-tree-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--admin-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nav-tree-url {
+    font-size: 0.75rem;
+    color: var(--admin-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-tree-badges { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .nav-tree-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .nav-tree-badge.mega { background: rgba(59,130,246,0.2); color: #60a5fa; }
+  .nav-tree-badge.hidden-badge { background: rgba(239,68,68,0.2); color: #ef4444; }
+  .nav-tree-badge.has-children { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+  .nav-tree-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+  .nav-tree-row:hover .nav-tree-actions { opacity: 1; }
+  .nav-tree-actions button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid transparent;
+    color: var(--admin-text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--admin-transition);
+  }
+  .nav-tree-actions button:hover { background: var(--admin-bg-card); border-color: var(--admin-border-color); color: var(--admin-text-primary); }
+  .nav-tree-actions button.danger:hover { color: var(--admin-danger); border-color: rgba(239,68,68,0.3); }
+  .nav-tree-actions button svg { width: 14px; height: 14px; }
+
+  .nav-tree-children { display: block; }
+  .nav-tree-children.collapsed { display: none; }
+
+  /* Move Buttons */
+  .nav-tree-actions button.move { font-size: 0.75rem; }
+
+  /* JSON Editor */
+  .json-editor-wrap { border-top: 1px solid var(--admin-border-color); }
+  .json-textarea {
+    min-height: 300px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--admin-border-color);
+    resize: vertical;
+  }
+
+  /* Modal */
   .admin-modal-overlay {
     position: fixed;
     inset: 0;
@@ -195,11 +448,7 @@ const deleted = Astro.url.searchParams.get('deleted');
     z-index: 1000;
     padding: 20px;
   }
-  
-  .admin-modal-overlay.active {
-    display: flex;
-  }
-  
+  .admin-modal-overlay.active { display: flex; }
   .admin-modal {
     background: var(--admin-bg-card);
     border: 1px solid var(--admin-border-color);
@@ -207,7 +456,6 @@ const deleted = Astro.url.searchParams.get('deleted');
     width: 100%;
     max-width: 500px;
   }
-  
   .admin-modal-header {
     padding: 20px 24px;
     border-bottom: 1px solid var(--admin-border-color);
@@ -215,12 +463,7 @@ const deleted = Astro.url.searchParams.get('deleted');
     align-items: center;
     justify-content: space-between;
   }
-  
-  .admin-modal-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-  }
-  
+  .admin-modal-title { font-size: 1.125rem; font-weight: 600; }
   .admin-modal-close {
     background: none;
     border: none;
@@ -228,11 +471,7 @@ const deleted = Astro.url.searchParams.get('deleted');
     cursor: pointer;
     padding: 4px;
   }
-  
-  .admin-modal-body {
-    padding: 24px;
-  }
-  
+  .admin-modal-body { padding: 24px; }
   .admin-modal-footer {
     padding: 16px 24px;
     border-top: 1px solid var(--admin-border-color);
@@ -240,130 +479,360 @@ const deleted = Astro.url.searchParams.get('deleted');
     justify-content: flex-end;
     gap: 12px;
   }
+  .admin-form-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    color: var(--admin-text-primary);
+    background: var(--admin-bg-secondary);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-sm);
+    transition: var(--admin-transition);
+  }
+  .admin-form-select:focus {
+    outline: none;
+    border-color: var(--admin-accent-primary);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+  }
 </style>
 
-<!-- Edit/Add Modal -->
-<div id="navModal" class="admin-modal-overlay">
-  <div class="admin-modal">
-    <div class="admin-modal-header">
-      <h3 class="admin-modal-title" id="modalTitle">Menü Öğesi Düzenle</h3>
-      <button class="admin-modal-close" onclick="closeModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-    <form method="POST" id="navForm">
-      <input type="hidden" name="action" id="formAction" value="update">
-      <input type="hidden" name="id" id="navId">
-      
-      <div class="admin-modal-body">
-        <div class="admin-form-group">
-          <label class="admin-form-label" for="navTitle">Menü Başlığı</label>
-          <input type="text" id="navTitle" name="title" class="admin-form-input" placeholder="Menüde görünecek başlık" required>
-        </div>
-        
-        <div class="admin-form-group">
-          <label class="admin-form-label" for="navUrl">URL</label>
-          <input type="text" id="navUrl" name="url" class="admin-form-input" placeholder="/sayfa-adi" required>
-        </div>
-        
-        <div class="admin-form-group">
-          <label class="admin-form-label" for="navOrder">Sıra Numarası</label>
-          <input type="number" id="navOrder" name="sort_order" class="admin-form-input" placeholder="1" min="1" required>
-        </div>
-        
-        <div class="admin-form-group">
-          <div class="admin-flex admin-items-center admin-justify-between">
-            <label class="admin-form-label" style="margin-bottom: 0;">Menüde Görünsün</label>
-            <label class="admin-toggle">
-              <input type="checkbox" id="navVisible" name="visible" value="true" checked>
-              <span class="admin-toggle-slider"></span>
-            </label>
-          </div>
-          <input type="hidden" id="visibleHidden" name="visible" value="false">
-        </div>
-      </div>
-      
-      <div class="admin-modal-footer">
-        <button type="button" class="admin-btn admin-btn-secondary" onclick="closeModal()">İptal</button>
-        <button type="submit" class="admin-btn admin-btn-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          Kaydet
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+<script is:inline define:vars={{ headerNav, footerNav }}>
+  // State
+  const navData = {
+    header: JSON.parse(JSON.stringify(headerNav)),
+    footer: JSON.parse(JSON.stringify(footerNav))
+  };
 
-<!-- Delete Form (Hidden) -->
-<form id="deleteForm" method="POST" style="display: none;">
-  <input type="hidden" name="action" value="delete">
-  <input type="hidden" name="id" id="deleteId">
-</form>
+  let currentEditPath = null; // e.g. { location: 'header', path: [0, 2, 1] }
+  let currentEditMode = 'edit'; // 'edit' or 'add'
 
-<script is:inline define:vars={{ navItems }}>
-  function openEditModal(item) {
-    document.getElementById('modalTitle').textContent = 'Menü Öğesi Düzenle';
-    document.getElementById('formAction').value = 'update';
-    document.getElementById('navId').value = item.id;
-    document.getElementById('navTitle').value = item.title;
-    document.getElementById('navUrl').value = item.url;
-    document.getElementById('navOrder').value = item.sort_order;
-    document.getElementById('navVisible').checked = item.visible;
-    updateVisibleField();
+  // ============ Tab Switching ============
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.nav-tab[data-tab="${tab}"]`).classList.add('active');
+    document.querySelectorAll('.nav-panel').forEach(p => p.style.display = 'none');
+    document.getElementById(`panel-${tab}`).style.display = 'block';
+  };
+
+  // ============ Tree Rendering ============
+  function renderTree(location) {
+    const container = document.getElementById(`${location}Tree`);
+    const items = navData[location];
     
-    document.getElementById('navModal').classList.add('active');
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div class="nav-tree-empty">Henüz menü öğesi eklenmemiş. "Yeni Öğe Ekle" ile başlayın.</div>';
+    } else {
+      container.innerHTML = renderItems(items, location, []);
+    }
+    
+    // Update count
+    const countEl = document.getElementById(`${location}Count`);
+    if (countEl) countEl.textContent = countTotal(items) + ' öğe';
+    
+    // Update JSON editor if visible
+    const textarea = document.getElementById(`${location}JsonTextarea`);
+    if (textarea) textarea.value = JSON.stringify(items, null, 2);
   }
-  
-  function openAddModal() {
-    const maxOrder = navItems.length > 0 ? Math.max(...navItems.map(n => n.sort_order)) + 1 : 1;
-    
+
+  function countTotal(items) {
+    let c = 0;
+    if (!items) return 0;
+    items.forEach(item => {
+      c++;
+      if (item.children) c += countTotal(item.children);
+    });
+    return c;
+  }
+
+  function renderItems(items, location, parentPath) {
+    let html = '';
+    items.forEach((item, index) => {
+      const path = [...parentPath, index];
+      const pathStr = path.join('-');
+      const depth = parentPath.length;
+      const hasChildren = item.children && item.children.length > 0;
+      const isFirst = index === 0;
+      const isLast = index === items.length - 1;
+
+      html += `<div class="nav-tree-item" data-path="${pathStr}">`;
+      html += `<div class="nav-tree-row">`;
+      
+      // Indent
+      if (depth > 0) {
+        html += `<div class="nav-tree-indent">`;
+        for (let i = 0; i < depth; i++) {
+          html += `<span class="nav-tree-indent-bar"></span>`;
+        }
+        html += `</div>`;
+      }
+
+      // Toggle
+      if (hasChildren) {
+        html += `<button class="nav-tree-toggle open" onclick="toggleChildren('${location}', '${pathStr}')" title="Alt menüleri göster/gizle">`;
+        html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
+        html += `</button>`;
+      } else {
+        html += `<span class="nav-tree-toggle placeholder"></span>`;
+      }
+
+      // Info
+      html += `<div class="nav-tree-info">`;
+      html += `<div class="nav-tree-title">${escapeHtml(item.title)}</div>`;
+      html += `<div class="nav-tree-url">${escapeHtml(item.url)}</div>`;
+      html += `</div>`;
+
+      // Badges
+      html += `<div class="nav-tree-badges">`;
+      if (item.menu_type === 'mega_menu') html += `<span class="nav-tree-badge mega">Mega</span>`;
+      if (item.visible === false) html += `<span class="nav-tree-badge hidden-badge">Gizli</span>`;
+      if (hasChildren) html += `<span class="nav-tree-badge has-children">${item.children.length} alt</span>`;
+      html += `</div>`;
+
+      // Actions
+      html += `<div class="nav-tree-actions">`;
+      // Move up
+      html += `<button class="move" onclick="moveItem('${location}', [${path}], -1)" title="Yukarı taşı" ${isFirst ? 'disabled style="opacity:0.2"' : ''}>`;
+      html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>`;
+      html += `</button>`;
+      // Move down
+      html += `<button class="move" onclick="moveItem('${location}', [${path}], 1)" title="Aşağı taşı" ${isLast ? 'disabled style="opacity:0.2"' : ''}>`;
+      html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>`;
+      html += `</button>`;
+      // Add child
+      html += `<button onclick="addChildItem('${location}', [${path}])" title="Alt menü ekle">`;
+      html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>`;
+      html += `</button>`;
+      // Edit
+      html += `<button onclick="editItem('${location}', [${path}])" title="Düzenle">`;
+      html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>`;
+      html += `</button>`;
+      // Delete
+      html += `<button class="danger" onclick="deleteItem('${location}', [${path}])" title="Sil">`;
+      html += `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>`;
+      html += `</button>`;
+      html += `</div>`;
+
+      html += `</div>`; // nav-tree-row
+
+      // Children
+      if (hasChildren) {
+        html += `<div class="nav-tree-children" id="children-${location}-${pathStr}">`;
+        html += renderItems(item.children, location, path);
+        html += `</div>`;
+      }
+
+      html += `</div>`; // nav-tree-item
+    });
+    return html;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ============ Item Navigation ============
+  function getItemByPath(location, path) {
+    let items = navData[location];
+    let item = null;
+    for (let i = 0; i < path.length; i++) {
+      item = items[path[i]];
+      if (i < path.length - 1) {
+        items = item.children || [];
+      }
+    }
+    return item;
+  }
+
+  function getParentArray(location, path) {
+    if (path.length === 1) return navData[location];
+    let items = navData[location];
+    for (let i = 0; i < path.length - 1; i++) {
+      items = items[path[i]].children || [];
+    }
+    return items;
+  }
+
+  // ============ Actions ============
+  window.toggleChildren = function(location, pathStr) {
+    const el = document.getElementById(`children-${location}-${pathStr}`);
+    const btn = el.previousElementSibling.querySelector('.nav-tree-toggle');
+    if (el.classList.contains('collapsed')) {
+      el.classList.remove('collapsed');
+      btn.classList.add('open');
+    } else {
+      el.classList.add('collapsed');
+      btn.classList.remove('open');
+    }
+  };
+
+  window.addNewItem = function(location) {
+    currentEditPath = { location, path: null };
+    currentEditMode = 'add_top';
     document.getElementById('modalTitle').textContent = 'Yeni Menü Öğesi Ekle';
-    document.getElementById('formAction').value = 'create';
-    document.getElementById('navId').value = '';
-    document.getElementById('navTitle').value = '';
-    document.getElementById('navUrl').value = '/';
-    document.getElementById('navOrder').value = maxOrder;
-    document.getElementById('navVisible').checked = true;
-    updateVisibleField();
+    document.getElementById('editTitle').value = '';
+    document.getElementById('editUrl').value = '/';
+    document.getElementById('editMenuType').value = '';
+    document.getElementById('editImageUrl').value = '';
+    document.getElementById('editVisible').checked = true;
+    document.getElementById('imageUrlGroup').style.display = 'none';
+    document.getElementById('navModal').classList.add('active');
+  };
+
+  window.addChildItem = function(location, path) {
+    currentEditPath = { location, path };
+    currentEditMode = 'add_child';
+    document.getElementById('modalTitle').textContent = 'Alt Menü Öğesi Ekle';
+    document.getElementById('editTitle').value = '';
+    document.getElementById('editUrl').value = '/';
+    document.getElementById('editMenuType').value = '';
+    document.getElementById('editImageUrl').value = '';
+    document.getElementById('editVisible').checked = true;
+    // Show image_url for mega menu children
+    const parent = getItemByPath(location, path);
+    document.getElementById('imageUrlGroup').style.display = (parent && parent.menu_type === 'mega_menu') ? 'block' : 'none';
+    document.getElementById('navModal').classList.add('active');
+  };
+
+  window.editItem = function(location, path) {
+    const item = getItemByPath(location, path);
+    if (!item) return;
+    
+    currentEditPath = { location, path };
+    currentEditMode = 'edit';
+    document.getElementById('modalTitle').textContent = 'Menü Öğesi Düzenle';
+    document.getElementById('editTitle').value = item.title || '';
+    document.getElementById('editUrl').value = item.url || '';
+    document.getElementById('editMenuType').value = item.menu_type || '';
+    document.getElementById('editImageUrl').value = item.image_url || '';
+    document.getElementById('editVisible').checked = item.visible !== false;
+    
+    // Show image_url if this is a mega menu child
+    const parentPath = path.slice(0, -1);
+    let showImage = false;
+    if (parentPath.length > 0) {
+      const parent = getItemByPath(location, parentPath);
+      showImage = parent && parent.menu_type === 'mega_menu';
+    }
+    document.getElementById('imageUrlGroup').style.display = showImage || item.image_url ? 'block' : 'none';
     
     document.getElementById('navModal').classList.add('active');
-  }
-  
-  function closeModal() {
+  };
+
+  window.deleteItem = function(location, path) {
+    const item = getItemByPath(location, path);
+    if (!item) return;
+    
+    const childInfo = (item.children && item.children.length > 0) ? ` (ve ${item.children.length} alt menüsü)` : '';
+    if (!confirm(`"${item.title}"${childInfo} öğesini silmek istediğinize emin misiniz?`)) return;
+    
+    const arr = getParentArray(location, path);
+    const idx = path[path.length - 1];
+    arr.splice(idx, 1);
+    renderTree(location);
+  };
+
+  window.moveItem = function(location, path, direction) {
+    const arr = getParentArray(location, path);
+    const idx = path[path.length - 1];
+    const newIdx = idx + direction;
+    if (newIdx < 0 || newIdx >= arr.length) return;
+    
+    const temp = arr[idx];
+    arr[idx] = arr[newIdx];
+    arr[newIdx] = temp;
+    renderTree(location);
+  };
+
+  window.saveModalItem = function() {
+    const title = document.getElementById('editTitle').value.trim();
+    const url = document.getElementById('editUrl').value.trim();
+    const menuType = document.getElementById('editMenuType').value;
+    const imageUrl = document.getElementById('editImageUrl').value.trim();
+    const visible = document.getElementById('editVisible').checked;
+    
+    if (!title) { alert('Başlık zorunludur!'); return; }
+    if (!url) { alert('URL zorunludur!'); return; }
+    
+    const { location, path } = currentEditPath;
+    
+    if (currentEditMode === 'edit') {
+      const item = getItemByPath(location, path);
+      item.title = title;
+      item.url = url;
+      item.visible = visible;
+      if (menuType) item.menu_type = menuType; else delete item.menu_type;
+      if (imageUrl) item.image_url = imageUrl; else delete item.image_url;
+    } else if (currentEditMode === 'add_top') {
+      const newItem = { title, url, visible };
+      if (menuType) newItem.menu_type = menuType;
+      if (imageUrl) newItem.image_url = imageUrl;
+      navData[location].push(newItem);
+    } else if (currentEditMode === 'add_child') {
+      const parent = getItemByPath(location, path);
+      if (!parent.children) parent.children = [];
+      const newItem = { title, url, visible };
+      if (menuType) newItem.menu_type = menuType;
+      if (imageUrl) newItem.image_url = imageUrl;
+      parent.children.push(newItem);
+    }
+    
+    closeModal();
+    renderTree(location);
+  };
+
+  window.closeModal = function() {
     document.getElementById('navModal').classList.remove('active');
-  }
-  
-  function updateVisibleField() {
-    const checkbox = document.getElementById('navVisible');
-    const hidden = document.getElementById('visibleHidden');
-    hidden.disabled = checkbox.checked;
-  }
-  
-  function confirmDelete(id, title) {
-    if (confirm(`"${title}" menü öğesini silmek istediğinize emin misiniz?`)) {
-      document.getElementById('deleteId').value = id;
-      document.getElementById('deleteForm').submit();
+  };
+
+  // ============ JSON Editor ============
+  window.toggleJsonEditor = function(location) {
+    const wrap = document.getElementById(`${location}JsonEditor`);
+    const textarea = document.getElementById(`${location}JsonTextarea`);
+    if (wrap.style.display === 'none') {
+      textarea.value = JSON.stringify(navData[location], null, 2);
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
     }
-  }
-  
-  // Update visible field when checkbox changes
-  document.getElementById('navVisible').addEventListener('change', updateVisibleField);
-  
-  // Close modal on outside click
+  };
+
+  window.applyJsonToTree = function(location) {
+    const textarea = document.getElementById(`${location}JsonTextarea`);
+    try {
+      const parsed = JSON.parse(textarea.value);
+      if (!Array.isArray(parsed)) { alert('JSON bir dizi (array) olmalıdır!'); return; }
+      navData[location] = parsed;
+      renderTree(location);
+      alert('JSON başarıyla uygulandı!');
+    } catch (e) {
+      alert('Geçersiz JSON formatı:\n' + e.message);
+    }
+  };
+
+  // ============ Form Submit ============
+  window.prepareSubmit = function(location) {
+    document.getElementById(`${location}NavJson`).value = JSON.stringify(navData[location]);
+  };
+
+  // ============ Menu Type change - show/hide image URL ============
+  document.getElementById('editMenuType').addEventListener('change', function() {
+    // Only show for mega_menu type or if parent is mega_menu
+    // Simple heuristic: show when mega_menu is selected
+    // It's also shown for children of mega_menu parents (handled in addChildItem/editItem)
+  });
+
+  // Close modal on outside click / Escape
   document.getElementById('navModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      closeModal();
-    }
+    if (e.target === this) closeModal();
   });
-  
-  // Close modal on Escape key
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
+    if (e.key === 'Escape') closeModal();
   });
+
+  // ============ Initial Render ============
+  renderTree('header');
+  renderTree('footer');
 </script>

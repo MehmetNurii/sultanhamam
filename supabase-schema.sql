@@ -34,10 +34,12 @@ CREATE TABLE pages (
 CREATE TABLE navigation (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    url VARCHAR(255) NOT NULL,
+    url VARCHAR(255) DEFAULT '#',
     sort_order INTEGER DEFAULT 0,
     visible BOOLEAN DEFAULT TRUE,
-    parent_id INTEGER REFERENCES navigation(id) ON DELETE SET NULL,
+    parent_id INTEGER REFERENCES navigation(id) ON DELETE CASCADE,
+    location VARCHAR(50) DEFAULT 'header',
+    extra_data JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -98,7 +100,9 @@ INSERT INTO site_settings (key, value) VALUES
     ('view_directions_url', '/contacts'),
     ('address_label', 'Address'),
     ('work_hours_label', 'Work Hours'),
-    ('contacts_label', 'Contacts')
+    ('contacts_label', 'Contacts'),
+    ('header_navigation', '[{"title":"Home","url":"#","visible":true,"menu_type":"mega_menu","children":[{"title":"Home One - Wellness Center","url":"/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-1-light.webp"},{"title":"Home Two - Massage Salon","url":"/home-two/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-2-light.webp"},{"title":"Home Three - Spa Resort","url":"/home-three/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-3-light.webp"}]},{"title":"About Us","url":"/about-us","visible":true,"children":[]},{"title":"Services","url":"#","visible":true,"children":[{"title":"All Services","url":"/services-page","visible":true,"children":[]},{"title":"Wellness Packages","url":"#","visible":true,"children":[{"title":"Balance & Recenter","url":"/services/balance-recenter/","visible":true},{"title":"Blissful Renewal Day","url":"/services/blissful-renewal-day/","visible":true},{"title":"Deep Restoration","url":"/services/deep-restoration/","visible":true},{"title":"Inner Glow Detox","url":"/services/inner-glow-detox/","visible":true},{"title":"Moon & Soul Ritual","url":"/services/moon-soul-ritual/","visible":true},{"title":"Serenity Starter","url":"/services/serenity-starter/","visible":true}]},{"title":"Reflexology Therapy","url":"/services/reflexology-therapy/","visible":true,"children":[]},{"title":"Facial Massage","url":"/services/facial-massage/","visible":true,"children":[]},{"title":"Swedish Relaxation Massage","url":"/services/swedish-relaxation-massage/","visible":true,"children":[]},{"title":"Deep Tissue Therapy","url":"/services/deep-tissue-therapy/","visible":true,"children":[]},{"title":"Hot Stone Massage","url":"/services/hot-stone-massage/","visible":true,"children":[]},{"title":"Aromatherapy Massage","url":"/services/aromatherapy-massage/","visible":true,"children":[]}]},{"title":"Pages","url":"#","visible":true,"children":[{"title":"Appointment","url":"/appointment","visible":true,"children":[]},{"title":"Our Team","url":"/our-team","visible":true,"children":[]},{"title":"Prices Guide","url":"/prices-page","visible":true,"children":[]},{"title":"Shop","url":"/shop","visible":true,"children":[]},{"title":"Events","url":"/events-page","visible":true,"children":[]},{"title":"Blog","url":"/blog-page","visible":true,"children":[]},{"title":"Image Credits","url":"/image-credits","visible":true,"children":[]}]},{"title":"Contacts","url":"/contacts","visible":true,"children":[]}]'),
+    ('footer_navigation', '[{"title":"Home","url":"/","visible":true},{"title":"About Us","url":"/about-us","visible":true},{"title":"Shop","url":"/shop","visible":true},{"title":"Blog","url":"/blog-page","visible":true},{"title":"Contacts","url":"/contacts","visible":true}]')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 
 -- Pages
@@ -112,16 +116,50 @@ INSERT INTO pages (slug, title, meta_title, meta_description, visible) VALUES
     ('appointment', 'Appointment', 'Book an Appointment - Wellness Bliss', 'Schedule your massage appointment online', true),
     ('services-id', 'Service Details', 'Service Details - Wellness Bliss', 'Detailed information about our services', true);
 
--- Navigation
-INSERT INTO navigation (title, url, sort_order, visible) VALUES
-    ('Home', '/', 1, true),
-    ('Services', '/services', 2, true),
-    ('About Us', '/about-us', 3, true),
-    ('Our Team', '/our-team', 4, true),
-    ('Prices', '/prices-page', 5, true),
-    ('Contact', '/contacts', 6, true),
-    ('Appointment', '/appointment', 7, true);
+-- Navigation: Header + Footer hierarchical menu
+INSERT INTO navigation (id, title, url, sort_order, visible, parent_id, location, extra_data) VALUES
+    -- HEADER TOP-LEVEL
+    (1, 'Home', '#', 1, true, NULL, 'header', '{"menu_type":"mega_menu"}'),
+    (2, 'About Us', '/about-us', 2, true, NULL, 'header', '{}'),
+    (3, 'Services', '#', 3, true, NULL, 'header', '{}'),
+    (4, 'Pages', '#', 4, true, NULL, 'header', '{}'),
+    (5, 'Contacts', '/contacts', 5, true, NULL, 'header', '{}'),
+    -- Home mega menu children
+    (6, 'Home One - Wellness Center', '/', 1, true, 1, 'header', '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-1-light.webp"}'),
+    (7, 'Home Two - Massage Salon', '/home-two/', 2, true, 1, 'header', '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-2-light.webp"}'),
+    (8, 'Home Three - Spa Resort', '/home-three/', 3, true, 1, 'header', '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-3-light.webp"}'),
+    -- Services sub-menu
+    (9, 'All Services', '/services-page', 1, true, 3, 'header', '{}'),
+    (10, 'Wellness Packages', '#', 2, true, 3, 'header', '{}'),
+    (11, 'Reflexology Therapy', '/services/reflexology-therapy/', 3, true, 3, 'header', '{}'),
+    (12, 'Facial Massage', '/services/facial-massage/', 4, true, 3, 'header', '{}'),
+    (13, 'Swedish Relaxation Massage', '/services/swedish-relaxation-massage/', 5, true, 3, 'header', '{}'),
+    (14, 'Deep Tissue Therapy', '/services/deep-tissue-therapy/', 6, true, 3, 'header', '{}'),
+    (15, 'Hot Stone Massage', '/services/hot-stone-massage/', 7, true, 3, 'header', '{}'),
+    (16, 'Aromatherapy Massage', '/services/aromatherapy-massage/', 8, true, 3, 'header', '{}'),
+    -- Wellness Packages sub-sub-menu
+    (17, 'Balance & Recenter', '/services/balance-recenter/', 1, true, 10, 'header', '{}'),
+    (18, 'Blissful Renewal Day', '/services/blissful-renewal-day/', 2, true, 10, 'header', '{}'),
+    (19, 'Deep Restoration', '/services/deep-restoration/', 3, true, 10, 'header', '{}'),
+    (20, 'Inner Glow Detox', '/services/inner-glow-detox/', 4, true, 10, 'header', '{}'),
+    (21, 'Moon & Soul Ritual', '/services/moon-soul-ritual/', 5, true, 10, 'header', '{}'),
+    (22, 'Serenity Starter', '/services/serenity-starter/', 6, true, 10, 'header', '{}'),
+    -- Pages sub-menu
+    (23, 'Appointment', '/appointment', 1, true, 4, 'header', '{}'),
+    (24, 'Our Team', '/our-team', 2, true, 4, 'header', '{}'),
+    (25, 'Prices Guide', '/prices-page', 3, true, 4, 'header', '{}'),
+    (26, 'Shop', '/shop', 4, true, 4, 'header', '{}'),
+    (27, 'Events', '/events-page', 5, true, 4, 'header', '{}'),
+    (28, 'Blog', '/blog-page', 6, true, 4, 'header', '{}'),
+    (29, 'Image Credits', '/image-credits', 7, true, 4, 'header', '{}'),
+    -- FOOTER navigation
+    (30, 'Home', '/', 1, true, NULL, 'footer', '{}'),
+    (31, 'About Us', '/about-us', 2, true, NULL, 'footer', '{}'),
+    (32, 'Shop', '/shop', 3, true, NULL, 'footer', '{}'),
+    (33, 'Blog', '/blog-page', 4, true, NULL, 'footer', '{}'),
+    (34, 'Contacts', '/contacts', 5, true, NULL, 'footer', '{}');
 
+SELECT setval('navigation_id_seq', 34);
 -- Page Sections: Global
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
     ('_global', 'popup', 'popup',
