@@ -1,0 +1,27 @@
+---
+import { getPageSection } from '../lib/supabase';
+const section = await getPageSection('about-us', 'hero');
+const subtitle = section?.subtitle || 'About Us';
+const title = section?.title || 'Why We are the Best Spa Center?';
+const description = section?.description || 'A nurturing space where mindful rituals, natural beauty, and healing touch come together to restore your glow—inside and out.';
+---
+				<div class="elementor-element elementor-element-fafec95 e-con-full e-flex cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="fafec95" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+		<div class="elementor-element elementor-element-caeedb8 e-flex e-con-boxed cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child" data-id="caeedb8" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-56ce58c e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="56ce58c" data-element_type="container">
+				<div class="elementor-element elementor-element-02a1ab3 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title animated fadeIn" data-id="02a1ab3" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="cmsmasters-title.default">
+				<div class="elementor-widget-container">
+					<h6 class="cmsmasters-widget-title__heading "><span class="title-inner-element">{subtitle}</span></h6>				</div>
+				</div>
+				<div class="elementor-element elementor-element-d509a90 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading animated fadeIn" data-id="d509a90" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">{title}</h1>				</div>
+				</div>
+				<div class="elementor-element elementor-element-dddd1dd cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading animated fadeIn" data-id="dddd1dd" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:500}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-heading-title elementor-size-default">{description}</div>				</div>
+				</div>
+				</div>
+					</div>
+				</div>
+				</div>

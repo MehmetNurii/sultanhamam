@@ -1,0 +1,42 @@
+---
+import { getPageSection } from '../lib/supabase';
+const section = await getPageSection('about-us', 'story');
+const title = section?.title || 'Our Story';
+const description = section?.description || 'Step into a space created with intention—a place where your body, mind, and spirit are gently guided back into balance. At Wellness Bliss, we offer a range of holistic therapies and nurturing experiences designed to help you reconnect with your true self and restore your natural energy flow.';
+const extraData = (section?.extra_data || {}) as Record<string, any>;
+const images = (extraData.images as string[]) || [
+  '/assets/light/wp-content/uploads/sites/4/2025/04/61-about-5.webp',
+  '/assets/light/wp-content/uploads/sites/4/2025/04/61-about-4.webp',
+  '/assets/light/wp-content/uploads/sites/4/2025/04/61-about-3.webp'
+];
+---
+		<div class="elementor-element elementor-element-e15739b e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="e15739b" data-element_type="container">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-2a01e8d e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="2a01e8d" data-element_type="container">
+				<div class="elementor-element elementor-element-77620f7 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="77620f7" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:600}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">{title}</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-229ceef elementor-widget__width-initial elementor-widget-tablet__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="229ceef" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:800}" data-widget_type="text-editor.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+									{description}								</div>
+				</div>
+		<div class="elementor-element elementor-element-2af516f e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="2af516f" data-element_type="container">
+				<div class="elementor-element elementor-element-b0032b7 elementor-widget-mobile__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="b0032b7" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;_animation_delay&quot;:1000}" data-widget_type="image.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="600" height="600" src={images[0]} class="attachment-full size-full wp-image-39871" alt="">															</div>
+				</div>
+				<div class="elementor-element elementor-element-1ecea90 elementor-widget-mobile__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="1ecea90" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;_animation_delay&quot;:1200}" data-widget_type="image.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="600" height="600" src={images[1]} class="attachment-full size-full wp-image-39870" alt="">															</div>
+				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-c26908d e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="c26908d" data-element_type="container">
+				<div class="elementor-element elementor-element-c83c062 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="c83c062" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;_animation_delay&quot;:1400}" data-widget_type="image.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="1180" height="1385" src={images[2]} class="attachment-full size-full wp-image-39903" alt="">															</div>
+				</div>
+				</div>
+					</div>
+				</div>

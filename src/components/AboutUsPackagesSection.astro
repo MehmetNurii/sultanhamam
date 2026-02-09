@@ -1,0 +1,108 @@
+---
+import { getPageSection } from '../lib/supabase';
+
+const section = await getPageSection('about-us', 'packages');
+
+const sectionSubtitle = section?.subtitle || 'WELLNESS PACKAGES';
+const sectionTitle = section?.title || 'Your Journey to Balance Begins Here';
+
+const defaultPackages = [
+	{ title: 'Serenity Starter', description: 'Designed as the perfect introduction to wellness, this gentle treatment blends light massage, calming aromatherapy, and soothing energy techniques to ease tension and quiet the mind.', excerpt: 'Recovering ability, mobility amd more', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-1.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-1.webp', url: '/services/serenity-starter/' },
+	{ title: 'Swedish Relaxation Massage', description: 'Using gentle to medium pressure and flowing strokes, this massage promotes deep relaxation, improves circulation, and soothes tired muscles.', excerpt: 'Recovering ability, mobility amd more', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp', url: '/services/swedish-relaxation-massage/' },
+	{ title: 'Balance & Recenter', description: 'This holistic session combines guided breathwork, gentle body relaxation techniques, and subtle energy balancing to align mind, body, and spirit.', excerpt: 'Overcoming the challenges of limb loss', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-2.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-2.webp', url: '/services/balance-recenter/' },
+	{ title: 'Facial Massage', description: 'Our facial massage uses light, soothing strokes to boost circulation, release tension, and enhance your skin\'s natural glow.', excerpt: 'Overcoming the challenges of limb loss', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-8.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-8.webp', url: '/services/facial-massage/' },
+	{ title: 'Deep Restoration', description: 'This intensive therapy weaves together slow massage, therapeutic touch, and calming aromatherapy to target deep physical and emotional tension.', excerpt: 'Optimizing your individual abilities', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-3.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-3.webp', url: '/services/deep-restoration/' },
+	{ title: 'Aromatherapy Massage', description: 'This massage combines gentle, flowing techniques with the healing power of essential oils chosen specifically for your needs — whether calming, energizing, or balancing.', excerpt: 'Optimizing your individual abilities', icon_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg', bg_image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp', url: '/services/aromatherapy-massage/' }
+];
+
+const packages = (section?.extra_data as any)?.packages || defaultPackages;
+const totalSlides = packages.length;
+
+// Common CSS transform settings for hover effect containers
+const hoverSettings658 = `{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","position":"absolute","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}`;
+const hoverSettings4d0 = `{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}`;
+const overlaySettings = `{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}`;
+
+function renderSlide(pkg: any, index: number, isDuplicate: boolean): string {
+	const slideClass = isDuplicate ? 'swiper-slide swiper-slide-duplicate' : 'swiper-slide';
+	const postId = `about-pkg-${isDuplicate ? 'd' : ''}${index}`;
+	const bgCss = `.${postId} .elementor-element.elementor-element-36e66642:not(.elementor-motion-effects-element-type-background):not(.cmsmasters-bg-effect), .${postId} .elementor-element.elementor-element-36e66642 > .elementor-motion-effects-container > .elementor-motion-effects-layer, .${postId} .elementor-element.elementor-element-36e66642 > .cmsmasters-bg-effects-container > .cmsmasters-bg-effects-element{background-image:url("${pkg.bg_image_url}");}`;
+	const titleEscaped = pkg.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	const descriptionEscaped = pkg.description.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	const excerptText = pkg.excerpt || '';
+
+	return `<div class="${slideClass}" data-swiper-slide-index="${index}" style="width: 297px; margin-right: 30px;" role="group" aria-label="${index + 1} / ${totalSlides}"><article id="${postId}" class="cmsmasters-blog__post ${postId} type-services status-publish has-post-thumbnail hentry"><div class="cmsmasters-blog__post-inner"><style>${bgCss}</style><div data-elementor-type="cmsmasters_entry" data-elementor-id="126" class="elementor elementor-126" data-elementor-title="Entry"><div class="elementor-inner">
+				<div class="elementor-section-wrap">
+					<div class="elementor-element elementor-element-36e66642 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent" data-id="36e66642" data-element_type="container" data-settings='{"background_background":"classic"}'>
+		<div class="elementor-element elementor-element-658dc249 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child" data-id="658dc249" data-element_type="container" data-settings='${hoverSettings658}'>
+		<div class="elementor-element elementor-element-4d04107a e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child" data-id="4d04107a" data-element_type="container" data-settings='${hoverSettings4d0}'>
+				<div class="elementor-element elementor-element-408aef87 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="408aef87" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img src="${pkg.icon_url}" title="" alt="" loading="lazy">															</div>
+				</div>
+				<div class="elementor-element elementor-element-15f70d0f cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title" data-id="15f70d0f" data-element_type="widget" data-widget_type="cmsmasters-post-title.default">
+				<div class="elementor-widget-container">
+					<h3 class="entry-title cmsmasters-widget-title__heading" title="${titleEscaped}"><a href="${pkg.url}">${pkg.title}</a></h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-8b1eabe cmsmasters-line-clamp-yes cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-excerpt cmsmasters-widget-short-text" data-id="8b1eabe" data-element_type="widget" data-widget_type="cmsmasters-post-excerpt.default">
+				<div class="elementor-widget-container">
+					<div class="entry-content"><p>${excerptText}</p>
+</div>				</div>
+				</div>
+				<div class="elementor-element elementor-element-338c09ae cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="338c09ae" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">${descriptionEscaped}</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-7c3aaad9 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="7c3aaad9" data-element_type="widget" data-widget_type="cmsmasters-button.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="${pkg.url}" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">Read More</span></span></a></div></div>				</div>
+				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-1e5ddaf5 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child" data-id="1e5ddaf5" data-element_type="container" data-settings='${overlaySettings}'>
+				</div>
+		<div class="elementor-element elementor-element-5d7de6a9 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child" data-id="5d7de6a9" data-element_type="container" data-settings='${overlaySettings}'>
+				</div>
+				</div>
+						</div>
+			</div>
+		</div></div></article></div>`;
+}
+
+// Generate all slides: duplicate set + real set + duplicate set
+let allSlidesHtml = '';
+// Duplicate slides (beginning)
+for (let i = 0; i < packages.length; i++) {
+	allSlidesHtml += renderSlide(packages[i], i, true);
+}
+// Real slides
+for (let i = 0; i < packages.length; i++) {
+	allSlidesHtml += renderSlide(packages[i], i, false);
+}
+// Duplicate slides (end)
+for (let i = 0; i < packages.length; i++) {
+	allSlidesHtml += renderSlide(packages[i], i, true);
+}
+
+// Pagination bullets
+let paginationHtml = '';
+for (let i = 0; i < packages.length; i++) {
+	const isActive = i === 3 ? ' swiper-pagination-bullet-active' : '';
+	const ariaCurrent = i === 3 ? ' aria-current="true"' : '';
+	paginationHtml += `<span class="swiper-pagination-bullet${isActive}" tabindex="0" role="button" aria-label="Go to slide ${i + 1}"${ariaCurrent}></span>`;
+}
+---
+		<div class="elementor-element elementor-element-0914457 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="0914457" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+				<div class="elementor-element elementor-element-cb93454 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title animated fadeIn" data-id="cb93454" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="cmsmasters-title.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="cmsmasters-widget-title__heading "><span class="title-inner-element">{sectionSubtitle}</span></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-e7185e4 elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading animated fadeIn" data-id="e7185e4" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">{sectionTitle}</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-8bbe894 cmsmasters-blog--layout-custom cmsmasters-slider--effect-slide cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-blog-slider elementor-widget-cmsmasters-blog-similar animated fadeIn e-widget-swiper" data-id="8bbe894" data-element_type="widget" data-settings="{&quot;blog_layout&quot;:&quot;custom&quot;,&quot;blog_template_id&quot;:&quot;126&quot;,&quot;slider_per_view&quot;:&quot;4&quot;,&quot;slider_per_view_tablet&quot;:&quot;2&quot;,&quot;slider_per_view_mobile&quot;:&quot;1&quot;,&quot;slider_centered_slides&quot;:&quot;yes&quot;,&quot;slider_navigation&quot;:&quot;bullets&quot;,&quot;slider_space_between&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:30,&quot;sizes&quot;:[]},&quot;slider_per_view_widescreen&quot;:&quot;4&quot;,&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:500,&quot;slider_type&quot;:&quot;carousel&quot;,&quot;slider_effect&quot;:&quot;slide&quot;,&quot;slider_direction&quot;:&quot;horizontal&quot;,&quot;slider_height_type&quot;:&quot;auto&quot;,&quot;slider_autoplay&quot;:&quot;yes&quot;,&quot;slider_autoplay_speed&quot;:5000,&quot;slider_speed&quot;:500,&quot;slider_pause_on_hover&quot;:&quot;yes&quot;,&quot;slider_infinite&quot;:&quot;yes&quot;,&quot;slider_space_between_widescreen&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_space_between_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_space_between_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_width&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_width_widescreen&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_width_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_width_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;slider_scrollbar_circle&quot;:&quot;circle&quot;}" data-widget_type="cmsmasters-blog-slider.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<style is:inline id="elementor-post-dynamic-126">.elementor-126 .elementor-element.elementor-element-36e66642:not(.elementor-motion-effects-element-type-background):not(.cmsmasters-bg-effect), .elementor-126 .elementor-element.elementor-element-36e66642 > .elementor-motion-effects-container > .elementor-motion-effects-layer, .elementor-126 .elementor-element.elementor-element-36e66642 > .cmsmasters-bg-effects-container > .cmsmasters-bg-effects-element{background-image:url("/assets/light/wp-content/uploads/sites/4/2025/04/61-open-service-placeholder.webp");}</style><div class="cmsmasters-blog cmsmasters-blog-slider cmsmasters-blog--type-default"><div class="cmsmasters-blog__posts-variable"><div class="cmsmasters-blog__posts-wrap"><div class="cmsmasters-blog__posts"><div id="cmsmasters-slider-8bbe894" class="cmsmasters-slider cmsmasters-slider--init cmsmasters-slider--dir-horizontal cmsmasters-slider--effect-slide cmsmasters-slider--nav cmsmasters-slider--nav-bullets cmsmasters-slider-per-view-4"><div class="swiper cmsmasters-swiper-container swiper-initialized swiper-horizontal swiper-pointer-events swiper-autoheight"><div class="swiper-wrapper" style="cursor: grab;" id="swiper-wrapper-a03d46331087427d8" aria-live="off" set:html={allSlidesHtml}></div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div><div class="swiper-pagination-wrap"><div class="swiper-pagination-outer"><div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal" set:html={paginationHtml}></div></div></div><div class="swiper-buttons-wrap"><div class="swiper-buttons-wrap-inner"><div class="swiper-button swiper-button-prev"><div class="swiper-button-inner"></div></div><div class="swiper-button swiper-button-next"><div class="swiper-button-inner"></div></div></div></div><div class="swiper-scrollbar-wrap"><div class="swiper-scrollbar"></div></div></div></div></div></div></div>				</div>
+				</div>
+				</div>

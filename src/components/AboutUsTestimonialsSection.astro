@@ -1,0 +1,92 @@
+---
+import { getPageSection } from '../lib/supabase';
+const section = await getPageSection('about-us', 'testimonials');
+const sectionTitle = section?.title || 'Real People. Real Results';
+const buttonText = section?.button_text || 'More Reviews';
+const buttonUrl = section?.button_url || 'https://wellness-bliss.cmsmasters.studio/light/';
+const extraData = (section?.extra_data || {}) as Record<string, any>;
+const testimonials = (extraData.testimonials as any[]) || [
+  { author: 'Mary on Hot Stone Massage', text: 'Absolutely transformative experience. I felt a deep sense of peace and clarity after just one session. The energy was gentle yet powerful.', image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-1.webp', rating: 5 },
+  { author: 'Cassy on Holistic Facial', text: 'From the moment I walked in, I felt held and seen. The healing work here is incredibly intuitive and soulful.', image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-2.webp', rating: 5 },
+  { author: 'Amanda &amp; Lily on Moon Ritual Session', text: 'This space is pure magic. The warmth, professionalism, and spiritual guidance offered are unmatched.', image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-3.webp', rating: 5 },
+  { author: 'Noah on Deep Tissue Massage', text: 'Every session feels like a reset for my mind, body, and spirit. The healing is deep, and the care is genuine.', image_url: '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-4.webp', rating: 5 }
+];
+const t0 = testimonials[0] || {};
+const t1 = testimonials[1] || {};
+const t2 = testimonials[2] || {};
+const t3 = testimonials[3] || {};
+
+const ratingStarsHtml = `<div class="cmsmasters-testimonial__rating"><div class="cmsmasters-testimonial__rating-inner" title="5/5" itemtype="http://schema.org/Rating" itemscope="" itemprop="reviewRating"><div class="cmsmasters-testimonial__rating-icons"><div class="cmsmasters-testimonial__rating-icons-empty"><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span></div><div class="cmsmasters-testimonial__rating-icons-filled" style="width: 100%"><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span><span class="cmsmasters-wrap-icon"><i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-Star"></i></span></div></div><span itemprop="ratingValue" class="elementor-screen-only">5/5</span></div></div>`;
+---
+		<div class="elementor-element elementor-element-29c7e30 e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="29c7e30" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-e765216 e-flex e-con-boxed cmsmasters-block-default e-con e-child" data-id="e765216" data-element_type="container">
+					<div class="e-con-inner">
+				<div class="elementor-element elementor-element-92e3c8a elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="92e3c8a" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">{sectionTitle}</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-d4f4ebd cmsmasters-button-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="d4f4ebd" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="cmsmasters-button.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={buttonUrl} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{buttonText}</span></span></a></div></div>				</div>
+				</div>
+					</div>
+				</div>
+		<div class="elementor-element elementor-element-6b32f8e e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="6b32f8e" data-element_type="container">
+		<div class="elementor-element elementor-element-6257b13 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="6257b13" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:500}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-4ad6608 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="4ad6608" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="680" height="496" src={t0.image_url} class="attachment-large size-large wp-image-43894" alt="">															</div>
+				</div>
+				<div data-separate-animation-selector=".cmsmasters-testimonial__rating, .cmsmasters-testimonial__title, .cmsmasters-testimonial__text, .cmsmasters-testimonial__avatar, .cmsmasters-testimonial__author-info-outer" data-text-animation-class="sequental, random" class="elementor-element elementor-element-69599a8 cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-width-inline cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonial" data-id="69599a8" data-element_type="widget" data-widget_type="cmsmasters-testimonial.default">
+				<div class="elementor-widget-container">
+					<div class="cmsmasters-testimonial" itemscope="" itemtype="https://schema.org/Review"><div class="elementor-screen-only" itemprop="itemReviewed" itemscope="" itemtype="https://schema.org/Organization">
+				<meta itemprop="name" content="Light Demo">
+				<meta itemprop="url" content="https://wellness-bliss.cmsmasters.studio/light">
+			</div><div class="cmsmasters-testimonial__inner"><div class="cmsmasters-testimonial__main-area"><div class="cmsmasters-testimonial__content"><div class="cmsmasters-testimonial__content-outer"><div class="cmsmasters-testimonial__content-inner"><Fragment set:html={ratingStarsHtml} /><div class="cmsmasters-testimonial__text" itemprop="reviewBody"><p>"{t0.text}"</p></div></div></div></div><div class="cmsmasters-testimonial__author-info"><div class="cmsmasters-testimonial__author-info-outer"><div class="cmsmasters-testimonial__author-info-inner"><div class="cmsmasters-testimonial__author-info-wrap"><span class="cmsmasters-testimonial__author-name"><span itemprop="author">{t0.author}</span></span></div></div></div></div></div></div></div>				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-02f95c4 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="02f95c4" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:750}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-6aabb40 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="6aabb40" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="680" height="496" src={t1.image_url} class="attachment-large size-large wp-image-43895" alt="">															</div>
+				</div>
+				<div data-separate-animation-selector=".cmsmasters-testimonial__rating, .cmsmasters-testimonial__title, .cmsmasters-testimonial__text, .cmsmasters-testimonial__avatar, .cmsmasters-testimonial__author-info-outer" data-text-animation-class="sequental, random" class="elementor-element elementor-element-3200c6b cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-width-inline cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonial" data-id="3200c6b" data-element_type="widget" data-widget_type="cmsmasters-testimonial.default">
+				<div class="elementor-widget-container">
+					<div class="cmsmasters-testimonial" itemscope="" itemtype="https://schema.org/Review"><div class="elementor-screen-only" itemprop="itemReviewed" itemscope="" itemtype="https://schema.org/Organization">
+				<meta itemprop="name" content="Light Demo">
+				<meta itemprop="url" content="https://wellness-bliss.cmsmasters.studio/light">
+			</div><div class="cmsmasters-testimonial__inner"><div class="cmsmasters-testimonial__main-area"><div class="cmsmasters-testimonial__content"><div class="cmsmasters-testimonial__content-outer"><div class="cmsmasters-testimonial__content-inner"><Fragment set:html={ratingStarsHtml} /><div class="cmsmasters-testimonial__text" itemprop="reviewBody"><p>"{t1.text}"</p></div></div></div></div><div class="cmsmasters-testimonial__author-info"><div class="cmsmasters-testimonial__author-info-outer"><div class="cmsmasters-testimonial__author-info-inner"><div class="cmsmasters-testimonial__author-info-wrap"><span class="cmsmasters-testimonial__author-name"><span itemprop="author">{t1.author}</span></span></div></div></div></div></div></div></div>				</div>
+				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-93f7371 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="93f7371" data-element_type="container">
+		<div class="elementor-element elementor-element-470c167 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="470c167" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-4b14fd3 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="4b14fd3" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="680" height="496" src={t2.image_url} class="attachment-large size-large wp-image-43896" alt="">															</div>
+				</div>
+				<div data-separate-animation-selector=".cmsmasters-testimonial__rating, .cmsmasters-testimonial__title, .cmsmasters-testimonial__text, .cmsmasters-testimonial__avatar, .cmsmasters-testimonial__author-info-outer" data-text-animation-class="sequental, random" class="elementor-element elementor-element-1dfa3a2 cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-width-inline cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonial" data-id="1dfa3a2" data-element_type="widget" data-widget_type="cmsmasters-testimonial.default">
+				<div class="elementor-widget-container">
+					<div class="cmsmasters-testimonial" itemscope="" itemtype="https://schema.org/Review"><div class="elementor-screen-only" itemprop="itemReviewed" itemscope="" itemtype="https://schema.org/Organization">
+				<meta itemprop="name" content="Light Demo">
+				<meta itemprop="url" content="https://wellness-bliss.cmsmasters.studio/light">
+			</div><div class="cmsmasters-testimonial__inner"><div class="cmsmasters-testimonial__main-area"><div class="cmsmasters-testimonial__content"><div class="cmsmasters-testimonial__content-outer"><div class="cmsmasters-testimonial__content-inner"><Fragment set:html={ratingStarsHtml} /><div class="cmsmasters-testimonial__text" itemprop="reviewBody"><p>"{t2.text}"</p></div></div></div></div><div class="cmsmasters-testimonial__author-info"><div class="cmsmasters-testimonial__author-info-outer"><div class="cmsmasters-testimonial__author-info-inner"><div class="cmsmasters-testimonial__author-info-wrap"><span class="cmsmasters-testimonial__author-name"><span itemprop="author" set:html={t2.author}></span></span></div></div></div></div></div></div></div>				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-e11f916 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="e11f916" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:250}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-80918cf cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="80918cf" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="680" height="496" src={t3.image_url} class="attachment-large size-large wp-image-43897" alt="">															</div>
+				</div>
+				<div data-separate-animation-selector=".cmsmasters-testimonial__rating, .cmsmasters-testimonial__title, .cmsmasters-testimonial__text, .cmsmasters-testimonial__avatar, .cmsmasters-testimonial__author-info-outer" data-text-animation-class="sequental, random" class="elementor-element elementor-element-6fc7a41 cmsmasters-testimonial-layout-bottom cmsmasters-testimonial-author-width-inline cmsmasters-testimonial-rating-position-in_content cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-testimonial" data-id="6fc7a41" data-element_type="widget" data-widget_type="cmsmasters-testimonial.default">
+				<div class="elementor-widget-container">
+					<div class="cmsmasters-testimonial" itemscope="" itemtype="https://schema.org/Review"><div class="elementor-screen-only" itemprop="itemReviewed" itemscope="" itemtype="https://schema.org/Organization">
+				<meta itemprop="name" content="Light Demo">
+				<meta itemprop="url" content="https://wellness-bliss.cmsmasters.studio/light">
+			</div><div class="cmsmasters-testimonial__inner"><div class="cmsmasters-testimonial__main-area"><div class="cmsmasters-testimonial__content"><div class="cmsmasters-testimonial__content-outer"><div class="cmsmasters-testimonial__content-inner"><Fragment set:html={ratingStarsHtml} /><div class="cmsmasters-testimonial__text" itemprop="reviewBody"><p>"{t3.text}"</p></div></div></div></div><div class="cmsmasters-testimonial__author-info"><div class="cmsmasters-testimonial__author-info-outer"><div class="cmsmasters-testimonial__author-info-inner"><div class="cmsmasters-testimonial__author-info-wrap"><span class="cmsmasters-testimonial__author-name"><span itemprop="author">{t3.author}</span></span></div></div></div></div></div></div></div>				</div>
+				</div>
+				</div>
+				</div>
+					</div>
+				</div>

@@ -1,0 +1,27 @@
+---
+import { getPageSection } from '../lib/supabase';
+const section = await getPageSection('about-us', 'content');
+const title = section?.title || 'About Us';
+const description = section?.description || 'From the moment you walk in, you\'ll be welcomed with warmth, professionalism, and attention to detail. Our expert therapists use premium products and the latest techniques to ensure every visit leaves you feeling confident, refreshed, and truly cared for.';
+const imageUrl = section?.image_url || '/assets/light/wp-content/uploads/sites/4/2025/04/61-about-2.webp';
+---
+		<div class="elementor-element elementor-element-dc003f3 e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="dc003f3" data-element_type="container">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-101afa0 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="101afa0" data-element_type="container">
+				<div class="elementor-element elementor-element-9d91a8a cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="9d91a8a" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:400}" data-widget_type="image.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="1180" height="980" src={imageUrl} class="attachment-full size-full wp-image-39902" alt="">															</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-ebadd2c e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="ebadd2c" data-element_type="container">
+				<div class="elementor-element elementor-element-02bea4e elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="02bea4e" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">{title}</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-ecbb9e0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="ecbb9e0" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:200}" data-widget_type="text-editor.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+									<p>{description}</p>								</div>
+				</div>
+				</div>
+					</div>
+				</div>
