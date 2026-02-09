@@ -38,6 +38,10 @@ const defaultFeatures = [
 ];
 
 const features = section?.extra_data?.features || defaultFeatures;
+const featureButtonText = section?.button_text || "Find out More";
+const featureButtonUrl = section?.button_url || "/services-page";
+const counterNumber = section?.extra_data?.counter_number || "13";
+const counterText = section?.extra_data?.counter_text || "Years of quality service";
 ---
 
 <section
@@ -139,7 +143,7 @@ const features = section?.extra_data?.features || defaultFeatures;
 								class="elementor-widget-cmsmasters-button__button-container-inner"
 							>
 								<a
-									href="https://wellness-bliss.cmsmasters.studio/light/services-page/"
+									href={featureButtonUrl}
 									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
 									role="button"
 									tabindex="0"
@@ -147,7 +151,7 @@ const features = section?.extra_data?.features || defaultFeatures;
 										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
 										><span
 											class="elementor-widget-cmsmasters-button__text"
-											>Find out More</span
+											>{featureButtonText}</span
 										></span
 									></a
 								>
@@ -179,7 +183,7 @@ const features = section?.extra_data?.features || defaultFeatures;
 			>
 				<div class="elementor-widget-container">
 					<div class="elementor-heading-title elementor-size-default">
-						13
+						{counterNumber}
 					</div>
 				</div>
 			</div>
@@ -191,7 +195,7 @@ const features = section?.extra_data?.features || defaultFeatures;
 			>
 				<div class="elementor-widget-container">
 					<h5 class="elementor-heading-title elementor-size-default">
-						Years of quality service
+						{counterText}
 					</h5>
 				</div>
 			</div>

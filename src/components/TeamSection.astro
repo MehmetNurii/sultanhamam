@@ -13,6 +13,46 @@ const buttonText = section?.button_text || "View all Therapists";
 const buttonUrl =
 	section?.button_url ||
 	"https://wellness-bliss.cmsmasters.studio/light/our-team/";
+
+const defaultTeamMembers = [
+	{
+		name: "Angela Carbone",
+		role: "Soft Tissue Therapist",
+		image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp",
+		profile_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/",
+		role_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/soft-tissue-therapist/",
+		social_links: {
+			facebook: "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+			twitter: "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+			linkedin: "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+		}
+	},
+	{
+		name: "Mason Goodman",
+		role: "Reflexology Therapist",
+		image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp",
+		profile_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/",
+		role_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/reflexology-therapist/",
+		social_links: {
+			facebook: "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+			twitter: "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+			linkedin: "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+		}
+	},
+	{
+		name: "Whitney Pratt",
+		role: "Massage Therapist",
+		image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp",
+		profile_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/",
+		role_url: "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/massage-therapist/",
+		social_links: {
+			facebook: "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+			twitter: "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+			linkedin: "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+		}
+	}
+];
+const teamMembers = section?.extra_data?.team_members || defaultTeamMembers;
 ---
 
 <section
@@ -154,81 +194,82 @@ const buttonUrl =
 						<div class="cmsmasters-blog__posts-variable">
 							<div class="cmsmasters-blog__posts-wrap">
 								<div class="cmsmasters-blog__posts">
+									{teamMembers.map((member, index) => (
 									<article
-										id="post-41432"
-										class="cmsmasters-blog__post post-41432 type-cmsms_profile status-publish has-post-thumbnail hentry cmsms_profile_category-soft-tissue-therapist"
+										id={`post-team-${index}`}
+										class={`cmsmasters-blog__post post-team-${index} type-cmsms_profile status-publish has-post-thumbnail hentry`}
 									>
 										<div
 											class="cmsmasters-blog__post-inner"
 										>
-											<style is:inline>
-												.post-41432
+											<style set:html={`
+												.post-team-${index}
 													.elementor-element.elementor-element-1408a7e2:not(
 														.elementor-motion-effects-element-type-background
 													):not(
 														.cmsmasters-bg-effect
 													),
-												.post-41432
+												.post-team-${index}
 													.elementor-element.elementor-element-1408a7e2
 													> .elementor-motion-effects-container
 													> .elementor-motion-effects-layer,
-												.post-41432
+												.post-team-${index}
 													.elementor-element.elementor-element-1408a7e2
 													> .cmsmasters-bg-effects-container
 													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp");
+													background-image: url("${member.image_url}");
 												}
-												.post-41432
+												.post-team-${index}
 													.elementor-element.elementor-element-9d4f815:not(
 														.elementor-motion-effects-element-type-background
 													):not(
 														.cmsmasters-bg-effect
 													),
-												.post-41432
+												.post-team-${index}
 													.elementor-element.elementor-element-9d4f815
 													> .elementor-motion-effects-container
 													> .elementor-motion-effects-layer,
-												.post-41432
+												.post-team-${index}
 													.elementor-element.elementor-element-9d4f815
 													> .cmsmasters-bg-effects-container
 													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp");
+													background-image: url("${member.image_url}");
 												}
 												@media (max-width: 1180px) {
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-1408a7e2:not(
 															.elementor-motion-effects-element-type-background
 														):not(
 															.cmsmasters-bg-effect
 														),
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-1408a7e2
 														> .elementor-motion-effects-container
 														> .elementor-motion-effects-layer,
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-1408a7e2
 														> .cmsmasters-bg-effects-container
 														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp");
+														background-image: url("${member.image_url}");
 													}
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-9d4f815:not(
 															.elementor-motion-effects-element-type-background
 														):not(
 															.cmsmasters-bg-effect
 														),
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-9d4f815
 														> .elementor-motion-effects-container
 														> .elementor-motion-effects-layer,
-													.post-41432
+													.post-team-${index}
 														.elementor-element.elementor-element-9d4f815
 														> .cmsmasters-bg-effects-container
 														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp");
+														background-image: url("${member.image_url}");
 													}
 												}
-											</style><div
+											`}></style><div
 												data-elementor-type="cmsmasters_entry"
 												data-elementor-id="153"
 												class="elementor elementor-153"
@@ -269,8 +310,7 @@ const buttonUrl =
 																				<div
 																					class="entry-title cmsmasters-widget-title__heading"
 																				>
-																					Angela
-																					Carbone
+																					{member.name}
 																				</div>
 																			</div>
 																		</div>
@@ -308,11 +348,9 @@ const buttonUrl =
 																												><a
 																													class="term"
 																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/soft-tissue-therapist/"
+																													href={member.role_url}
 																													><span
-																														>Soft
-																														Tissue
-																														Therapist</span
+																														>{member.role}</span
 																													></a
 																												></span
 																											></span
@@ -353,13 +391,14 @@ const buttonUrl =
 																			class="elementor-social-icons-wrapper elementor-grid"
 																			role="list"
 																		>
+																			{member.social_links?.facebook && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
+																					href={member.social_links.facebook}
 																					target="_blank"
 																				>
 																					<span
@@ -378,13 +417,15 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
+																			{member.social_links?.twitter && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
+																					href={member.social_links.twitter}
 																					target="_blank"
 																				>
 																					<span
@@ -403,13 +444,15 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
+																			{member.social_links?.linkedin && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+																					href={member.social_links.linkedin}
 																					target="_blank"
 																				>
 																					<span
@@ -428,6 +471,7 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
 																		</div>
 																	</div>
 																</div>
@@ -497,9 +541,8 @@ const buttonUrl =
 																					class="entry-title cmsmasters-widget-title__heading"
 																				>
 																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/"
-																						>Angela
-																						Carbone</a
+																						href={member.profile_url}
+																						>{member.name}</a
 																					>
 																				</div>
 																			</div>
@@ -538,11 +581,9 @@ const buttonUrl =
 																												><a
 																													class="term"
 																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/soft-tissue-therapist/"
+																													href={member.role_url}
 																													><span
-																														>Soft
-																														Tissue
-																														Therapist</span
+																														>{member.role}</span
 																													></a
 																												></span
 																											></span
@@ -561,7 +602,7 @@ const buttonUrl =
 																		data-id="9d4f815"
 																		data-element_type="container"
 																		data-settings='{"background_background":"classic"}'
-																		href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/"
+																		href={member.profile_url}
 																	>
 																	</a>
 																</div>
@@ -584,13 +625,14 @@ const buttonUrl =
 																			class="elementor-social-icons-wrapper elementor-grid"
 																			role="list"
 																		>
+																			{member.social_links?.facebook && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
+																					href={member.social_links.facebook}
 																					target="_blank"
 																				>
 																					<span
@@ -609,13 +651,15 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
+																			{member.social_links?.twitter && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
+																					href={member.social_links.twitter}
 																					target="_blank"
 																				>
 																					<span
@@ -634,13 +678,15 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
+																			{member.social_links?.linkedin && (
 																			<span
 																				class="elementor-grid-item"
 																				role="listitem"
 																			>
 																				<a
 																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+																					href={member.social_links.linkedin}
 																					target="_blank"
 																				>
 																					<span
@@ -659,6 +705,7 @@ const buttonUrl =
 																					>
 																				</a>
 																			</span>
+																			)}
 																		</div>
 																	</div>
 																</div>
@@ -678,1097 +725,7 @@ const buttonUrl =
 																				class="elementor-widget-cmsmasters-button__button-container-inner"
 																			>
 																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/"
-																					class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																					role="button"
-																					tabindex="0"
-																					><span
-																						class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																						><span
-																							class="elementor-widget-cmsmasters-button__text"
-																							>Open
-																							Profile</span
-																						></span
-																					></a
-																				>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-41431"
-										class="cmsmasters-blog__post post-41431 type-cmsms_profile status-publish has-post-thumbnail hentry cmsms_profile_category-reflexology-therapist"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-41431
-													.elementor-element.elementor-element-1408a7e2:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-41431
-													.elementor-element.elementor-element-1408a7e2
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-41431
-													.elementor-element.elementor-element-1408a7e2
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp");
-												}
-												.post-41431
-													.elementor-element.elementor-element-9d4f815:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-41431
-													.elementor-element.elementor-element-9d4f815
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-41431
-													.elementor-element.elementor-element-9d4f815
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp");
-												}
-												@media (max-width: 1180px) {
-													.post-41431
-														.elementor-element.elementor-element-1408a7e2:not(
-															.elementor-motion-effects-element-type-background
-														):not(
-															.cmsmasters-bg-effect
-														),
-													.post-41431
-														.elementor-element.elementor-element-1408a7e2
-														> .elementor-motion-effects-container
-														> .elementor-motion-effects-layer,
-													.post-41431
-														.elementor-element.elementor-element-1408a7e2
-														> .cmsmasters-bg-effects-container
-														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp");
-													}
-													.post-41431
-														.elementor-element.elementor-element-9d4f815:not(
-															.elementor-motion-effects-element-type-background
-														):not(
-															.cmsmasters-bg-effect
-														),
-													.post-41431
-														.elementor-element.elementor-element-9d4f815
-														> .elementor-motion-effects-container
-														> .elementor-motion-effects-layer,
-													.post-41431
-														.elementor-element.elementor-element-9d4f815
-														> .cmsmasters-bg-effects-container
-														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp");
-													}
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="153"
-												class="elementor elementor-153"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-4ddcbb91 e-con-full cmsms_container_for_transform_hover_effect cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-effect-hover-type-element cmsmasters-block-default e-con e-parent"
-															data-id="4ddcbb91"
-															data-element_type="container"
-															data-settings='{"background_background":"classic","cms_transform_hover_type":"element"}'
-														>
-															<div
-																class="elementor-element elementor-element-760f8c1 e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-																data-id="760f8c1"
-																data-element_type="container"
-															>
-																<div
-																	class="e-con-inner"
-																>
-																	<div
-																		class="elementor-element elementor-element-518e04bf e-con-full e-flex cmsmasters-block-default e-con e-child"
-																		data-id="518e04bf"
-																		data-element_type="container"
-																	>
-																		<div
-																			class="elementor-element elementor-element-68a516a0 cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																			data-id="68a516a0"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-post-title.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="entry-title cmsmasters-widget-title__heading"
-																				>
-																					Mason
-																					Goodman
-																				</div>
-																			</div>
-																		</div>
-																		<div
-																			class="elementor-element elementor-element-8a94256 cmsmasters-metadata-alignment-mobile-center cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																			data-id="8a94256"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-meta-data.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="cmsmasters-meta-data"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__inner"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item elementor-repeater-item-8d4d09e"
-																						>
-																							<div
-																								class="cmsmasters-meta-data__item__inner"
-																							>
-																								<span
-																									data-taxonomy="cmsms_profile_category"
-																									class="cmsmasters-postmeta"
-																									data-name="taxonomy"
-																									><span
-																										class="cmsmasters-postmeta__inner"
-																										><span
-																											class="cmsmasters-postmeta__content"
-																											><span
-																												class="term-wrap"
-																												><a
-																													class="term"
-																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/reflexology-therapist/"
-																													><span
-																														>Reflexology
-																														Therapist</span
-																													></a
-																												></span
-																											></span
-																										></span
-																									></span
-																								>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-1408a7e2 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
-																		data-id="1408a7e2"
-																		data-element_type="container"
-																		data-settings='{"background_background":"classic"}'
-																	>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-65d8570a e-con-full e-flex cmsmasters-block-default e-con e-child"
-																data-id="65d8570a"
-																data-element_type="container"
-															>
-																<div
-																	class="elementor-element elementor-element-17c91d53 elementor-shape-circle elementor-widget-mobile__width-inherit elementor-grid-0 e-grid-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-social-icons"
-																	data-id="17c91d53"
-																	data-element_type="widget"
-																	data-widget_type="social-icons.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-social-icons-wrapper elementor-grid"
-																			role="list"
-																		>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Facebook-f</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-facebook-f"
-																						viewBox="0 0 320 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>X-twitter</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-x-twitter"
-																						viewBox="0 0 512 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Linkedin-in</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-linkedin-in"
-																						viewBox="0 0 448 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-aab3a8d cmsmasters-button-align-right cmsmasters-button-mobile-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																	data-id="aab3a8d"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-button.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-widget-cmsmasters-button__button-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container-inner"
-																			>
-																				<a
-																					class="elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																					role="button"
-																					tabindex="0"
-																					><span
-																						class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																						><span
-																							class="elementor-widget-cmsmasters-button__text"
-																							>Open
-																							Profile</span
-																						></span
-																					></a
-																				>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div
-															class="elementor-element elementor-element-466dbd36 e-con-full cmsms_container_for_transform_hover_effect cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-effect-hover-type-element cmsmasters-block-default e-con e-parent"
-															data-id="466dbd36"
-															data-element_type="container"
-															data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"element"}'
-														>
-															<div
-																class="elementor-element elementor-element-5c827552 e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-																data-id="5c827552"
-																data-element_type="container"
-															>
-																<div
-																	class="e-con-inner"
-																>
-																	<div
-																		class="elementor-element elementor-element-5a431ca4 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																		data-id="5a431ca4"
-																		data-element_type="container"
-																	>
-																		<div
-																			class="elementor-element elementor-element-7eda9dad cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																			data-id="7eda9dad"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-post-title.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="entry-title cmsmasters-widget-title__heading"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/"
-																						>Mason
-																						Goodman</a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																		<div
-																			class="elementor-element elementor-element-19cd73c4 cmsmasters-metadata-alignment-mobile-center cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																			data-id="19cd73c4"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-meta-data.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="cmsmasters-meta-data"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__inner"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item elementor-repeater-item-8d4d09e"
-																						>
-																							<div
-																								class="cmsmasters-meta-data__item__inner"
-																							>
-																								<span
-																									data-taxonomy="cmsms_profile_category"
-																									class="cmsmasters-postmeta"
-																									data-name="taxonomy"
-																									><span
-																										class="cmsmasters-postmeta__inner"
-																										><span
-																											class="cmsmasters-postmeta__content"
-																											><span
-																												class="term-wrap"
-																												><a
-																													class="term"
-																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/reflexology-therapist/"
-																													><span
-																														>Reflexology
-																														Therapist</span
-																													></a
-																												></span
-																											></span
-																										></span
-																									></span
-																								>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<a
-																		class="elementor-element elementor-element-9d4f815 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
-																		data-id="9d4f815"
-																		data-element_type="container"
-																		data-settings='{"background_background":"classic"}'
-																		href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/"
-																	>
-																	</a>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-31d81d03 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																data-id="31d81d03"
-																data-element_type="container"
-															>
-																<div
-																	class="elementor-element elementor-element-77208e8b elementor-shape-circle elementor-widget-mobile__width-inherit elementor-grid-0 e-grid-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-social-icons"
-																	data-id="77208e8b"
-																	data-element_type="widget"
-																	data-widget_type="social-icons.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-social-icons-wrapper elementor-grid"
-																			role="list"
-																		>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Facebook-f</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-facebook-f"
-																						viewBox="0 0 320 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>X-twitter</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-x-twitter"
-																						viewBox="0 0 512 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Linkedin-in</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-linkedin-in"
-																						viewBox="0 0 448 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-e0f2b60 cmsmasters-button-align-right cmsmasters-button-mobile-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																	data-id="e0f2b60"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-button.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-widget-cmsmasters-button__button-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container-inner"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/"
-																					class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																					role="button"
-																					tabindex="0"
-																					><span
-																						class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																						><span
-																							class="elementor-widget-cmsmasters-button__text"
-																							>Open
-																							Profile</span
-																						></span
-																					></a
-																				>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-41430"
-										class="cmsmasters-blog__post post-41430 type-cmsms_profile status-publish has-post-thumbnail hentry cmsms_profile_category-massage-therapist"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-41430
-													.elementor-element.elementor-element-1408a7e2:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-41430
-													.elementor-element.elementor-element-1408a7e2
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-41430
-													.elementor-element.elementor-element-1408a7e2
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp");
-												}
-												.post-41430
-													.elementor-element.elementor-element-9d4f815:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-41430
-													.elementor-element.elementor-element-9d4f815
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-41430
-													.elementor-element.elementor-element-9d4f815
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp");
-												}
-												@media (max-width: 1180px) {
-													.post-41430
-														.elementor-element.elementor-element-1408a7e2:not(
-															.elementor-motion-effects-element-type-background
-														):not(
-															.cmsmasters-bg-effect
-														),
-													.post-41430
-														.elementor-element.elementor-element-1408a7e2
-														> .elementor-motion-effects-container
-														> .elementor-motion-effects-layer,
-													.post-41430
-														.elementor-element.elementor-element-1408a7e2
-														> .cmsmasters-bg-effects-container
-														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp");
-													}
-													.post-41430
-														.elementor-element.elementor-element-9d4f815:not(
-															.elementor-motion-effects-element-type-background
-														):not(
-															.cmsmasters-bg-effect
-														),
-													.post-41430
-														.elementor-element.elementor-element-9d4f815
-														> .elementor-motion-effects-container
-														> .elementor-motion-effects-layer,
-													.post-41430
-														.elementor-element.elementor-element-9d4f815
-														> .cmsmasters-bg-effects-container
-														> .cmsmasters-bg-effects-element {
-														background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp");
-													}
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="153"
-												class="elementor elementor-153"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-4ddcbb91 e-con-full cmsms_container_for_transform_hover_effect cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-effect-hover-type-element cmsmasters-block-default e-con e-parent"
-															data-id="4ddcbb91"
-															data-element_type="container"
-															data-settings='{"background_background":"classic","cms_transform_hover_type":"element"}'
-														>
-															<div
-																class="elementor-element elementor-element-760f8c1 e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-																data-id="760f8c1"
-																data-element_type="container"
-															>
-																<div
-																	class="e-con-inner"
-																>
-																	<div
-																		class="elementor-element elementor-element-518e04bf e-con-full e-flex cmsmasters-block-default e-con e-child"
-																		data-id="518e04bf"
-																		data-element_type="container"
-																	>
-																		<div
-																			class="elementor-element elementor-element-68a516a0 cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																			data-id="68a516a0"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-post-title.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="entry-title cmsmasters-widget-title__heading"
-																				>
-																					Whitney
-																					Pratt
-																				</div>
-																			</div>
-																		</div>
-																		<div
-																			class="elementor-element elementor-element-8a94256 cmsmasters-metadata-alignment-mobile-center cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																			data-id="8a94256"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-meta-data.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="cmsmasters-meta-data"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__inner"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item elementor-repeater-item-8d4d09e"
-																						>
-																							<div
-																								class="cmsmasters-meta-data__item__inner"
-																							>
-																								<span
-																									data-taxonomy="cmsms_profile_category"
-																									class="cmsmasters-postmeta"
-																									data-name="taxonomy"
-																									><span
-																										class="cmsmasters-postmeta__inner"
-																										><span
-																											class="cmsmasters-postmeta__content"
-																											><span
-																												class="term-wrap"
-																												><a
-																													class="term"
-																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/massage-therapist/"
-																													><span
-																														>Massage
-																														Therapist</span
-																													></a
-																												></span
-																											></span
-																										></span
-																									></span
-																								>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-1408a7e2 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
-																		data-id="1408a7e2"
-																		data-element_type="container"
-																		data-settings='{"background_background":"classic"}'
-																	>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-65d8570a e-con-full e-flex cmsmasters-block-default e-con e-child"
-																data-id="65d8570a"
-																data-element_type="container"
-															>
-																<div
-																	class="elementor-element elementor-element-17c91d53 elementor-shape-circle elementor-widget-mobile__width-inherit elementor-grid-0 e-grid-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-social-icons"
-																	data-id="17c91d53"
-																	data-element_type="widget"
-																	data-widget_type="social-icons.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-social-icons-wrapper elementor-grid"
-																			role="list"
-																		>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Facebook-f</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-facebook-f"
-																						viewBox="0 0 320 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>X-twitter</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-x-twitter"
-																						viewBox="0 0 512 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Linkedin-in</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-linkedin-in"
-																						viewBox="0 0 448 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-aab3a8d cmsmasters-button-align-right cmsmasters-button-mobile-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																	data-id="aab3a8d"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-button.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-widget-cmsmasters-button__button-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container-inner"
-																			>
-																				<a
-																					class="elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																					role="button"
-																					tabindex="0"
-																					><span
-																						class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																						><span
-																							class="elementor-widget-cmsmasters-button__text"
-																							>Open
-																							Profile</span
-																						></span
-																					></a
-																				>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div
-															class="elementor-element elementor-element-466dbd36 e-con-full cmsms_container_for_transform_hover_effect cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-effect-hover-type-element cmsmasters-block-default e-con e-parent"
-															data-id="466dbd36"
-															data-element_type="container"
-															data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"element"}'
-														>
-															<div
-																class="elementor-element elementor-element-5c827552 e-flex e-con-boxed cmsmasters-block-default e-con e-child"
-																data-id="5c827552"
-																data-element_type="container"
-															>
-																<div
-																	class="e-con-inner"
-																>
-																	<div
-																		class="elementor-element elementor-element-5a431ca4 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																		data-id="5a431ca4"
-																		data-element_type="container"
-																	>
-																		<div
-																			class="elementor-element elementor-element-7eda9dad cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																			data-id="7eda9dad"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-post-title.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="entry-title cmsmasters-widget-title__heading"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/"
-																						>Whitney
-																						Pratt</a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																		<div
-																			class="elementor-element elementor-element-19cd73c4 cmsmasters-metadata-alignment-mobile-center cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																			data-id="19cd73c4"
-																			data-element_type="widget"
-																			data-widget_type="cmsmasters-meta-data.default"
-																		>
-																			<div
-																				class="elementor-widget-container"
-																			>
-																				<div
-																					class="cmsmasters-meta-data"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__inner"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item elementor-repeater-item-8d4d09e"
-																						>
-																							<div
-																								class="cmsmasters-meta-data__item__inner"
-																							>
-																								<span
-																									data-taxonomy="cmsms_profile_category"
-																									class="cmsmasters-postmeta"
-																									data-name="taxonomy"
-																									><span
-																										class="cmsmasters-postmeta__inner"
-																										><span
-																											class="cmsmasters-postmeta__content"
-																											><span
-																												class="term-wrap"
-																												><a
-																													class="term"
-																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/massage-therapist/"
-																													><span
-																														>Massage
-																														Therapist</span
-																													></a
-																												></span
-																											></span
-																										></span
-																									></span
-																								>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<a
-																		class="elementor-element elementor-element-9d4f815 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
-																		data-id="9d4f815"
-																		data-element_type="container"
-																		data-settings='{"background_background":"classic"}'
-																		href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/"
-																	>
-																	</a>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-31d81d03 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																data-id="31d81d03"
-																data-element_type="container"
-															>
-																<div
-																	class="elementor-element elementor-element-77208e8b elementor-shape-circle elementor-widget-mobile__width-inherit elementor-grid-0 e-grid-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-social-icons"
-																	data-id="77208e8b"
-																	data-element_type="widget"
-																	data-widget_type="social-icons.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-social-icons-wrapper elementor-grid"
-																			role="list"
-																		>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-4077099"
-																					href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Facebook-f</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-facebook-f"
-																						viewBox="0 0 320 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-c1137f7"
-																					href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>X-twitter</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-x-twitter"
-																						viewBox="0 0 512 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																			<span
-																				class="elementor-grid-item"
-																				role="listitem"
-																			>
-																				<a
-																					class="elementor-icon elementor-social-icon elementor-social-icon-linkedin-in elementor-repeater-item-d6e9e58"
-																					href="https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
-																					target="_blank"
-																				>
-																					<span
-																						class="elementor-screen-only"
-																						>Linkedin-in</span
-																					>
-																					<svg
-																						aria-hidden="true"
-																						class="e-font-icon-svg e-fab-linkedin-in"
-																						viewBox="0 0 448 512"
-																						xmlns="http://www.w3.org/2000/svg"
-																						><path
-																							d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-																						>
-																						</path></svg
-																					>
-																				</a>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-e0f2b60 cmsmasters-button-align-right cmsmasters-button-mobile-align-center cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																	data-id="e0f2b60"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-button.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="elementor-widget-cmsmasters-button__button-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container-inner"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/"
+																					href={member.profile_url}
 																					class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
 																					role="button"
 																					tabindex="0"
@@ -1792,6 +749,7 @@ const buttonUrl =
 											</div>
 										</div>
 									</article>
+									))}
 								</div>
 							</div>
 						</div>

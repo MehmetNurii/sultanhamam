@@ -13,8 +13,23 @@ const subtitle = section?.subtitle || null;
 const description = section?.description || null;
 const buttonText = section?.button_text || "View all Services";
 const buttonUrl =
-	section?.button_url ||
-	"https://wellness-bliss.cmsmasters.studio/light/services-page/";
+	section?.button_url || "/services-page";
+
+const defaultServices = [
+	{ title: "Swedish Relaxation Massage", description: "Using gentle to medium pressure and flowing strokes, this massage promotes deep relaxation, improves circulation, and soothes tired muscles.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp", button_text: "Read More", url: "/services/swedish-relaxation-massage/" },
+	{ title: "Facial Massage", description: "Our facial massage uses light, soothing strokes to boost circulation, release tension, and enhance your skin\u2019s natural glow.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-8.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-8.webp", button_text: "Read More", url: "/services/facial-massage/" },
+	{ title: "Aromatherapy Massage", description: "This massage combines gentle, flowing techniques with the healing power of essential oils chosen specifically for your needs \u2014 whether calming, energizing, or balancing.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp", button_text: "Read More", url: "/services/aromatherapy-massage/" },
+	{ title: "Hot Stone Massage", description: "Smooth, heated stones are placed on key points of the body and used in flowing massage strokes to ease muscle tension and enhance circulation.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-10.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-10.webp", button_text: "Read More", url: "/services/hot-stone-massage/" },
+	{ title: "Deep Tissue Therapy", description: "This intensive massage technique targets deeper layers of muscle and connective tissue to relieve chronic pain, stiffness, and tension.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-11.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-11.webp", button_text: "Read More", url: "/services/deep-tissue-therapy/" },
+	{ title: "Reflexology Therapy", description: "This specialized treatment focuses on pressure points in the feet, hands, and ears that correspond to different organs and systems of the body.", icon_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-12.svg", bg_image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-12.webp", button_text: "Read More", url: "/services/reflexology-therapy/" },
+];
+const services = section?.extra_data?.services || defaultServices;
+
+const transformHoverSettings = JSON.stringify({"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"});
+
+const overlaySettings = JSON.stringify({"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"});
+
+const titleAbsoluteSettings = JSON.stringify({"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"});
 ---
 
 <section
@@ -96,31 +111,35 @@ const buttonUrl =
 						<div class="cmsmasters-blog__posts-variable">
 							<div class="cmsmasters-blog__posts-wrap">
 								<div class="cmsmasters-blog__posts">
+									{services.map((service: any, index: number) => {
+										const cardId = `service-card-${index}`;
+										return (
 									<article
-										id="post-28838"
-										class="cmsmasters-blog__post post-28838 type-services status-publish has-post-thumbnail hentry service_category-sensory-relaxation-therapies"
+										id={cardId}
+										class={`cmsmasters-blog__post ${cardId} type-services status-publish has-post-thumbnail hentry service_category-sensory-relaxation-therapies`}
 									>
 										<div
 											class="cmsmasters-blog__post-inner"
 										>
-											<style is:inline>
-												.post-28838
+											<style is:inline set:html={`
+												.${cardId}
 													.elementor-element.elementor-element-703df6:not(
 														.elementor-motion-effects-element-type-background
 													):not(
 														.cmsmasters-bg-effect
 													),
-												.post-28838
+												.${cardId}
 													.elementor-element.elementor-element-703df6
 													> .elementor-motion-effects-container
 													> .elementor-motion-effects-layer,
-												.post-28838
+												.${cardId}
 													.elementor-element.elementor-element-703df6
 													> .cmsmasters-bg-effects-container
 													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp");
+													background-image: url("${service.bg_image_url}");
 												}
-											</style><div
+											`} />
+											<div
 												data-elementor-type="cmsmasters_entry"
 												data-elementor-id="136"
 												class="elementor elementor-136"
@@ -146,7 +165,7 @@ const buttonUrl =
 																	class="elementor-widget-container"
 																>
 																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg"
+																		src={service.icon_url}
 																		title=""
 																		alt=""
 																		loading="lazy"
@@ -157,13 +176,13 @@ const buttonUrl =
 																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
 																data-id="2ff79b07"
 																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
+																data-settings={transformHoverSettings}
 															>
 																<div
 																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
 																	data-id="1e993c62"
 																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
+																	data-settings={transformHoverSettings}
 																>
 																	<div
 																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
@@ -176,13 +195,11 @@ const buttonUrl =
 																		>
 																			<h3
 																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Swedish Relaxation Massage"
+																				title={service.title}
 																			>
 																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/swedish-relaxation-massage/"
-																					>Swedish
-																					Relaxation
-																					Massage</a
+																					href={service.url}
+																					>{service.title}</a
 																				>
 																			</h3>
 																		</div>
@@ -199,25 +216,7 @@ const buttonUrl =
 																			<h2
 																				class="elementor-heading-title elementor-size-default"
 																			>
-																				Using
-																				gentle
-																				to
-																				medium
-																				pressure
-																				and
-																				flowing
-																				strokes,
-																				this
-																				massage
-																				promotes
-																				deep
-																				relaxation,
-																				improves
-																				circulation,
-																				and
-																				soothes
-																				tired
-																				muscles.
+																				{service.description}
 																			</h2>
 																		</div>
 																	</div>
@@ -237,7 +236,7 @@ const buttonUrl =
 																					class="elementor-widget-cmsmasters-button__button-container-inner"
 																				>
 																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/swedish-relaxation-massage/"
+																						href={service.url}
 																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
 																						role="button"
 																						tabindex="0"
@@ -245,8 +244,7 @@ const buttonUrl =
 																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
 																							><span
 																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
+																								>{service.button_text || "Read More"}</span
 																							></span
 																						></a
 																					>
@@ -260,14 +258,14 @@ const buttonUrl =
 																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
 																data-id="32bdbe9c"
 																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
+																data-settings={overlaySettings}
 															>
 															</div>
 															<div
 																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
 																data-id="56a33bc2"
 																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
+																data-settings={titleAbsoluteSettings}
 																data-widget_type="cmsmasters-post-title.default"
 															>
 																<div
@@ -275,11 +273,9 @@ const buttonUrl =
 																>
 																	<h3
 																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Swedish Relaxation Massage"
+																		title={service.title}
 																	>
-																		Swedish
-																		Relaxation
-																		Massage
+																		{service.title}
 																	</h3>
 																</div>
 															</div>
@@ -287,1009 +283,7 @@ const buttonUrl =
 																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
 																data-id="2399a569"
 																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-28837"
-										class="cmsmasters-blog__post post-28837 type-services status-publish has-post-thumbnail hentry service_category-sensory-relaxation-therapies"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-28837
-													.elementor-element.elementor-element-703df6:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-28837
-													.elementor-element.elementor-element-703df6
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-28837
-													.elementor-element.elementor-element-703df6
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-8.webp");
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="136"
-												class="elementor elementor-136"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-703df6 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-															data-id="703df6"
-															data-element_type="container"
-															data-settings='{"background_background":"classic"}'
-														>
-															<div
-																class="elementor-element elementor-element-24f394e9 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
-																data-id="24f394e9"
-																data-element_type="widget"
-																data-widget_type="image.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-8.svg"
-																		title=""
-																		alt=""
-																		loading="lazy"
-																	/>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
-																data-id="2ff79b07"
-																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-																<div
-																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																	data-id="1e993c62"
-																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																>
-																	<div
-																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="3dfdb208"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Facial Massage"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/facial-massage/"
-																					>Facial
-																					Massage</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-73706e98 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-																		data-id="73706e98"
-																		data-element_type="widget"
-																		data-widget_type="heading.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h2
-																				class="elementor-heading-title elementor-size-default"
-																			>
-																				Our
-																				facial
-																				massage
-																				uses
-																				light,
-																				soothing
-																				strokes
-																				to
-																				boost
-																				circulation,
-																				release
-																				tension,
-																				and
-																				enhance
-																				your
-																				skinâ€™s
-																				natural
-																				glow.
-																			</h2>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-4e3c65f8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																		data-id="4e3c65f8"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-button.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container"
-																			>
-																				<div
-																					class="elementor-widget-cmsmasters-button__button-container-inner"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/facial-massage/"
-																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																						role="button"
-																						tabindex="0"
-																						><span
-																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																							><span
-																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
-																							></span
-																						></a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="32bdbe9c"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-															<div
-																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																data-id="56a33bc2"
-																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																data-widget_type="cmsmasters-post-title.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<h3
-																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Facial Massage"
-																	>
-																		Facial
-																		Massage
-																	</h3>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="2399a569"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-28836"
-										class="cmsmasters-blog__post post-28836 type-services status-publish has-post-thumbnail hentry service_category-sensory-relaxation-therapies"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-28836
-													.elementor-element.elementor-element-703df6:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-28836
-													.elementor-element.elementor-element-703df6
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-28836
-													.elementor-element.elementor-element-703df6
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp");
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="136"
-												class="elementor elementor-136"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-703df6 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-															data-id="703df6"
-															data-element_type="container"
-															data-settings='{"background_background":"classic"}'
-														>
-															<div
-																class="elementor-element elementor-element-24f394e9 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
-																data-id="24f394e9"
-																data-element_type="widget"
-																data-widget_type="image.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg"
-																		title=""
-																		alt=""
-																		loading="lazy"
-																	/>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
-																data-id="2ff79b07"
-																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-																<div
-																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																	data-id="1e993c62"
-																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																>
-																	<div
-																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="3dfdb208"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Aromatherapy Massage"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/aromatherapy-massage/"
-																					>Aromatherapy
-																					Massage</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-73706e98 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-																		data-id="73706e98"
-																		data-element_type="widget"
-																		data-widget_type="heading.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h2
-																				class="elementor-heading-title elementor-size-default"
-																			>
-																				This
-																				massage
-																				combines
-																				gentle,
-																				flowing
-																				techniques
-																				with
-																				the
-																				healing
-																				power
-																				of
-																				essential
-																				oils
-																				chosen
-																				specifically
-																				for
-																				your
-																				needs
-																				â€”
-																				whether
-																				calming,
-																				energizing,
-																				or
-																				balancing.
-																			</h2>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-4e3c65f8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																		data-id="4e3c65f8"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-button.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container"
-																			>
-																				<div
-																					class="elementor-widget-cmsmasters-button__button-container-inner"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/aromatherapy-massage/"
-																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																						role="button"
-																						tabindex="0"
-																						><span
-																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																							><span
-																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
-																							></span
-																						></a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="32bdbe9c"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-															<div
-																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																data-id="56a33bc2"
-																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																data-widget_type="cmsmasters-post-title.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<h3
-																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Aromatherapy Massage"
-																	>
-																		Aromatherapy
-																		Massage
-																	</h3>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="2399a569"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-28835"
-										class="cmsmasters-blog__post post-28835 type-services status-publish has-post-thumbnail hentry service_category-therapeutic-bodywork"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-28835
-													.elementor-element.elementor-element-703df6:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-28835
-													.elementor-element.elementor-element-703df6
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-28835
-													.elementor-element.elementor-element-703df6
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-10.webp");
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="136"
-												class="elementor elementor-136"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-703df6 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-															data-id="703df6"
-															data-element_type="container"
-															data-settings='{"background_background":"classic"}'
-														>
-															<div
-																class="elementor-element elementor-element-24f394e9 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
-																data-id="24f394e9"
-																data-element_type="widget"
-																data-widget_type="image.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-10.svg"
-																		title=""
-																		alt=""
-																		loading="lazy"
-																	/>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
-																data-id="2ff79b07"
-																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-																<div
-																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																	data-id="1e993c62"
-																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																>
-																	<div
-																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="3dfdb208"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Hot Stone Massage"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/hot-stone-massage/"
-																					>Hot
-																					Stone
-																					Massage</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-73706e98 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-																		data-id="73706e98"
-																		data-element_type="widget"
-																		data-widget_type="heading.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h2
-																				class="elementor-heading-title elementor-size-default"
-																			>
-																				Smooth,
-																				heated
-																				stones
-																				are
-																				placed
-																				on
-																				key
-																				points
-																				of
-																				the
-																				body
-																				and
-																				used
-																				in
-																				flowing
-																				massage
-																				strokes
-																				to
-																				ease
-																				muscle
-																				tension
-																				and
-																				enhance
-																				circulation.
-																			</h2>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-4e3c65f8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																		data-id="4e3c65f8"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-button.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container"
-																			>
-																				<div
-																					class="elementor-widget-cmsmasters-button__button-container-inner"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/hot-stone-massage/"
-																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																						role="button"
-																						tabindex="0"
-																						><span
-																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																							><span
-																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
-																							></span
-																						></a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="32bdbe9c"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-															<div
-																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																data-id="56a33bc2"
-																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																data-widget_type="cmsmasters-post-title.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<h3
-																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Hot Stone Massage"
-																	>
-																		Hot
-																		Stone
-																		Massage
-																	</h3>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="2399a569"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-28834"
-										class="cmsmasters-blog__post post-28834 type-services status-publish has-post-thumbnail hentry service_category-therapeutic-bodywork"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-28834
-													.elementor-element.elementor-element-703df6:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-28834
-													.elementor-element.elementor-element-703df6
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-28834
-													.elementor-element.elementor-element-703df6
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-11.webp");
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="136"
-												class="elementor elementor-136"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-703df6 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-															data-id="703df6"
-															data-element_type="container"
-															data-settings='{"background_background":"classic"}'
-														>
-															<div
-																class="elementor-element elementor-element-24f394e9 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
-																data-id="24f394e9"
-																data-element_type="widget"
-																data-widget_type="image.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-11.svg"
-																		title=""
-																		alt=""
-																		loading="lazy"
-																	/>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
-																data-id="2ff79b07"
-																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-																<div
-																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																	data-id="1e993c62"
-																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																>
-																	<div
-																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="3dfdb208"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Deep Tissue Therapy"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/deep-tissue-therapy/"
-																					>Deep
-																					Tissue
-																					Therapy</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-73706e98 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-																		data-id="73706e98"
-																		data-element_type="widget"
-																		data-widget_type="heading.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h2
-																				class="elementor-heading-title elementor-size-default"
-																			>
-																				This
-																				intensive
-																				massage
-																				technique
-																				targets
-																				deeper
-																				layers
-																				of
-																				muscle
-																				and
-																				connective
-																				tissue
-																				to
-																				relieve
-																				chronic
-																				pain,
-																				stiffness,
-																				and
-																				tension.
-																			</h2>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-4e3c65f8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																		data-id="4e3c65f8"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-button.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container"
-																			>
-																				<div
-																					class="elementor-widget-cmsmasters-button__button-container-inner"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/deep-tissue-therapy/"
-																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																						role="button"
-																						tabindex="0"
-																						><span
-																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																							><span
-																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
-																							></span
-																						></a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="32bdbe9c"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-															<div
-																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																data-id="56a33bc2"
-																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																data-widget_type="cmsmasters-post-title.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<h3
-																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Deep Tissue Therapy"
-																	>
-																		Deep
-																		Tissue
-																		Therapy
-																	</h3>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="2399a569"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</article><article
-										id="post-28673"
-										class="cmsmasters-blog__post post-28673 type-services status-publish has-post-thumbnail hentry service_category-therapeutic-bodywork"
-									>
-										<div
-											class="cmsmasters-blog__post-inner"
-										>
-											<style is:inline>
-												.post-28673
-													.elementor-element.elementor-element-703df6:not(
-														.elementor-motion-effects-element-type-background
-													):not(
-														.cmsmasters-bg-effect
-													),
-												.post-28673
-													.elementor-element.elementor-element-703df6
-													> .elementor-motion-effects-container
-													> .elementor-motion-effects-layer,
-												.post-28673
-													.elementor-element.elementor-element-703df6
-													> .cmsmasters-bg-effects-container
-													> .cmsmasters-bg-effects-element {
-													background-image: url("/assets/light/wp-content/uploads/sites/4/2025/04/61-service-12.webp");
-												}
-											</style><div
-												data-elementor-type="cmsmasters_entry"
-												data-elementor-id="136"
-												class="elementor elementor-136"
-												data-elementor-title="Entry"
-											>
-												<div class="elementor-inner">
-													<div
-														class="elementor-section-wrap"
-													>
-														<div
-															class="elementor-element elementor-element-703df6 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-parent"
-															data-id="703df6"
-															data-element_type="container"
-															data-settings='{"background_background":"classic"}'
-														>
-															<div
-																class="elementor-element elementor-element-24f394e9 elementor-widget__width-inherit cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
-																data-id="24f394e9"
-																data-element_type="widget"
-																data-widget_type="image.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<img
-																		src="/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-12.svg"
-																		title=""
-																		alt=""
-																		loading="lazy"
-																	/>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2ff79b07 e-con-full cmsmasters-effect-hover-type-section cmsmasters-effect cmsmasters-effect-type-transform e-flex cmsmasters-block-default e-con e-child"
-																data-id="2ff79b07"
-																data-element_type="container"
-																data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-																<div
-																	class="elementor-element elementor-element-1e993c62 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																	data-id="1e993c62"
-																	data-element_type="container"
-																	data-settings='{"cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																>
-																	<div
-																		class="elementor-element elementor-element-3dfdb208 cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="3dfdb208"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Reflexology Therapy"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/services/reflexology-therapy/"
-																					>Reflexology
-																					Therapy</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-73706e98 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
-																		data-id="73706e98"
-																		data-element_type="widget"
-																		data-widget_type="heading.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h2
-																				class="elementor-heading-title elementor-size-default"
-																			>
-																				This
-																				specialized
-																				treatment
-																				focuses
-																				on
-																				pressure
-																				points
-																				in
-																				the
-																				feet,
-																				hands,
-																				and
-																				ears
-																				that
-																				correspond
-																				to
-																				different
-																				organs
-																				and
-																				systems
-																				of
-																				the
-																				body.
-																			</h2>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-4e3c65f8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-																		data-id="4e3c65f8"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-button.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="elementor-widget-cmsmasters-button__button-container"
-																			>
-																				<div
-																					class="elementor-widget-cmsmasters-button__button-container-inner"
-																				>
-																					<a
-																						href="https://wellness-bliss.cmsmasters.studio/light/services/reflexology-therapy/"
-																						class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-																						role="button"
-																						tabindex="0"
-																						><span
-																							class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-																							><span
-																								class="elementor-widget-cmsmasters-button__text"
-																								>Read
-																								More</span
-																							></span
-																						></a
-																					>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-32bdbe9c e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="32bdbe9c"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-															>
-															</div>
-															<div
-																class="elementor-element elementor-element-56a33bc2 cmsmasters-line-clamp-yes elementor-absolute cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																data-id="56a33bc2"
-																data-element_type="widget"
-																data-settings='{"_position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
-																data-widget_type="cmsmasters-post-title.default"
-															>
-																<div
-																	class="elementor-widget-container"
-																>
-																	<h3
-																		class="entry-title cmsmasters-widget-title__heading"
-																		title="Reflexology Therapy"
-																	>
-																		Reflexology
-																		Therapy
-																	</h3>
-																</div>
-															</div>
-															<div
-																class="elementor-element elementor-element-2399a569 e-con-full cmsmasters-effect cmsmasters-effect-type-transform cmsmasters-effect-hover-type-section e-flex cmsmasters-block-default e-con e-child"
-																data-id="2399a569"
-																data-element_type="container"
-																data-settings='{"background_background":"classic","position":"absolute","cms_transform_hover_type":"section","cms_transform_out_row_id_hover":".cmsms_container_for_transform_hover_effect","cms_transform_out_row_custom_selector_hover":[":hover .elementor-element.elementor-element-{{ID}}",":hover .e-con.cmsmasters-effect-type-transform.elementor-element.elementor-element-{{ID}}",":hover .elementor-column.cmsmasters-effect-type-transform > .elementor-widget-wrap"],"cms_transform_out_row_custom_value_hover":"transform: translate(var(--cmsmasters-transform-translate-x-hover, var(--cmsmasters-transform-translate-x)), var(--cmsmasters-transform-translate-y-hover, var(--cmsmasters-transform-translate-y))) rotateZ(var(--cmsmasters-transform-rotate-z-hover, var(--cmsmasters-transform-rotate-z))) rotateX(var(--cmsmasters-transform-rotate-x-hover, var(--cmsmasters-transform-rotate-x))) rotateY(var(--cmsmasters-transform-rotate-y-hover, var(--cmsmasters-transform-rotate-y))) scale(var(--cmsmasters-transform-scale-x-hover, var(--cmsmasters-transform-scale-x)), var(--cmsmasters-transform-scale-y-hover, var(--cmsmasters-transform-scale-y))) skew(var(--cmsmasters-transform-skew-x-hover, var(--cmsmasters-transform-skew-x)), var(--cmsmasters-transform-skew-y-hover, var(--cmsmasters-transform-skew-y))); opacity: var(--cmsmasters-transform-opacity-hover, var(--cmsmasters-transform-opacity)); backdrop-filter: blur(var(--cmsmasters-transform-blur-hover, var(--cmsmasters-transform-blur)));"}'
+																data-settings={overlaySettings}
 															>
 															</div>
 														</div>
@@ -1298,6 +292,8 @@ const buttonUrl =
 											</div>
 										</div>
 									</article>
+										);
+									})}
 								</div>
 							</div>
 						</div>

@@ -80,7 +80,25 @@ INSERT INTO site_settings (key, value) VALUES
     ('footer_newsletter_title', 'Sign up to Newsletter'),
     ('footer_newsletter_button', 'Sign Up'),
     ('site_url', 'https://wellness-bliss.cmsmasters.studio/light'),
-    ('home_two_url', 'https://wellness-bliss.cmsmasters.studio/light/home-two/')
+    ('home_two_url', 'https://wellness-bliss.cmsmasters.studio/light/home-two/'),
+    ('logo_url', '/assets/light/wp-content/uploads/sites/4/2025/05/logo-2.svg'),
+    ('logo_alt', 'Light Demo'),
+    ('logo_title', 'Light Demo'),
+    ('work_hours_weekday', 'Monday to Friday: 9AM - 6PM'),
+    ('work_hours_saturday', 'Saturday: 9AM - 6PM'),
+    ('work_hours_sunday', 'Sunday: 9AM - 5PM'),
+    ('copyright_text', '© 2026 - All Rights Reserved'),
+    ('sample_site_text', 'This is a sample website'),
+    ('contacts_url', '/contacts'),
+    ('book_appointment_text', 'Book an Appointment'),
+    ('book_appointment_description', 'Your life is waiting. Fast, long-lasting relief is nearby.'),
+    ('book_visit_text', 'Book a Visit'),
+    ('book_online_text', 'Book Online'),
+    ('view_directions_text', 'View Directions'),
+    ('view_directions_url', '/contacts'),
+    ('address_label', 'Address'),
+    ('work_hours_label', 'Work Hours'),
+    ('contacts_label', 'Contacts')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 
 -- Pages
@@ -129,22 +147,113 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'More About Us', '/about-us', '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp', '{}'::jsonb, 3, true),
     ('index', 'services', 'services',
      'Our Services', NULL, NULL,
-     'View all Services', '/services-page', NULL, '{}'::jsonb, 4, true),
+     'View all Services', '/services-page', NULL,
+     '{"services": [
+        {
+          "title": "Swedish Relaxation Massage",
+          "description": "Using gentle to medium pressure and flowing strokes, this massage promotes deep relaxation, improves circulation, and soothes tired muscles.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp",
+          "button_text": "Read More",
+          "url": "/services/swedish-relaxation-massage/"
+        },
+        {
+          "title": "Facial Massage",
+          "description": "Our facial massage uses light, soothing strokes to boost circulation, release tension, and enhance your skin\u2019s natural glow.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-8.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-8.webp",
+          "button_text": "Read More",
+          "url": "/services/facial-massage/"
+        },
+        {
+          "title": "Aromatherapy Massage",
+          "description": "This massage combines gentle, flowing techniques with the healing power of essential oils chosen specifically for your needs \u2014 whether calming, energizing, or balancing.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp",
+          "button_text": "Read More",
+          "url": "/services/aromatherapy-massage/"
+        },
+        {
+          "title": "Hot Stone Massage",
+          "description": "Smooth, heated stones are placed on key points of the body and used in flowing massage strokes to ease muscle tension and enhance circulation.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-10.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-10.webp",
+          "button_text": "Read More",
+          "url": "/services/hot-stone-massage/"
+        },
+        {
+          "title": "Deep Tissue Therapy",
+          "description": "This intensive massage technique targets deeper layers of muscle and connective tissue to relieve chronic pain, stiffness, and tension.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-11.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-11.webp",
+          "button_text": "Read More",
+          "url": "/services/deep-tissue-therapy/"
+        },
+        {
+          "title": "Reflexology Therapy",
+          "description": "This specialized treatment focuses on pressure points in the feet, hands, and ears that correspond to different organs and systems of the body.",
+          "icon_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-12.svg",
+          "bg_image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-service-12.webp",
+          "button_text": "Read More",
+          "url": "/services/reflexology-therapy/"
+        }
+     ]}'::jsonb, 4, true),
     ('index', 'features', 'features',
      'The Healing Power of Touch',
      'Restore Balance, Ease Tension, and Reconnect with Your Body',
-     NULL, NULL, NULL, NULL,
+     NULL, 'Find out More', '/services-page', NULL,
      '{"features": [
         {"title": "Relieves Stress & Anxiety", "description": "Massage promotes deep relaxation, calming the nervous system and reducing mental fatigue."},
         {"title": "Eases Muscle Tension & Pain", "description": "Targeted techniques release knots, improve flexibility, and help with chronic pain."},
         {"title": "Boosts Immunity", "description": "Enhances blood circulation, supporting natural detoxification, rejuvenation and overall vitality."},
         {"title": "Improves Sleep & Mood", "description": "Encourages better sleep patterns and elevates mood through the release of feel-good hormones."}
-    ]}'::jsonb, 5, true),
+     ],
+     "counter_number": "13",
+     "counter_text": "Years of quality service"
+    }'::jsonb, 5, true),
     ('index', 'team', 'team',
      'Experience the Healing Power of Massage', 
      'Professional, certified therapists with a passion for holistic healing.',
      NULL,
-     'Choose a Specialist', '/our-team', NULL, '{}'::jsonb, 6, true),
+     'Choose a Specialist', '/our-team', NULL,
+     '{"team_members": [
+        {
+          "name": "Angela Carbone",
+          "role": "Soft Tissue Therapist",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp",
+          "profile_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/",
+          "role_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/soft-tissue-therapist/",
+          "social_links": {
+            "facebook": "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+            "twitter": "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+            "linkedin": "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+          }
+        },
+        {
+          "name": "Mason Goodman",
+          "role": "Reflexology Therapist",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp",
+          "profile_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/",
+          "role_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/reflexology-therapist/",
+          "social_links": {
+            "facebook": "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+            "twitter": "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+            "linkedin": "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+          }
+        },
+        {
+          "name": "Whitney Pratt",
+          "role": "Massage Therapist",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp",
+          "profile_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/",
+          "role_url": "https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/massage-therapist/",
+          "social_links": {
+            "facebook": "/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio",
+            "twitter": "/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html",
+            "linkedin": "https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"
+          }
+        }
+     ]}'::jsonb, 6, true),
     ('index', 'gallery', 'gallery',
      'Photo Gallery',
      'A visual journey of mind and body harmony',
@@ -159,7 +268,64 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('index', 'pricing', 'pricing',
      'Pricing plans for your wellness journey', NULL, 
      'We offer simple, flat rate pricing for all our services. All initial consultations include treatment unless further testing is required.',
-     'Full Price List', '/prices-page', NULL, '{}'::jsonb, 8, true),
+     'Full Price List', '/prices-page', NULL,
+     '{"pricing_categories": [
+        {
+          "title": "Massage Therapy",
+          "description": "Stimulate the body''s own healing response.",
+          "icon_class": "cmsms-demo-icons-wellness-bliss",
+          "detail_url": "/prices-page/",
+          "detail_text": "View Details",
+          "items": [
+            {"name": "Relaxation Massage - 60 mins", "price": "$70"},
+            {"name": "Relaxation Massage - 90 mins", "price": "$95"},
+            {"name": "Deep Tissue Massage - 60 mins", "price": "$75"},
+            {"name": "Deep Tissue Massage - 90 mins", "price": "$100"},
+            {"name": "Hot Stone Massage - 60 mins", "price": "$80"},
+            {"name": "Hot Stone Massage - 90 mins", "price": "$115"}
+          ]
+        },
+        {
+          "title": "Reflexology Therapy",
+          "description": "Relieve pain and limitation of movement.",
+          "icon_class": "cmsms-demo-icons-wellness-15",
+          "detail_url": "/prices-page/",
+          "detail_text": "View Details",
+          "groups": [
+            {
+              "group_title": "Initial Consultation",
+              "items": [{"name": "45 mins", "price": "$50"}]
+            },
+            {
+              "group_title": "Follow Up Treatment",
+              "items": [
+                {"name": "30 mins", "price": "$45"},
+                {"name": "60 mins", "price": "$60"}
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Acupuncture Session",
+          "description": "Stimulate the body''s own healing response.",
+          "icon_class": "cmsms-demo-icons-wellness-11",
+          "detail_url": "/prices-page/",
+          "detail_text": "View Details",
+          "groups": [
+            {
+              "group_title": "Initial Consultation",
+              "items": [{"name": "45 mins", "price": "$50"}]
+            },
+            {
+              "group_title": "Follow Up Treatment",
+              "items": [
+                {"name": "30 mins", "price": "$45"},
+                {"name": "60 mins", "price": "$60"}
+              ]
+            }
+          ]
+        }
+     ]}'::jsonb, 8, true),
     ('index', 'testimonials', 'testimonials',
      'What our clients say about us',
      'More than 250 five-star reviews on Google',
@@ -198,20 +364,72 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      ]}'::jsonb, 9, true),
     ('index', 'blog', 'blog',
      'Wellness Blog', NULL, NULL,
-     'More Blog Posts', '/blog-page', NULL, '{}'::jsonb, 10, true),
+     'More Blog Posts', '/blog-page', NULL,
+     '{"blog_posts": [
+        {
+          "title": "5 Ways Regular Massage Therapy Can Improve Your Overall Wellbeing",
+          "post_url": "/5-ways-regular-massage-therapy-can-improve-your-overall-wellbeing/",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-1-1024x581.webp",
+          "date": "April 13, 2025",
+          "category": "Wellness",
+          "category_url": "/category/wellness/",
+          "layout": "large"
+        },
+        {
+          "title": "The Best Way to Relax: Himalayan Hot Stone Massage",
+          "post_url": "/the-best-way-to-relax-himalayan-hot-stone-massage/",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-9-300x170.webp",
+          "date": "April 2, 2025",
+          "category": "Wellness",
+          "category_url": "/category/wellness/",
+          "layout": "small"
+        },
+        {
+          "title": "Your Skin''s Health & Vitality are Just a Facial Away!",
+          "post_url": "/your-skins-health-vitality-are-just-a-facial-away/",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-8-300x170.webp",
+          "date": "April 4, 2025",
+          "category": "Wellness",
+          "category_url": "/category/wellness/",
+          "layout": "small"
+        },
+        {
+          "title": "What to Expect from Our Upcoming Shirdhara Ayurvedic Treatment",
+          "post_url": "/what-to-expect-from-our-upcoming-shirdhara-ayurvedic-treatment/",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-7-300x170.webp",
+          "date": "April 5, 2025",
+          "category": "Wellness",
+          "category_url": "/category/wellness/",
+          "layout": "small"
+        },
+        {
+          "title": "Discover Natural Pain Relief with Massage Therapy",
+          "post_url": "/discover-natural-pain-relief-with-massage-therapy/",
+          "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-6-300x170.webp",
+          "date": "April 7, 2025",
+          "category": "Wellness",
+          "category_url": "/category/wellness/",
+          "layout": "small"
+        }
+     ]}'::jsonb, 10, true),
     ('index', 'cta', 'cta',
      'What''s Your Next Step?', NULL, 
      'Make a step to start your journey to holistic healing with Wellness Bliss.',
-     'VIew Our Services', '/prices-page', '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg', '{}'::jsonb, 11, true),
+     'VIew Our Services', '/prices-page', '/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg',
+     '{"extra_buttons": [
+        {"text": "Choose a Specialist", "url": "/our-team/"},
+        {"text": "Book an Appointment", "url": "/appointment/"},
+        {"text": "Find a Location", "url": "/contacts/"}
+     ]}'::jsonb, 11, true),
     ('index', 'instagram_gallery', 'gallery',
      NULL, NULL, NULL, NULL, NULL, NULL, 
      '{"instagram_images": [
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-1-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-2-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-3-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-4-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-5-768x768.webp",
+        "https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-gallery-6-768x768.webp"
      ]}'::jsonb, 12, true);
 
 -- Page Sections: About Us

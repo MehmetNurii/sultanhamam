@@ -12,6 +12,24 @@ const address = settings.address || '511 SW 10th Ave 1206, Portland, OR, United 
 const footerDiscountText = settings.footer_discount_text || 'Get a special 50% new client discount and unleash your health.';
 const footerNewsletterTitle = settings.footer_newsletter_title || 'Sign up to Newsletter';
 const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
+const logoUrl = settings.logo_url || '/assets/light/wp-content/uploads/sites/4/2025/05/logo-2.svg';
+const logoAlt = settings.logo_alt || 'Light Demo';
+const logoTitle = settings.logo_title || 'Light Demo';
+const siteUrl = settings.site_url || 'https://wellness-bliss.cmsmasters.studio/light';
+const workHoursWeekday = settings.work_hours_weekday || 'Monday to Friday: 9AM - 6PM';
+const workHoursSaturday = settings.work_hours_saturday || 'Saturday: 9AM - 6PM';
+const workHoursSunday = settings.work_hours_sunday || 'Sunday: 9AM - 5PM';
+const copyrightText = settings.copyright_text || '© 2026 - All Rights Reserved';
+const sampleSiteText = settings.sample_site_text || 'This is a sample website';
+const facebook = settings.facebook || 'https://facebook.com/wellnessbliss';
+const instagram = settings.instagram || 'https://instagram.com/wellnessbliss';
+const twitter = settings.twitter || 'https://twitter.com/wellnessbliss';
+const contactsUrl = settings.contacts_url || '/contacts';
+const addressLabel = settings.address_label || 'Address';
+const workHoursLabel = settings.work_hours_label || 'Work Hours';
+const contactsLabel = settings.contacts_label || 'Contacts';
+const viewDirectionsText = settings.view_directions_text || 'View Directions';
+const viewDirectionsUrl = settings.view_directions_url || '/contacts';
 ---
 <footer data-elementor-type="cmsmasters_footer" data-elementor-id="189" class="elementor elementor-189 cmsmasters-location-cmsmasters_footer cmsmasters-header-position-absolute-yes" data-cms-icon="&lt;i aria-hidden=&quot;true&quot; aria-label=&quot;Popup Close&quot; class=&quot;cmsmsdemo-icons- cmsms-demo-icons-cancel&quot;&gt;&lt;/i&gt;">			<div class="elementor-inner">
 				<div class="elementor-section-wrap">
@@ -39,13 +57,13 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 		<div class="elementor-element elementor-element-6ec99823 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="6ec99823" data-element_type="container">
 				<div class="elementor-element elementor-element-65fc005c cmsmasters-logo-type-image cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-site-logo" data-id="65fc005c" data-element_type="widget" data-widget_type="cmsmasters-site-logo.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-site-logo__container"><div class="elementor-widget-cmsmasters-site-logo__image-container"><a href="https://wellness-bliss.cmsmasters.studio/light" class="elementor-widget-cmsmasters-site-logo__link" rel="nofollow"><img src="/assets/light/wp-content/uploads/sites/4/2025/05/logo-2.svg" alt="Light Demo" title="Light Demo" class="elementor-widget-cmsmasters-site-logo__img elementor-widget-cmsmasters-site-logo-main"></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-site-logo__container"><div class="elementor-widget-cmsmasters-site-logo__image-container"><a href={siteUrl} class="elementor-widget-cmsmasters-site-logo__link" rel="nofollow"><img src={logoUrl} alt={logoAlt} title={logoTitle} class="elementor-widget-cmsmasters-site-logo__img elementor-widget-cmsmasters-site-logo-main"></a></div></div>				</div>
 				</div>
 				</div>
 		<section class="elementor-element elementor-element-492aebdc e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="492aebdc" data-element_type="container">
 				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-5a8a1ac1 cmsmasters-widget-layout-column cmsmasters-widget-mobile-align-column-center cmsmasters-widget-tablet-align-column-center cmsmasters-widget-align-column-left cmsmasters-widget-direction-default cmsmasters-value-position-bottom cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="5a8a1ac1" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
-					<h3 class="cmsmasters-widget-icon-list-title">Address</h3>		<ul class="cmsmasters-widget-icon-list-items">
+					<h3 class="cmsmasters-widget-icon-list-title">{addressLabel}</h3>		<ul class="cmsmasters-widget-icon-list-items">
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-cbcbbd3">
@@ -61,7 +79,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 													</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value active-link-item cmsmasters-widget-icon-list-item-value"><a href="https://wellness-bliss.cmsmasters.studio/light/contacts/">View Directions</a></span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value active-link-item cmsmasters-widget-icon-list-item-value"><a href={viewDirectionsUrl}>{viewDirectionsText}</a></span>				</li>
 					</ul>
 						</div>
 				</div>
@@ -69,12 +87,12 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 		<section class="elementor-element elementor-element-60c24f0e e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="60c24f0e" data-element_type="container">
 				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-1450360a cmsmasters-widget-layout-column cmsmasters-widget-mobile-align-column-center cmsmasters-widget-tablet-align-column-center cmsmasters-widget-align-column-left cmsmasters-widget-direction-default cmsmasters-value-position-bottom cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="1450360a" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
-					<h3 class="cmsmasters-widget-icon-list-title">Work Hours</h3>		<ul class="cmsmasters-widget-icon-list-items">
+					<h3 class="cmsmasters-widget-icon-list-title">{workHoursLabel}</h3>		<ul class="cmsmasters-widget-icon-list-items">
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-cbcbbd3">
 						<span class="cmsmasters-widget-icon-list-item-text">
-							Monday to Friday: 9AM - 6PM						</span>
+							{workHoursWeekday}						</span>
 											</span>
 				</span>
 								</li>
@@ -82,7 +100,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-78f2d94">
 						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							Saturday: 9AM - 6PM						</span>
+							{workHoursSaturday}						</span>
 											</span>
 				</span>
 								</li>
@@ -90,7 +108,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-2a9b29a">
 						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							Sunday: 9AM - 5PM						</span>
+							{workHoursSunday}						</span>
 											</span>
 				</span>
 								</li>
@@ -101,7 +119,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 		<section class="elementor-element elementor-element-77765803 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="77765803" data-element_type="container">
 				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-2668a8b2 cmsmasters-widget-layout-column cmsmasters-widget-tablet-align-column-center cmsmasters-widget-mobile-align-column-center cmsmasters-widget-align-column-left cmsmasters-widget-direction-default cmsmasters-value-position-bottom cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="2668a8b2" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
-					<h3 class="cmsmasters-widget-icon-list-title">Contacts</h3>		<ul class="cmsmasters-widget-icon-list-items">
+					<h3 class="cmsmasters-widget-icon-list-title">{contactsLabel}</h3>		<ul class="cmsmasters-widget-icon-list-items">
 							<li class="cmsmasters-widget-icon-list-item active-icon-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
 											<span class="cmsmasters-widget-icon-list-item-icon">
@@ -133,17 +151,17 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 				<div class="elementor-widget-container">
 							<div class="elementor-social-icons-wrapper elementor-grid" role="list">
 							<span class="elementor-grid-item" role="listitem">
-					<a class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-72adf3b" href="/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.html" target="_blank">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-72adf3b" href={facebook} target="_blank">
 						<span class="elementor-screen-only">Facebook-f</span>
 						<svg aria-hidden="true" class="e-font-icon-svg e-fab-facebook-f" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>					</a>
 				</span>
 							<span class="elementor-grid-item" role="listitem">
-					<a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-75928fb" href="/assets/external_aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNv.html" target="_blank">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-75928fb" href={instagram} target="_blank">
 						<span class="elementor-screen-only">Instagram</span>
 						<svg aria-hidden="true" class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>					</a>
 				</span>
 							<span class="elementor-grid-item" role="listitem">
-					<a class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-07041e0" href="/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html" target="_blank">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-x-twitter elementor-repeater-item-07041e0" href={twitter} target="_blank">
 						<span class="elementor-screen-only">X-twitter</span>
 						<svg aria-hidden="true" class="e-font-icon-svg e-fab-x-twitter" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>					</a>
 				</span>
@@ -167,7 +185,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 		<div class="elementor-element elementor-element-bb6148f e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="bb6148f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 				<div class="elementor-element elementor-element-5a3fc261 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="5a3fc261" data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<p class="elementor-heading-title elementor-size-default">This is a sample website</p>				</div>
+					<p class="elementor-heading-title elementor-size-default">{sampleSiteText}</p>				</div>
 				</div>
 				<div class="elementor-element elementor-element-4ea8e8e0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="4ea8e8e0" data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
@@ -179,7 +197,7 @@ const footerNewsletterButton = settings.footer_newsletter_button || 'Sign Up';
 				</div>
 				<div class="elementor-element elementor-element-6fbb371f elementor-widget-tablet__width-initial elementor-widget-mobile__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="6fbb371f" data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<p class="elementor-heading-title elementor-size-default">© 2026 - All Rights Reserved</p>				</div>
+					<p class="elementor-heading-title elementor-size-default">{copyrightText}</p>				</div>
 				</div>
 				</div>
 					</div>

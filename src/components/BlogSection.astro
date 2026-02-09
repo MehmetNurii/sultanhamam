@@ -13,6 +13,25 @@ const buttonText = section?.button_text || "More Blog Posts";
 const buttonUrl =
 	section?.button_url ||
 	"https://wellness-bliss.cmsmasters.studio/light/blog-page/";
+
+const defaultBlogPosts = [
+	{image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-1-1024x581.webp", category: "Wellness", date: "April 13, 2025", title: "5 Ways Regular Massage Therapy Can Improve Your Overall Wellbeing", post_url: "https://wellness-bliss.cmsmasters.studio/light/5-ways-regular-massage-therapy-can-improve-your-overall-wellbeing/"},
+	{image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-9-300x170.webp", category: "Wellness", date: "April 2, 2025", title: "The Best Way to Relax: Himalayan Hot Stone Massage", post_url: "https://wellness-bliss.cmsmasters.studio/light/the-best-way-to-relax-himalayan-hot-stone-massage/"},
+	{image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-8-300x170.webp", category: "Wellness", date: "April 4, 2025", title: "Your Skin's Health & Vitality are Just a Facial Away!", post_url: "https://wellness-bliss.cmsmasters.studio/light/your-skins-health-vitality-are-just-a-facial-away/"},
+	{image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-7-300x170.webp", category: "Wellness", date: "April 5, 2025", title: "What to Expect from Our Upcoming Shirdhara Ayurvedic Treatment", post_url: "https://wellness-bliss.cmsmasters.studio/light/what-to-expect-from-our-upcoming-shirdhara-ayurvedic-treatment/"},
+	{image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-6-300x170.webp", category: "Wellness", date: "April 7, 2025", title: "Discover Natural Pain Relief with Massage Therapy", post_url: "https://wellness-bliss.cmsmasters.studio/light/discover-natural-pain-relief-with-massage-therapy/"}
+];
+const rawBlogPosts = section?.extra_data?.blog_posts || defaultBlogPosts;
+// Alan ismi uyumluluğu: SQL'de "image"/"url" olabilir, bileşen "image_url"/"post_url" bekliyor
+const blogPosts = rawBlogPosts.map((post: any) => ({
+	...post,
+	image_url: post.image_url || post.image,
+	post_url: post.post_url || post.url,
+}));
+
+// First post is featured (big), rest are small
+const featuredPost = blogPosts[0];
+const smallPosts = blogPosts.slice(1);
 ---
 
 <section
@@ -78,6 +97,7 @@ const buttonUrl =
 			data-id="6fcceb6"
 			data-element_type="container"
 		>
+			{/* Featured (big) blog post */}
 			<div
 				class="elementor-element elementor-element-d220eb9 e-con-full e-flex cmsmasters-block-default e-con e-child"
 				data-id="d220eb9"
@@ -99,9 +119,10 @@ const buttonUrl =
 							<div class="cmsmasters-blog__posts-variable">
 								<div class="cmsmasters-blog__posts-wrap">
 									<div class="cmsmasters-blog__posts">
+										{featuredPost && (
 										<article
-											id="post-1401"
-											class="cmsmasters-blog__post post-1401 type-post status-publish format-standard has-post-thumbnail hentry category-wellness tag-health tag-massage"
+											id="post-featured-blog"
+											class="cmsmasters-blog__post type-post status-publish format-standard has-post-thumbnail hentry category-wellness tag-health tag-massage"
 										>
 											<div
 												class="cmsmasters-blog__post-inner"
@@ -136,18 +157,16 @@ const buttonUrl =
 																			class="cmsmasters-widget-image__wrap"
 																		>
 																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/5-ways-regular-massage-therapy-can-improve-your-overall-wellbeing/"
+																				href={featuredPost.post_url}
 																				data-elementor-open-lightbox=""
 																				aria-label="Featured Image"
 																				><img
 																					width="1024"
 																					height="581"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-1-1024x581.webp"
+																					src={featuredPost.image_url}
 																					class="attachment-large size-large wp-image-39878"
 																					alt=""
 																					decoding="async"
-																					srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1-1024x581.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1-768x436.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1-529x300.webp 529w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1-600x341.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-1.webp 1480w"
-																					sizes="(max-width: 1024px) 100vw, 1024px"
 																				/></a
 																			>
 																		</div>
@@ -195,9 +214,9 @@ const buttonUrl =
 																												><a
 																													class="term"
 																													rel="category tag"
-																													href="https://wellness-bliss.cmsmasters.studio/light/category/wellness/"
+																													href="#"
 																													><span
-																														>Wellness</span
+																														>{featuredPost.category}</span
 																													></a
 																												></span
 																											></span
@@ -239,9 +258,7 @@ const buttonUrl =
 																										><span
 																											class="cmsmasters-postmeta__content"
 																											><span
-																												>April
-																												13,
-																												2025</span
+																												>{featuredPost.date}</span
 																											></span
 																										></span
 																									></span
@@ -265,20 +282,11 @@ const buttonUrl =
 																	>
 																		<h3
 																			class="entry-title cmsmasters-widget-title__heading"
-																			title="5 Ways Regular Massage Therapy Can Improve Your Overall Wellbeing"
+																			title={featuredPost.title}
 																		>
 																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/5-ways-regular-massage-therapy-can-improve-your-overall-wellbeing/"
-																				>5
-																				Ways
-																				Regular
-																				Massage
-																				Therapy
-																				Can
-																				Improve
-																				Your
-																				Overall
-																				Wellbeing</a
+																				href={featuredPost.post_url}
+																				>{featuredPost.title}</a
 																			>
 																		</h3>
 																	</div>
@@ -299,7 +307,7 @@ const buttonUrl =
 																				class="elementor-widget-cmsmasters-button__button-container-inner"
 																			>
 																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/5-ways-regular-massage-therapy-can-improve-your-overall-wellbeing/"
+																					href={featuredPost.post_url}
 																					class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
 																					role="button"
 																					tabindex="0"
@@ -322,6 +330,7 @@ const buttonUrl =
 												</div>
 											</div>
 										</article>
+										)}
 									</div>
 								</div>
 							</div>
@@ -329,6 +338,7 @@ const buttonUrl =
 					</div>
 				</div>
 			</div>
+			{/* Small blog posts */}
 			<div
 				class="elementor-element elementor-element-75b49f5 e-con-full e-flex cmsmasters-block-default e-con e-child"
 				data-id="75b49f5"
@@ -350,9 +360,10 @@ const buttonUrl =
 							<div class="cmsmasters-blog__posts-variable">
 								<div class="cmsmasters-blog__posts-wrap">
 									<div class="cmsmasters-blog__posts">
+										{smallPosts.map((post, postIndex) => (
 										<article
-											id="post-1406"
-											class="cmsmasters-blog__post post-1406 type-post status-publish format-standard has-post-thumbnail hentry category-massage-therapy tag-health tag-massage tag-spa"
+											id={`post-blog-${postIndex}`}
+											class="cmsmasters-blog__post type-post status-publish format-standard has-post-thumbnail hentry"
 										>
 											<div
 												class="cmsmasters-blog__post-inner"
@@ -388,18 +399,16 @@ const buttonUrl =
 																			class="cmsmasters-widget-image__wrap"
 																		>
 																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/the-best-way-to-relax-himalayan-hot-stone-massage/"
+																				href={post.post_url}
 																				data-elementor-open-lightbox=""
 																				aria-label="Featured Image"
 																				><img
 																					width="300"
 																					height="170"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-9-300x170.webp"
-																					class="attachment-medium size-medium wp-image-39886"
+																					src={post.image_url}
+																					class="attachment-medium size-medium"
 																					alt=""
 																					decoding="async"
-																					srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9-1024x581.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9-768x436.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9-529x300.webp 529w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9-600x341.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-9.webp 1480w"
-																					sizes="(max-width: 300px) 100vw, 300px"
 																				/></a
 																			>
 																		</div>
@@ -421,19 +430,11 @@ const buttonUrl =
 																		>
 																			<h3
 																				class="entry-title cmsmasters-widget-title__heading"
-																				title="The Best Way to Relax: Himalayan Hot Stone Massage"
+																				title={post.title}
 																			>
 																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/the-best-way-to-relax-himalayan-hot-stone-massage/"
-																					>The
-																					Best
-																					Way
-																					to
-																					Relax:
-																					Himalayan
-																					Hot
-																					Stone
-																					Massage</a
+																					href={post.post_url}
+																					>{post.title}</a
 																				>
 																			</h3>
 																		</div>
@@ -467,416 +468,7 @@ const buttonUrl =
 																									><span
 																										class="cmsmasters-postmeta__content"
 																										><span
-																											>April
-																											2,
-																											2025</span
-																										></span
-																									></span
-																								></span
-																							>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</article><article
-											id="post-1405"
-											class="cmsmasters-blog__post post-1405 type-post status-publish format-standard has-post-thumbnail hentry category-health tag-health tag-massage"
-										>
-											<div
-												class="cmsmasters-blog__post-inner"
-											>
-												<div
-													data-elementor-type="cmsmasters_entry"
-													data-elementor-id="195"
-													class="elementor elementor-195"
-													data-elementor-title="Entry"
-												>
-													<div
-														class="elementor-inner"
-													>
-														<div
-															class="elementor-section-wrap"
-														>
-															<div
-																class="elementor-element elementor-element-3478ce1e e-con-full e-flex cmsmasters-block-default e-con e-parent"
-																data-id="3478ce1e"
-																data-element_type="container"
-																data-settings='{"background_background":"classic"}'
-															>
-																<div
-																	class="elementor-element elementor-element-41bb936e cmsmasters-object-fit cmsmasters-object-fit-cover elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-featured-image cmsmasters-widget-image"
-																	data-id="41bb936e"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-post-featured-image.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="cmsmasters-widget-image__wrap"
-																		>
-																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/your-skins-health-vitality-are-just-a-facial-away/"
-																				data-elementor-open-lightbox=""
-																				aria-label="Featured Image"
-																				><img
-																					width="300"
-																					height="170"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-8-300x170.webp"
-																					class="attachment-medium size-medium wp-image-39885"
-																					alt=""
-																					decoding="async"
-																					srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8-1024x581.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8-768x436.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8-529x300.webp 529w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8-600x341.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-8.webp 1480w"
-																					sizes="(max-width: 300px) 100vw, 300px"
-																				/></a
-																			>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-124b2524 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																	data-id="124b2524"
-																	data-element_type="container"
-																>
-																	<div
-																		class="elementor-element elementor-element-68a976ef elementor-widget__width-inherit cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="68a976ef"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Your Skin’s Health & Vitality are Just a Facial Away!"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/your-skins-health-vitality-are-just-a-facial-away/"
-																					>Your
-																					Skin’s
-																					Health
-																					&amp;
-																					Vitality
-																					are
-																					Just
-																					a
-																					Facial
-																					Away!</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-38907e6 cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																		data-id="38907e6"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-meta-data.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="cmsmasters-meta-data"
-																			>
-																				<div
-																					class="cmsmasters-meta-data__inner"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__item elementor-repeater-item-e591779"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item__inner"
-																						>
-																							<span
-																								class="cmsmasters-postmeta"
-																								data-name="date"
-																								><span
-																									class="cmsmasters-postmeta__inner"
-																									><span
-																										class="cmsmasters-postmeta__content"
-																										><span
-																											>April
-																											4,
-																											2025</span
-																										></span
-																									></span
-																								></span
-																							>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</article><article
-											id="post-1404"
-											class="cmsmasters-blog__post post-1404 type-post status-publish format-standard has-post-thumbnail hentry category-mindfulness-meditation tag-meditation tag-rehab"
-										>
-											<div
-												class="cmsmasters-blog__post-inner"
-											>
-												<div
-													data-elementor-type="cmsmasters_entry"
-													data-elementor-id="195"
-													class="elementor elementor-195"
-													data-elementor-title="Entry"
-												>
-													<div
-														class="elementor-inner"
-													>
-														<div
-															class="elementor-section-wrap"
-														>
-															<div
-																class="elementor-element elementor-element-3478ce1e e-con-full e-flex cmsmasters-block-default e-con e-parent"
-																data-id="3478ce1e"
-																data-element_type="container"
-																data-settings='{"background_background":"classic"}'
-															>
-																<div
-																	class="elementor-element elementor-element-41bb936e cmsmasters-object-fit cmsmasters-object-fit-cover elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-featured-image cmsmasters-widget-image"
-																	data-id="41bb936e"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-post-featured-image.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="cmsmasters-widget-image__wrap"
-																		>
-																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/what-to-expect-from-our-upcoming-shirdhara-ayurvedic-treatment/"
-																				data-elementor-open-lightbox=""
-																				aria-label="Featured Image"
-																				><img
-																					width="300"
-																					height="170"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-7-300x170.webp"
-																					class="attachment-medium size-medium wp-image-39884"
-																					alt=""
-																					decoding="async"
-																					srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7-1024x581.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7-768x436.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7-529x300.webp 529w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7-600x341.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-7.webp 1480w"
-																					sizes="(max-width: 300px) 100vw, 300px"
-																				/></a
-																			>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-124b2524 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																	data-id="124b2524"
-																	data-element_type="container"
-																>
-																	<div
-																		class="elementor-element elementor-element-68a976ef elementor-widget__width-inherit cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="68a976ef"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="What to Expect from Our Upcoming Shirdhara Ayurvedic Treatment"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/what-to-expect-from-our-upcoming-shirdhara-ayurvedic-treatment/"
-																					>What
-																					to
-																					Expect
-																					from
-																					Our
-																					Upcoming
-																					Shirdhara
-																					Ayurvedic
-																					Treatment</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-38907e6 cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																		data-id="38907e6"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-meta-data.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="cmsmasters-meta-data"
-																			>
-																				<div
-																					class="cmsmasters-meta-data__inner"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__item elementor-repeater-item-e591779"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item__inner"
-																						>
-																							<span
-																								class="cmsmasters-postmeta"
-																								data-name="date"
-																								><span
-																									class="cmsmasters-postmeta__inner"
-																									><span
-																										class="cmsmasters-postmeta__content"
-																										><span
-																											>April
-																											5,
-																											2025</span
-																										></span
-																									></span
-																								></span
-																							>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</article><article
-											id="post-1403"
-											class="cmsmasters-blog__post post-1403 type-post status-publish format-standard has-post-thumbnail hentry category-wellness tag-health tag-massage"
-										>
-											<div
-												class="cmsmasters-blog__post-inner"
-											>
-												<div
-													data-elementor-type="cmsmasters_entry"
-													data-elementor-id="195"
-													class="elementor elementor-195"
-													data-elementor-title="Entry"
-												>
-													<div
-														class="elementor-inner"
-													>
-														<div
-															class="elementor-section-wrap"
-														>
-															<div
-																class="elementor-element elementor-element-3478ce1e e-con-full e-flex cmsmasters-block-default e-con e-parent"
-																data-id="3478ce1e"
-																data-element_type="container"
-																data-settings='{"background_background":"classic"}'
-															>
-																<div
-																	class="elementor-element elementor-element-41bb936e cmsmasters-object-fit cmsmasters-object-fit-cover elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-featured-image cmsmasters-widget-image"
-																	data-id="41bb936e"
-																	data-element_type="widget"
-																	data-widget_type="cmsmasters-post-featured-image.default"
-																>
-																	<div
-																		class="elementor-widget-container"
-																	>
-																		<div
-																			class="cmsmasters-widget-image__wrap"
-																		>
-																			<a
-																				href="https://wellness-bliss.cmsmasters.studio/light/discover-natural-pain-relief-with-massage-therapy/"
-																				data-elementor-open-lightbox=""
-																				aria-label="Featured Image"
-																				><img
-																					width="300"
-																					height="170"
-																					src="/assets/light/wp-content/uploads/sites/4/2025/04/61-blog-6-300x170.webp"
-																					class="attachment-medium size-medium wp-image-39883"
-																					alt=""
-																					decoding="async"
-																					srcset="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6-300x170.webp 300w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6-1024x581.webp 1024w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6-768x436.webp 768w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6-529x300.webp 529w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6-600x341.webp 600w, https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/61-blog-6.webp 1480w"
-																					sizes="(max-width: 300px) 100vw, 300px"
-																				/></a
-																			>
-																		</div>
-																	</div>
-																</div>
-																<div
-																	class="elementor-element elementor-element-124b2524 e-con-full e-flex cmsmasters-block-default e-con e-child"
-																	data-id="124b2524"
-																	data-element_type="container"
-																>
-																	<div
-																		class="elementor-element elementor-element-68a976ef elementor-widget__width-inherit cmsmasters-line-clamp-yes cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
-																		data-id="68a976ef"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-post-title.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<h3
-																				class="entry-title cmsmasters-widget-title__heading"
-																				title="Discover Natural Pain Relief with Massage Therapy"
-																			>
-																				<a
-																					href="https://wellness-bliss.cmsmasters.studio/light/discover-natural-pain-relief-with-massage-therapy/"
-																					>Discover
-																					Natural
-																					Pain
-																					Relief
-																					with
-																					Massage
-																					Therapy</a
-																				>
-																			</h3>
-																		</div>
-																	</div>
-																	<div
-																		class="elementor-element elementor-element-38907e6 cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
-																		data-id="38907e6"
-																		data-element_type="widget"
-																		data-widget_type="cmsmasters-meta-data.default"
-																	>
-																		<div
-																			class="elementor-widget-container"
-																		>
-																			<div
-																				class="cmsmasters-meta-data"
-																			>
-																				<div
-																					class="cmsmasters-meta-data__inner"
-																				>
-																					<div
-																						class="cmsmasters-meta-data__item elementor-repeater-item-e591779"
-																					>
-																						<div
-																							class="cmsmasters-meta-data__item__inner"
-																						>
-																							<span
-																								class="cmsmasters-postmeta"
-																								data-name="date"
-																								><span
-																									class="cmsmasters-postmeta__inner"
-																									><span
-																										class="cmsmasters-postmeta__content"
-																										><span
-																											>April
-																											7,
-																											2025</span
+																											>{post.date}</span
 																										></span
 																									></span
 																								></span
@@ -894,6 +486,7 @@ const buttonUrl =
 												</div>
 											</div>
 										</article>
+										))}
 									</div>
 								</div>
 							</div>

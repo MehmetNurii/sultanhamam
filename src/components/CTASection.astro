@@ -17,6 +17,13 @@ const iconUrl =
 	"/assets/light/wp-content/uploads/sites/4/2025/04/icon-5.svg";
 const buttonText = section?.button_text || "VIew Our Services";
 const buttonUrl = section?.button_url || "/prices-page";
+
+const defaultExtraButtons = [
+	{ text: "Choose a Specialist", url: "/our-team/" },
+	{ text: "Book an Appointment", url: "/appointment/" },
+	{ text: "Find a Location", url: "/contacts/" },
+];
+const extraButtons = section?.extra_data?.extra_buttons || defaultExtraButtons;
 ---
 
 <section
@@ -100,102 +107,40 @@ const buttonUrl = section?.button_url || "/prices-page";
 						</div>
 					</div>
 				</div>
-				<div
-					class="elementor-element elementor-element-fb49441 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-					data-id="fb49441"
-					data-element_type="widget"
-					data-settings='{"_animation":"fadeInRight","_animation_delay":450}'
-					data-widget_type="cmsmasters-button.default"
-					style="visibility: visible; opacity: 1;"
-				>
-					<div class="elementor-widget-container">
+			{extraButtons.map((btn: any, i: number) => (
+			<div
+				class={`elementor-element elementor-element-${['fb49441','df6f450','e088236'][i] || 'fb49441'} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button`}
+				data-id={['fb49441','df6f450','e088236'][i] || 'fb49441'}
+				data-element_type="widget"
+				data-settings={`{"_animation":"fadeInRight","_animation_delay":${450 + i * 100}}`}
+				data-widget_type="cmsmasters-button.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<div
+						class="elementor-widget-cmsmasters-button__button-container"
+					>
 						<div
-							class="elementor-widget-cmsmasters-button__button-container"
+							class="elementor-widget-cmsmasters-button__button-container-inner"
 						>
-							<div
-								class="elementor-widget-cmsmasters-button__button-container-inner"
-							>
-								<a
-									href="https://wellness-bliss.cmsmasters.studio/light/our-team/"
-									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-									role="button"
-									tabindex="0"
+							<a
+								href={btn.url}
+								class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
+								role="button"
+								tabindex="0"
+								><span
+									class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
 									><span
-										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-										><span
-											class="elementor-widget-cmsmasters-button__text"
-											>Choose a Specialist</span
-										></span
-									></a
-								>
-							</div>
+										class="elementor-widget-cmsmasters-button__text"
+										>{btn.text}</span
+									></span
+								></a
+							>
 						</div>
 					</div>
 				</div>
-				<div
-					class="elementor-element elementor-element-df6f450 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-					data-id="df6f450"
-					data-element_type="widget"
-					data-settings='{"_animation":"fadeInRight","_animation_delay":550}'
-					data-widget_type="cmsmasters-button.default"
-					style="visibility: visible; opacity: 1;"
-				>
-					<div class="elementor-widget-container">
-						<div
-							class="elementor-widget-cmsmasters-button__button-container"
-						>
-							<div
-								class="elementor-widget-cmsmasters-button__button-container-inner"
-							>
-								<a
-									href="https://wellness-bliss.cmsmasters.studio/light/appointment/"
-									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-									role="button"
-									tabindex="0"
-									><span
-										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-										><span
-											class="elementor-widget-cmsmasters-button__text"
-											>Book an Appointment</span
-										></span
-									></a
-								>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-					class="elementor-element elementor-element-e088236 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
-					data-id="e088236"
-					data-element_type="widget"
-					data-settings='{"_animation":"fadeInRight","_animation_delay":650}'
-					data-widget_type="cmsmasters-button.default"
-					style="visibility: visible; opacity: 1;"
-				>
-					<div class="elementor-widget-container">
-						<div
-							class="elementor-widget-cmsmasters-button__button-container"
-						>
-							<div
-								class="elementor-widget-cmsmasters-button__button-container-inner"
-							>
-								<a
-									href="https://wellness-bliss.cmsmasters.studio/light/contacts/"
-									class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
-									role="button"
-									tabindex="0"
-									><span
-										class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
-										><span
-											class="elementor-widget-cmsmasters-button__text"
-											>Find a Location</span
-										></span
-									></a
-								>
-							</div>
-						</div>
-					</div>
-				</div>
+			</div>
+			))}
 			</div>
 		</div>
 		<div
