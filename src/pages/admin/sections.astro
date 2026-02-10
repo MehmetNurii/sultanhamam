@@ -49,9 +49,14 @@ if (Astro.request.method === "POST") {
 }
 
 const updated = Astro.url.searchParams.get("updated");
+const filterPage = Astro.url.searchParams.get("page"); // URL param to filter by page slug
 
 // Group sections by page (sort_order already maintained from query)
-const sectionsByPage = sections.reduce(
+const filteredSections = filterPage
+  ? sections.filter((s) => s.page_slug === filterPage)
+  : sections;
+
+const sectionsByPage = filteredSections.reduce(
   (acc, section) => {
     if (!acc[section.page_slug]) {
       acc[section.page_slug] = [];
@@ -71,23 +76,50 @@ const pageTitles = pages.reduce(
   {} as Record<string, string>,
 );
 
+// Pre-compute section counts per page for filter tabs (avoid type annotations in JSX)
+const sectionCountsByPage = sections.reduce(
+  (acc, s) => {
+    acc[s.page_slug] = (acc[s.page_slug] || 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
+
 // Extra data summary helper
 function getExtraDataSummary(section: (typeof sections)[0]): string[] {
   const summaries: string[] = [];
   const ed = section.extra_data;
   if (!ed || Object.keys(ed).length === 0) return summaries;
 
-  if (ed.services && Array.isArray(ed.services)) summaries.push(`${ed.services.length} servis`);
-  if (ed.features && Array.isArray(ed.features)) summaries.push(`${ed.features.length} özellik`);
-  if (ed.team_members && Array.isArray(ed.team_members)) summaries.push(`${(ed.team_members as unknown[]).length} ekip üyesi`);
-  if (ed.gallery_images && Array.isArray(ed.gallery_images)) summaries.push(`${(ed.gallery_images as unknown[]).length} galeri resmi`);
-  if (ed.pricing_categories && Array.isArray(ed.pricing_categories)) summaries.push(`${(ed.pricing_categories as unknown[]).length} fiyat kategorisi`);
-  if (ed.testimonials && Array.isArray(ed.testimonials)) summaries.push(`${(ed.testimonials as unknown[]).length} müşteri yorumu`);
-  if (ed.blog_posts && Array.isArray(ed.blog_posts)) summaries.push(`${(ed.blog_posts as unknown[]).length} blog yazısı`);
-  if (ed.extra_buttons && Array.isArray(ed.extra_buttons)) summaries.push(`${(ed.extra_buttons as unknown[]).length} ekstra buton`);
-  if (ed.instagram_images && Array.isArray(ed.instagram_images)) summaries.push(`${(ed.instagram_images as unknown[]).length} instagram resmi`);
+  if (ed.services && Array.isArray(ed.services))
+    summaries.push(`${ed.services.length} servis`);
+  if (ed.features && Array.isArray(ed.features))
+    summaries.push(`${ed.features.length} özellik`);
+  if (ed.team_members && Array.isArray(ed.team_members))
+    summaries.push(`${(ed.team_members as unknown[]).length} ekip üyesi`);
+  if (ed.gallery_images && Array.isArray(ed.gallery_images))
+    summaries.push(`${(ed.gallery_images as unknown[]).length} galeri resmi`);
+  if (ed.pricing_categories && Array.isArray(ed.pricing_categories))
+    summaries.push(
+      `${(ed.pricing_categories as unknown[]).length} fiyat kategorisi`,
+    );
+  if (ed.testimonials && Array.isArray(ed.testimonials))
+    summaries.push(`${(ed.testimonials as unknown[]).length} müşteri yorumu`);
+  if (ed.blog_posts && Array.isArray(ed.blog_posts))
+    summaries.push(`${(ed.blog_posts as unknown[]).length} blog yazısı`);
+  if (ed.extra_buttons && Array.isArray(ed.extra_buttons))
+    summaries.push(`${(ed.extra_buttons as unknown[]).length} ekstra buton`);
+  if (ed.instagram_images && Array.isArray(ed.instagram_images))
+    summaries.push(
+      `${(ed.instagram_images as unknown[]).length} instagram resmi`,
+    );
+  if (ed.packages && Array.isArray(ed.packages))
+    summaries.push(`${(ed.packages as unknown[]).length} paket`);
+  if (ed.images && Array.isArray(ed.images))
+    summaries.push(`${(ed.images as unknown[]).length} resim`);
   if (ed.counter_number) summaries.push(`Sayaç: ${ed.counter_number}`);
   if (ed.counter_text) summaries.push(`"${ed.counter_text}"`);
+  if (ed.placeholder_image) summaries.push(`Placeholder resim`);
 
   // Genel kalan key'ler
   if (summaries.length === 0) {
@@ -117,6 +149,9 @@ const sectionTypeLabels: Record<string, string> = {
   team_list: "Ekip Listesi",
   services_list: "Servis Listesi",
   pricing_table: "Fiyat Tablosu",
+  story: "Hikaye",
+  appointment: "Randevu",
+  contact: "İletişim",
 };
 ---
 
@@ -125,8 +160,20 @@ const sectionTypeLabels: Record<string, string> = {
   {
     updated && (
       <div class="admin-alert admin-alert-success admin-mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
         <span>Bölüm başarıyla güncellendi!</span>
       </div>
@@ -137,20 +184,63 @@ const sectionTypeLabels: Record<string, string> = {
   <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
     <div>
       <p class="admin-text-muted">
-        Her sayfanın bölümlerini sayfa sıralamasına göre düzenleyebilirsiniz. Ekstra verileri (servisler, ekip, fiyatlar, blog yazıları vb.) JSON olarak düzenleyebilirsiniz.
+        Her sayfanın bölümlerini sayfa sıralamasına göre düzenleyebilirsiniz.
+        Ekstra verileri (servisler, ekip, fiyatlar, blog yazıları vb.) JSON
+        olarak düzenleyebilirsiniz.
       </p>
     </div>
+  </div>
+
+  <!-- Page Filter Tabs -->
+  <div class="page-filter-tabs admin-mb-6">
+    <a
+      href="/admin/sections"
+      class={`page-filter-tab ${!filterPage ? "active" : ""}`}
+    >
+      Tümü
+      <span class="page-filter-count">{sections.length}</span>
+    </a>
+    {
+      Object.entries(sectionCountsByPage).map(([slug, count]) => (
+        <a
+          href={`/admin/sections?page=${slug}`}
+          class={`page-filter-tab ${filterPage === slug ? "active" : ""}`}
+        >
+          {pageTitles[slug] || slug}
+          <span class="page-filter-count">{count}</span>
+        </a>
+      ))
+    }
   </div>
 
   {
     sections.length === 0 ? (
       <div class="admin-card">
-        <div class="admin-card-body" style="text-align: center; padding: 60px 20px;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin: 0 auto 16px; opacity: 0.5;">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        <div
+          class="admin-card-body"
+          style="text-align: center; padding: 60px 20px;"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            style="margin: 0 auto 16px; opacity: 0.5;"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+            />
           </svg>
           <h3 style="margin-bottom: 8px;">Henüz Bölüm Yok</h3>
-          <p class="admin-text-muted">Supabase'de <code>page_sections</code> tablosunu oluşturun ve verileri ekleyin.</p>
+          <p class="admin-text-muted">
+            Supabase'de <code>page_sections</code> tablosunu oluşturun ve
+            verileri ekleyin.
+          </p>
         </div>
       </div>
     ) : (
@@ -159,7 +249,10 @@ const sectionTypeLabels: Record<string, string> = {
           <div class="admin-card-header">
             <h3 class="admin-card-title">
               {pageTitles[pageSlug] || pageSlug}
-              <span class="admin-text-muted admin-text-sm" style="font-weight: normal; margin-left: 8px;">
+              <span
+                class="admin-text-muted admin-text-sm"
+                style="font-weight: normal; margin-left: 8px;"
+              >
                 /{pageSlug === "index" ? "" : pageSlug}
               </span>
             </h3>
@@ -169,19 +262,30 @@ const sectionTypeLabels: Record<string, string> = {
             <div class="sections-list">
               {pageSections.map((section, idx) => {
                 const extraSummary = getExtraDataSummary(section);
-                const hasExtraData = section.extra_data && Object.keys(section.extra_data).length > 0;
+                const hasExtraData =
+                  section.extra_data &&
+                  Object.keys(section.extra_data).length > 0;
                 return (
-                  <div class={`section-row ${!section.visible ? 'section-row--hidden' : ''}`}>
+                  <div
+                    class={`section-row ${!section.visible ? "section-row--hidden" : ""}`}
+                  >
                     <div class="section-order">
-                      <span class="section-order-num">{section.sort_order}</span>
+                      <span class="section-order-num">
+                        {section.sort_order}
+                      </span>
                     </div>
                     <div class="section-info">
                       <div class="section-info-top">
                         <span class="section-type-badge">
-                          {sectionTypeLabels[section.section_type] || section.section_type.toUpperCase()}
+                          {sectionTypeLabels[section.section_type] ||
+                            section.section_type.toUpperCase()}
                         </span>
-                        <span class="section-key-label">{section.section_key}</span>
-                        <span class={`section-visibility ${section.visible ? 'visible' : 'hidden'}`}>
+                        <span class="section-key-label">
+                          {section.section_key}
+                        </span>
+                        <span
+                          class={`section-visibility ${section.visible ? "visible" : "hidden"}`}
+                        >
                           {section.visible ? "Görünür" : "Gizli"}
                         </span>
                       </div>
@@ -193,30 +297,67 @@ const sectionTypeLabels: Record<string, string> = {
                       )}
                       {section.description && (
                         <p class="section-row-desc">
-                          {section.description.substring(0, 120)}{section.description.length > 120 ? "..." : ""}
+                          {section.description.substring(0, 120)}
+                          {section.description.length > 120 ? "..." : ""}
                         </p>
                       )}
                       <div class="section-meta-row">
                         {section.button_text && (
                           <span class="meta-chip meta-chip--button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                              />
                             </svg>
                             {section.button_text}
                           </span>
                         )}
                         {section.image_url && (
                           <span class="meta-chip meta-chip--image">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              />
                             </svg>
                             Resim
                           </span>
                         )}
                         {hasExtraData && (
                           <span class="meta-chip meta-chip--data">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+                              />
                             </svg>
                             {extraSummary.join(" · ")}
                           </span>
@@ -228,8 +369,20 @@ const sectionTypeLabels: Record<string, string> = {
                         class="admin-btn admin-btn-primary admin-btn-sm"
                         onclick={`openEditModal(${JSON.stringify(section)})`}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
                         </svg>
                         Düzenle
                       </button>
@@ -348,7 +501,7 @@ const sectionTypeLabels: Record<string, string> = {
     font-size: 0.7rem;
     color: var(--admin-text-muted);
     font-family: monospace;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     padding: 1px 6px;
     border-radius: 3px;
     border: 1px solid var(--admin-border-color);
@@ -475,7 +628,7 @@ const sectionTypeLabels: Record<string, string> = {
     font-size: 0.7rem;
     color: var(--admin-text-muted);
     font-family: monospace;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     padding: 2px 8px;
     border-radius: 4px;
     border: 1px solid var(--admin-border-color);
@@ -549,7 +702,7 @@ const sectionTypeLabels: Record<string, string> = {
   .json-editor {
     width: 100%;
     min-height: 300px;
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-family: "Consolas", "Monaco", "Courier New", monospace;
     font-size: 0.8rem;
     line-height: 1.5;
     background: var(--admin-bg-main);
@@ -612,6 +765,59 @@ const sectionTypeLabels: Record<string, string> = {
     color: var(--admin-text-muted);
   }
 
+  /* Page Filter Tabs */
+  .page-filter-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 4px;
+    background: var(--admin-bg-card);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-lg);
+  }
+
+  .page-filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--admin-text-muted);
+    text-decoration: none;
+    border-radius: var(--admin-radius-md);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .page-filter-tab:hover {
+    background: rgba(59, 130, 246, 0.06);
+    color: var(--admin-text);
+  }
+
+  .page-filter-tab.active {
+    background: var(--admin-accent);
+    color: #fff;
+  }
+
+  .page-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .page-filter-tab:not(.active) .page-filter-count {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--admin-accent);
+  }
+
   /* No extra data message */
   .no-extra-data {
     text-align: center;
@@ -635,8 +841,19 @@ const sectionTypeLabels: Record<string, string> = {
         <span id="modalSectionBadge" class="modal-section-badge"></span>
       </div>
       <button class="admin-modal-close" onclick="closeEditModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
@@ -647,52 +864,117 @@ const sectionTypeLabels: Record<string, string> = {
       <div class="admin-modal-body">
         <!-- Tabs -->
         <div class="modal-tabs">
-          <button type="button" class="modal-tab active" onclick="switchTab('general')">Genel Bilgiler</button>
-          <button type="button" class="modal-tab" onclick="switchTab('extra')" id="extraTabBtn">Ekstra Veriler</button>
+          <button
+            type="button"
+            class="modal-tab active"
+            onclick="switchTab('general')">Genel Bilgiler</button
+          >
+          <button
+            type="button"
+            class="modal-tab"
+            onclick="switchTab('extra')"
+            id="extraTabBtn">Ekstra Veriler</button
+          >
         </div>
 
         <!-- General Tab -->
         <div id="tab-general" class="tab-panel active">
           <div class="admin-form-group">
             <label class="admin-form-label" for="sectionTitle">Başlık</label>
-            <input type="text" id="sectionTitle" name="title" class="admin-form-input" placeholder="Ana başlık" />
+            <input
+              type="text"
+              id="sectionTitle"
+              name="title"
+              class="admin-form-input"
+              placeholder="Ana başlık"
+            />
           </div>
 
           <div class="admin-form-group">
-            <label class="admin-form-label" for="sectionSubtitle">Alt Başlık</label>
-            <input type="text" id="sectionSubtitle" name="subtitle" class="admin-form-input" placeholder="Alt başlık veya etiket" />
+            <label class="admin-form-label" for="sectionSubtitle"
+              >Alt Başlık</label
+            >
+            <input
+              type="text"
+              id="sectionSubtitle"
+              name="subtitle"
+              class="admin-form-input"
+              placeholder="Alt başlık veya etiket"
+            />
           </div>
 
           <div class="admin-form-group">
-            <label class="admin-form-label" for="sectionDescription">Açıklama</label>
-            <textarea id="sectionDescription" name="description" class="admin-form-textarea" rows="4" placeholder="Bölüm açıklaması"></textarea>
+            <label class="admin-form-label" for="sectionDescription"
+              >Açıklama</label
+            >
+            <textarea
+              id="sectionDescription"
+              name="description"
+              class="admin-form-textarea"
+              rows="4"
+              placeholder="Bölüm açıklaması"></textarea>
           </div>
 
           <div class="admin-form-group">
             <label class="admin-form-label" for="sectionImage">Resim URL</label>
-            <input type="text" id="sectionImage" name="image_url" class="admin-form-input" placeholder="/assets/image.jpg veya https://..." />
+            <input
+              type="text"
+              id="sectionImage"
+              name="image_url"
+              class="admin-form-input"
+              placeholder="/assets/image.jpg veya https://..."
+            />
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"
+          >
             <div class="admin-form-group">
-              <label class="admin-form-label" for="buttonText">Buton Metni</label>
-              <input type="text" id="buttonText" name="button_text" class="admin-form-input" placeholder="Örn: Daha Fazla" />
+              <label class="admin-form-label" for="buttonText"
+                >Buton Metni</label
+              >
+              <input
+                type="text"
+                id="buttonText"
+                name="button_text"
+                class="admin-form-input"
+                placeholder="Örn: Daha Fazla"
+              />
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label" for="buttonUrl">Buton URL</label>
-              <input type="text" id="buttonUrl" name="button_url" class="admin-form-input" placeholder="Örn: /hakkimizda" />
+              <input
+                type="text"
+                id="buttonUrl"
+                name="button_url"
+                class="admin-form-input"
+                placeholder="Örn: /hakkimizda"
+              />
             </div>
           </div>
 
           <div class="admin-form-group">
             <div class="admin-flex admin-items-center admin-justify-between">
-              <label class="admin-form-label" style="margin-bottom: 0;">Görünür</label>
+              <label class="admin-form-label" style="margin-bottom: 0;"
+                >Görünür</label
+              >
               <label class="admin-toggle">
-                <input type="checkbox" id="sectionVisible" name="visible" value="true" checked />
+                <input
+                  type="checkbox"
+                  id="sectionVisible"
+                  name="visible"
+                  value="true"
+                  checked
+                />
                 <span class="admin-toggle-slider"></span>
               </label>
             </div>
-            <input type="hidden" id="visibleHidden" name="visible" value="false" />
+            <input
+              type="hidden"
+              id="visibleHidden"
+              name="visible"
+              value="false"
+            />
           </div>
         </div>
 
@@ -700,9 +982,21 @@ const sectionTypeLabels: Record<string, string> = {
         <div id="tab-extra" class="tab-panel">
           <div id="extraDataEditor">
             <div class="json-toolbar">
-              <button type="button" class="json-toolbar-btn" onclick="formatJson()">Formatla</button>
-              <button type="button" class="json-toolbar-btn" onclick="compactJson()">Küçült</button>
-              <button type="button" class="json-toolbar-btn" onclick="resetJson()">Sıfırla</button>
+              <button
+                type="button"
+                class="json-toolbar-btn"
+                onclick="formatJson()">Formatla</button
+              >
+              <button
+                type="button"
+                class="json-toolbar-btn"
+                onclick="compactJson()">Küçült</button
+              >
+              <button
+                type="button"
+                class="json-toolbar-btn"
+                onclick="resetJson()">Sıfırla</button
+              >
               <span id="jsonStatus" class="json-status empty">Veri yok</span>
             </div>
             <div class="json-editor-wrap">
@@ -711,28 +1005,58 @@ const sectionTypeLabels: Record<string, string> = {
                 name="extra_data"
                 class="json-editor"
                 placeholder='{"key": "value"}'
-                spellcheck="false"
-              ></textarea>
+                spellcheck="false"></textarea>
             </div>
             <p class="admin-text-muted admin-text-sm" style="margin-top: 8px;">
-              Bu alandan servisler, ekip üyeleri, fiyatlandırma, blog yazıları, galeri resimleri gibi verileri JSON formatında düzenleyebilirsiniz.
+              Bu alandan servisler, ekip üyeleri, fiyatlandırma, blog yazıları,
+              galeri resimleri gibi verileri JSON formatında
+              düzenleyebilirsiniz.
             </p>
           </div>
           <div id="noExtraData" class="no-extra-data" style="display: none;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+              ></path>
             </svg>
             <p>Bu bölümde ekstra veri bulunmuyor.</p>
-            <p style="font-size: 0.78rem;">JSON verisi eklemek için editöre yazabilirsiniz.</p>
+            <p style="font-size: 0.78rem;">
+              JSON verisi eklemek için editöre yazabilirsiniz.
+            </p>
           </div>
         </div>
       </div>
 
       <div class="admin-modal-footer">
-        <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditModal()">İptal</button>
+        <button
+          type="button"
+          class="admin-btn admin-btn-secondary"
+          onclick="closeEditModal()">İptal</button
+        >
         <button type="submit" class="admin-btn admin-btn-primary" id="saveBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"></path>
           </svg>
           Kaydet
         </button>
@@ -748,12 +1072,14 @@ const sectionTypeLabels: Record<string, string> = {
     document.getElementById("sectionId").value = section.id;
     document.getElementById("sectionTitle").value = section.title || "";
     document.getElementById("sectionSubtitle").value = section.subtitle || "";
-    document.getElementById("sectionDescription").value = section.description || "";
+    document.getElementById("sectionDescription").value =
+      section.description || "";
     document.getElementById("sectionImage").value = section.image_url || "";
     document.getElementById("buttonText").value = section.button_text || "";
     document.getElementById("buttonUrl").value = section.button_url || "";
     document.getElementById("sectionVisible").checked = section.visible;
-    document.getElementById("modalSectionBadge").textContent = section.section_key;
+    document.getElementById("modalSectionBadge").textContent =
+      section.section_key;
 
     // Extra data
     originalExtraData = section.extra_data;
@@ -788,9 +1114,13 @@ const sectionTypeLabels: Record<string, string> = {
   }
 
   function switchTab(tabName) {
-    document.querySelectorAll(".modal-tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    
+    document
+      .querySelectorAll(".modal-tab")
+      .forEach((t) => t.classList.remove("active"));
+    document
+      .querySelectorAll(".tab-panel")
+      .forEach((p) => p.classList.remove("active"));
+
     const tabs = document.querySelectorAll(".modal-tab");
     if (tabName === "general") {
       tabs[0].classList.add("active");
@@ -809,7 +1139,7 @@ const sectionTypeLabels: Record<string, string> = {
   function validateJson() {
     const input = document.getElementById("extraDataInput");
     const value = input.value.trim();
-    
+
     if (!value) {
       input.classList.remove("json-invalid");
       updateJsonStatus("empty", "Veri yok");
@@ -823,7 +1153,10 @@ const sectionTypeLabels: Record<string, string> = {
       return true;
     } catch (e) {
       input.classList.add("json-invalid");
-      updateJsonStatus("invalid", "Geçersiz JSON: " + e.message.substring(0, 60));
+      updateJsonStatus(
+        "invalid",
+        "Geçersiz JSON: " + e.message.substring(0, 60),
+      );
       return false;
     }
   }
@@ -867,43 +1200,52 @@ const sectionTypeLabels: Record<string, string> = {
   }
 
   // Event listeners
-  document.getElementById("sectionVisible").addEventListener("change", updateVisibleField);
+  document
+    .getElementById("sectionVisible")
+    .addEventListener("change", updateVisibleField);
 
-  document.getElementById("extraDataInput").addEventListener("input", function() {
-    validateJson();
-  });
+  document
+    .getElementById("extraDataInput")
+    .addEventListener("input", function () {
+      validateJson();
+    });
 
   // Tab key support for JSON editor
-  document.getElementById("extraDataInput").addEventListener("keydown", function(e) {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const start = this.selectionStart;
-      const end = this.selectionEnd;
-      this.value = this.value.substring(0, start) + "  " + this.value.substring(end);
-      this.selectionStart = this.selectionEnd = start + 2;
-    }
-  });
+  document
+    .getElementById("extraDataInput")
+    .addEventListener("keydown", function (e) {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value =
+          this.value.substring(0, start) + "  " + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 2;
+      }
+    });
 
   // Form validation before submit
-  document.getElementById("editForm").addEventListener("submit", function(e) {
+  document.getElementById("editForm").addEventListener("submit", function (e) {
     const extraInput = document.getElementById("extraDataInput");
     const value = extraInput.value.trim();
-    
+
     if (value && !validateJson()) {
       e.preventDefault();
       switchTab("extra");
-      alert("Ekstra veriler geçersiz JSON formatında. Lütfen düzeltin ve tekrar deneyin.");
+      alert(
+        "Ekstra veriler geçersiz JSON formatında. Lütfen düzeltin ve tekrar deneyin.",
+      );
       return false;
     }
   });
 
-  document.getElementById("editModal").addEventListener("click", function(e) {
+  document.getElementById("editModal").addEventListener("click", function (e) {
     if (e.target === this) {
       closeEditModal();
     }
   });
 
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeEditModal();
     }

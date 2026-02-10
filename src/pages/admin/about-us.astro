@@ -1,0 +1,1059 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import {
+  getPageSections,
+  updatePageSection,
+  type PageSection,
+} from "../../lib/supabase";
+
+// Handle form submission
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const action = formData.get("action");
+
+  if (action === "update") {
+    const id = parseInt(formData.get("id") as string);
+    const extraDataRaw = (formData.get("extra_data") as string) || "";
+
+    let parsedExtraData: Record<string, unknown> | undefined = undefined;
+    if (extraDataRaw.trim()) {
+      try {
+        parsedExtraData = JSON.parse(extraDataRaw);
+      } catch (e) {
+        console.error("Invalid JSON for extra_data:", e);
+      }
+    }
+
+    const updates: Record<string, unknown> = {
+      title: (formData.get("title") as string) || null,
+      subtitle: (formData.get("subtitle") as string) || null,
+      description: (formData.get("description") as string) || null,
+      button_text: (formData.get("button_text") as string) || null,
+      button_url: (formData.get("button_url") as string) || null,
+      image_url: (formData.get("image_url") as string) || null,
+      visible: formData.get("visible") === "true",
+    };
+
+    if (parsedExtraData !== undefined) {
+      updates.extra_data = parsedExtraData;
+    }
+
+    await updatePageSection(id, updates);
+    return Astro.redirect("/admin/about-us?updated=true");
+  }
+}
+
+const sections = await getPageSections("about-us");
+const updated = Astro.url.searchParams.get("updated");
+
+// Section type config for display
+const sectionConfig: Record<string, { label: string; icon: string; color: string; description: string }> = {
+  hero: {
+    label: "Hero Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />',
+    color: "#8b5cf6",
+    description: "Sayfanın üst kısmındaki ana başlık, alt başlık ve açıklama alanı."
+  },
+  content: {
+    label: "İçerik Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />',
+    color: "#3b82f6",
+    description: "Hakkımızda başlığı, açıklama metni ve yan resim."
+  },
+  story: {
+    label: "Hikayemiz Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />',
+    color: "#10b981",
+    description: "Hikaye başlığı, metin ve fotoğraf galerisi (extra_data.images)."
+  },
+  team: {
+    label: "Ekip Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />',
+    color: "#f59e0b",
+    description: "Ekip başlığı, alt başlık, buton ve ekip üyeleri (extra_data.team_members)."
+  },
+  packages: {
+    label: "Paketler Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />',
+    color: "#ec4899",
+    description: "Wellness paketleri slider'ı (extra_data.packages)."
+  },
+  testimonials: {
+    label: "Müşteri Yorumları",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />',
+    color: "#06b6d4",
+    description: "Müşteri yorumları slider'ı (extra_data.testimonials)."
+  },
+  appointment: {
+    label: "Randevu Bölümü",
+    icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />',
+    color: "#ef4444",
+    description: "Randevu formu başlığı, alt başlık ve buton."
+  },
+};
+
+// Helper: count extra data items
+function getExtraDataInfo(section: PageSection): string[] {
+  const info: string[] = [];
+  const ed = section.extra_data;
+  if (!ed || Object.keys(ed).length === 0) return info;
+  
+  if (ed.images && Array.isArray(ed.images)) info.push(`${(ed.images as unknown[]).length} resim`);
+  if (ed.team_members && Array.isArray(ed.team_members)) info.push(`${(ed.team_members as unknown[]).length} ekip üyesi`);
+  if (ed.packages && Array.isArray(ed.packages)) info.push(`${(ed.packages as unknown[]).length} paket`);
+  if (ed.testimonials && Array.isArray(ed.testimonials)) info.push(`${(ed.testimonials as unknown[]).length} yorum`);
+  if (ed.placeholder_image) info.push('Placeholder resim');
+  return info;
+}
+---
+
+<AdminLayout title="About Us Yönetimi" currentPage="about-us">
+  <!-- Success Message -->
+  {
+    updated && (
+      <div class="admin-alert admin-alert-success admin-mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Bölüm başarıyla güncellendi!</span>
+      </div>
+    )
+  }
+
+  <!-- Page Header -->
+  <div class="admin-flex admin-items-center admin-justify-between admin-mb-6">
+    <div>
+      <p class="admin-text-muted">
+        About Us sayfasının bölümlerini buradan yönetebilirsiniz. Her kartı tıklayarak düzenleme yapabilirsiniz.
+      </p>
+    </div>
+    <div class="admin-flex admin-gap-2">
+      <a href="/about-us" target="_blank" class="admin-btn admin-btn-secondary admin-btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        Sayfayı Görüntüle
+      </a>
+      <a href="/admin/sections?page=about-us" class="admin-btn admin-btn-secondary admin-btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+        </svg>
+        JSON Editör
+      </a>
+    </div>
+  </div>
+
+  <!-- Section flow visualization -->
+  <div class="about-page-flow">
+    {sections.length === 0 ? (
+      <div class="admin-card">
+        <div class="admin-card-body" style="text-align: center; padding: 60px 20px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin: 0 auto 16px; opacity: 0.5;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          <h3 style="margin-bottom: 8px;">Henüz Bölüm Yok</h3>
+          <p class="admin-text-muted">About Us sayfası için veritabanında bölüm bulunamadı.</p>
+        </div>
+      </div>
+    ) : (
+      sections.map((section, idx) => {
+        const config = sectionConfig[section.section_type] || {
+          label: section.section_type.toUpperCase(),
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />',
+          color: "#6b7280",
+          description: ""
+        };
+        const extraInfo = getExtraDataInfo(section);
+        const hasExtraData = section.extra_data && Object.keys(section.extra_data).length > 0;
+        
+        return (
+          <div class={`about-section-card ${!section.visible ? 'about-section-card--hidden' : ''}`}>
+            {/* Section order indicator */}
+            <div class="about-section-order">
+              <div class="about-section-order-line" style={idx === 0 ? 'top: 50%;' : idx === sections.length - 1 ? 'bottom: 50%;' : ''}></div>
+              <div class="about-section-order-dot" style={`background: ${config.color};`}>
+                {section.sort_order}
+              </div>
+            </div>
+            
+            {/* Section card content */}
+            <div class="about-section-content">
+              <div class="about-section-header">
+                <div class="about-section-icon" style={`background: ${config.color}15; color: ${config.color};`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" set:html={config.icon}></svg>
+                </div>
+                <div class="about-section-title-wrap">
+                  <div class="about-section-label-row">
+                    <span class="about-section-type" style={`background: ${config.color}20; color: ${config.color};`}>
+                      {config.label}
+                    </span>
+                    <span class="about-section-key">{section.section_key}</span>
+                    {!section.visible && (
+                      <span class="about-section-hidden-badge">Gizli</span>
+                    )}
+                  </div>
+                  <h4 class="about-section-title">{section.title || "(Başlık yok)"}</h4>
+                  {section.subtitle && (
+                    <p class="about-section-subtitle">{section.subtitle}</p>
+                  )}
+                </div>
+                <button
+                  class="admin-btn admin-btn-primary admin-btn-sm"
+                  onclick={`openEditModal(${JSON.stringify(section)})`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  Düzenle
+                </button>
+              </div>
+              
+              {/* Section details */}
+              <div class="about-section-details">
+                {section.description && (
+                  <p class="about-section-desc">
+                    {section.description.substring(0, 150)}{section.description.length > 150 ? "..." : ""}
+                  </p>
+                )}
+                
+                <div class="about-section-meta">
+                  {section.image_url && (
+                    <div class="about-meta-item about-meta-image">
+                      <img src={section.image_url} alt="" class="about-meta-thumb" />
+                      <span>Resim</span>
+                    </div>
+                  )}
+                  {section.button_text && (
+                    <span class="about-meta-item about-meta-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                      </svg>
+                      {section.button_text}
+                      {section.button_url && <span class="about-meta-url">→ {section.button_url}</span>}
+                    </span>
+                  )}
+                  {extraInfo.length > 0 && (
+                    <span class="about-meta-item about-meta-data">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                      </svg>
+                      {extraInfo.join(" · ")}
+                    </span>
+                  )}
+                </div>
+
+                {/* Preview of extra data items */}
+                {section.section_type === 'team' && section.extra_data?.team_members && (
+                  <div class="about-preview-grid">
+                    {(section.extra_data.team_members as any[]).map((member: any) => (
+                      <div class="about-preview-card">
+                        <img src={member.image_url} alt={member.name} class="about-preview-avatar" />
+                        <div>
+                          <strong>{member.name}</strong>
+                          <span class="about-preview-role">{member.role}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {section.section_type === 'packages' && section.extra_data?.packages && (
+                  <div class="about-preview-list">
+                    {(section.extra_data.packages as any[]).map((pkg: any) => (
+                      <div class="about-preview-chip">
+                        <img src={pkg.icon_url} alt="" class="about-preview-icon" />
+                        <span>{pkg.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {section.section_type === 'testimonials' && section.extra_data?.testimonials && (
+                  <div class="about-preview-list">
+                    {(section.extra_data.testimonials as any[]).map((t: any) => (
+                      <div class="about-preview-chip">
+                        <img src={t.image_url} alt="" class="about-preview-avatar-sm" />
+                        <span>{t.author || t.name}</span>
+                        <span class="about-preview-rating">{"★".repeat(t.rating || 5)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {section.section_type === 'story' && section.extra_data?.images && (
+                  <div class="about-preview-images">
+                    {(section.extra_data.images as string[]).map((img: string) => (
+                      <img src={img} alt="" class="about-preview-story-img" />
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              <div class="about-section-footer">
+                <span class="admin-text-muted" style="font-size: 0.7rem;">{config.description}</span>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    )}
+  </div>
+</AdminLayout>
+
+<style is:inline>
+  .admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: var(--admin-radius-md);
+    font-size: 0.875rem;
+  }
+
+  .admin-alert-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--admin-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  /* About Page Flow Layout */
+  .about-page-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .about-section-card {
+    display: flex;
+    gap: 20px;
+    position: relative;
+  }
+
+  .about-section-card--hidden {
+    opacity: 0.5;
+  }
+
+  /* Order Timeline */
+  .about-section-order {
+    flex-shrink: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .about-section-order-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--admin-border-color);
+    transform: translateX(-50%);
+  }
+
+  .about-section-order-dot {
+    position: relative;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Section Card Content */
+  .about-section-content {
+    flex: 1;
+    background: var(--admin-bg-card);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-lg);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .about-section-content:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--admin-border-color);
+  }
+
+  .about-section-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+  .about-section-title-wrap {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .about-section-label-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .about-section-type {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .about-section-key {
+    font-size: 0.68rem;
+    color: var(--admin-text-muted);
+    font-family: monospace;
+    background: rgba(255,255,255,0.05);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--admin-border-color);
+  }
+
+  .about-section-hidden-badge {
+    font-size: 0.6rem;
+    padding: 1px 8px;
+    border-radius: 9999px;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--admin-danger);
+    font-weight: 500;
+  }
+
+  .about-section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--admin-text);
+    line-height: 1.3;
+  }
+
+  .about-section-subtitle {
+    font-size: 0.8rem;
+    color: var(--admin-accent);
+    margin: 2px 0 0;
+  }
+
+  /* Section Details */
+  .about-section-details {
+    padding: 16px 20px;
+  }
+
+  .about-section-desc {
+    font-size: 0.8rem;
+    color: var(--admin-text-muted);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+
+  .about-section-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .about-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .about-meta-button {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--admin-accent-secondary);
+  }
+
+  .about-meta-url {
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  .about-meta-image {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+  }
+
+  .about-meta-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .about-meta-data {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--admin-success);
+  }
+
+  /* Preview Grids */
+  .about-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .about-preview-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--admin-bg-main);
+    border: 1px solid var(--admin-border-color);
+    border-radius: 8px;
+  }
+
+  .about-preview-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .about-preview-card strong {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--admin-text);
+  }
+
+  .about-preview-role {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--admin-text-muted);
+  }
+
+  .about-preview-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .about-preview-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--admin-bg-main);
+    border: 1px solid var(--admin-border-color);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    color: var(--admin-text);
+  }
+
+  .about-preview-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .about-preview-avatar-sm {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .about-preview-rating {
+    color: #f59e0b;
+    font-size: 0.65rem;
+  }
+
+  .about-preview-images {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .about-preview-story-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--admin-border-color);
+  }
+
+  /* Section Footer */
+  .about-section-footer {
+    padding: 10px 20px;
+    border-top: 1px solid var(--admin-border-color);
+    background: rgba(0,0,0,0.02);
+  }
+
+  /* Modal Styles */
+  .admin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .admin-modal-overlay.active {
+    display: flex;
+  }
+
+  .admin-modal {
+    background: var(--admin-bg-card);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-lg);
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .admin-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--admin-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .admin-modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .modal-section-badge {
+    font-size: 0.7rem;
+    color: var(--admin-text-muted);
+    font-family: monospace;
+    background: rgba(255,255,255,0.05);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--admin-border-color);
+    margin-left: 10px;
+  }
+
+  .admin-modal-close {
+    background: none;
+    border: none;
+    color: var(--admin-text-muted);
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .admin-modal-body {
+    padding: 24px;
+  }
+
+  .admin-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--admin-border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  /* Tabs */
+  .modal-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--admin-border-color);
+    margin: -24px -24px 20px -24px;
+    padding: 0 24px;
+  }
+
+  .modal-tab {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--admin-text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+
+  .modal-tab:hover {
+    color: var(--admin-text);
+  }
+
+  .modal-tab.active {
+    color: var(--admin-accent);
+    border-bottom-color: var(--admin-accent);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* JSON Editor */
+  .json-editor-wrap {
+    position: relative;
+  }
+
+  .json-editor {
+    width: 100%;
+    min-height: 300px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    background: var(--admin-bg-main);
+    color: var(--admin-text);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-md);
+    padding: 16px;
+    resize: vertical;
+    tab-size: 2;
+  }
+
+  .json-editor:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+
+  .json-editor.json-invalid {
+    border-color: var(--admin-danger);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  }
+
+  .json-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .json-toolbar-btn {
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--admin-accent);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .json-toolbar-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+  }
+
+  .json-status {
+    font-size: 0.72rem;
+    margin-left: auto;
+    font-weight: 500;
+  }
+
+  .json-status.valid {
+    color: var(--admin-success);
+  }
+
+  .json-status.invalid {
+    color: var(--admin-danger);
+  }
+
+  .json-status.empty {
+    color: var(--admin-text-muted);
+  }
+</style>
+
+<!-- Edit Modal -->
+<div id="editModal" class="admin-modal-overlay">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div style="display: flex; align-items: center;">
+        <h3 class="admin-modal-title">Bölüm Düzenle</h3>
+        <span id="modalSectionBadge" class="modal-section-badge"></span>
+      </div>
+      <button class="admin-modal-close" onclick="closeEditModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <form method="POST" id="editForm">
+      <input type="hidden" name="action" value="update" />
+      <input type="hidden" id="sectionId" name="id" />
+
+      <div class="admin-modal-body">
+        <!-- Tabs -->
+        <div class="modal-tabs">
+          <button type="button" class="modal-tab active" onclick="switchTab('general')">Genel Bilgiler</button>
+          <button type="button" class="modal-tab" onclick="switchTab('extra')" id="extraTabBtn">Ekstra Veriler</button>
+        </div>
+
+        <!-- General Tab -->
+        <div id="tab-general" class="tab-panel active">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="sectionTitle">Başlık</label>
+            <input type="text" id="sectionTitle" name="title" class="admin-form-input" placeholder="Ana başlık" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="sectionSubtitle">Alt Başlık</label>
+            <input type="text" id="sectionSubtitle" name="subtitle" class="admin-form-input" placeholder="Alt başlık veya etiket" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="sectionDescription">Açıklama</label>
+            <textarea id="sectionDescription" name="description" class="admin-form-textarea" rows="4" placeholder="Bölüm açıklaması"></textarea>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="sectionImage">Resim URL</label>
+            <input type="text" id="sectionImage" name="image_url" class="admin-form-input" placeholder="/assets/image.jpg veya https://..." />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="buttonText">Buton Metni</label>
+              <input type="text" id="buttonText" name="button_text" class="admin-form-input" placeholder="Örn: Daha Fazla" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="buttonUrl">Buton URL</label>
+              <input type="text" id="buttonUrl" name="button_url" class="admin-form-input" placeholder="Örn: /hakkimizda" />
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <div class="admin-flex admin-items-center admin-justify-between">
+              <label class="admin-form-label" style="margin-bottom: 0;">Görünür</label>
+              <label class="admin-toggle">
+                <input type="checkbox" id="sectionVisible" name="visible" value="true" checked />
+                <span class="admin-toggle-slider"></span>
+              </label>
+            </div>
+            <input type="hidden" id="visibleHidden" name="visible" value="false" />
+          </div>
+        </div>
+
+        <!-- Extra Data Tab -->
+        <div id="tab-extra" class="tab-panel">
+          <div id="extraDataEditor">
+            <div class="json-toolbar">
+              <button type="button" class="json-toolbar-btn" onclick="formatJson()">Formatla</button>
+              <button type="button" class="json-toolbar-btn" onclick="compactJson()">Küçült</button>
+              <button type="button" class="json-toolbar-btn" onclick="resetJson()">Sıfırla</button>
+              <span id="jsonStatus" class="json-status empty">Veri yok</span>
+            </div>
+            <div class="json-editor-wrap">
+              <textarea
+                id="extraDataInput"
+                name="extra_data"
+                class="json-editor"
+                placeholder='{"key": "value"}'
+                spellcheck="false"
+              ></textarea>
+            </div>
+            <p class="admin-text-muted" style="margin-top: 8px; font-size: 0.78rem;">
+              Ekip üyeleri, paketler, yorumlar, resimler gibi verileri JSON formatında düzenleyebilirsiniz.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-modal-footer">
+        <button type="button" class="admin-btn admin-btn-secondary" onclick="closeEditModal()">İptal</button>
+        <button type="submit" class="admin-btn admin-btn-primary" id="saveBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Kaydet
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  let originalExtraData = null;
+
+  function openEditModal(section) {
+    document.getElementById("sectionId").value = section.id;
+    document.getElementById("sectionTitle").value = section.title || "";
+    document.getElementById("sectionSubtitle").value = section.subtitle || "";
+    document.getElementById("sectionDescription").value = section.description || "";
+    document.getElementById("sectionImage").value = section.image_url || "";
+    document.getElementById("buttonText").value = section.button_text || "";
+    document.getElementById("buttonUrl").value = section.button_url || "";
+    document.getElementById("sectionVisible").checked = section.visible;
+    document.getElementById("modalSectionBadge").textContent = section.section_key;
+
+    // Extra data
+    originalExtraData = section.extra_data;
+    const extraInput = document.getElementById("extraDataInput");
+    if (section.extra_data && Object.keys(section.extra_data).length > 0) {
+      extraInput.value = JSON.stringify(section.extra_data, null, 2);
+      validateJson();
+    } else {
+      extraInput.value = "";
+      updateJsonStatus("empty", "Veri yok");
+    }
+
+    // Extra tab badge
+    const extraTabBtn = document.getElementById("extraTabBtn");
+    if (section.extra_data && Object.keys(section.extra_data).length > 0) {
+      extraTabBtn.textContent = "Ekstra Veriler ●";
+    } else {
+      extraTabBtn.textContent = "Ekstra Veriler";
+    }
+
+    updateVisibleField();
+    switchTab("general");
+    document.getElementById("editModal").classList.add("active");
+  }
+
+  function closeEditModal() {
+    document.getElementById("editModal").classList.remove("active");
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll(".modal-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    
+    const tabs = document.querySelectorAll(".modal-tab");
+    if (tabName === "general") {
+      tabs[0].classList.add("active");
+    } else {
+      tabs[1].classList.add("active");
+    }
+    document.getElementById("tab-" + tabName).classList.add("active");
+  }
+
+  function updateVisibleField() {
+    const checkbox = document.getElementById("sectionVisible");
+    const hidden = document.getElementById("visibleHidden");
+    hidden.disabled = checkbox.checked;
+  }
+
+  function validateJson() {
+    const input = document.getElementById("extraDataInput");
+    const value = input.value.trim();
+    
+    if (!value) {
+      input.classList.remove("json-invalid");
+      updateJsonStatus("empty", "Veri yok");
+      return true;
+    }
+
+    try {
+      JSON.parse(value);
+      input.classList.remove("json-invalid");
+      updateJsonStatus("valid", "✓ Geçerli JSON");
+      return true;
+    } catch (e) {
+      input.classList.add("json-invalid");
+      updateJsonStatus("invalid", "✗ Geçersiz: " + e.message.substring(0, 50));
+      return false;
+    }
+  }
+
+  function updateJsonStatus(type, message) {
+    const status = document.getElementById("jsonStatus");
+    status.className = "json-status " + type;
+    status.textContent = message;
+  }
+
+  function formatJson() {
+    const input = document.getElementById("extraDataInput");
+    try {
+      const parsed = JSON.parse(input.value);
+      input.value = JSON.stringify(parsed, null, 2);
+      validateJson();
+    } catch (e) {}
+  }
+
+  function compactJson() {
+    const input = document.getElementById("extraDataInput");
+    try {
+      const parsed = JSON.parse(input.value);
+      input.value = JSON.stringify(parsed);
+      validateJson();
+    } catch (e) {}
+  }
+
+  function resetJson() {
+    const input = document.getElementById("extraDataInput");
+    if (originalExtraData && Object.keys(originalExtraData).length > 0) {
+      input.value = JSON.stringify(originalExtraData, null, 2);
+    } else {
+      input.value = "";
+    }
+    validateJson();
+  }
+
+  // Event listeners
+  document.getElementById("sectionVisible").addEventListener("change", updateVisibleField);
+
+  document.getElementById("extraDataInput").addEventListener("input", function() {
+    validateJson();
+  });
+
+  // Tab key support for JSON editor
+  document.getElementById("extraDataInput").addEventListener("keydown", function(e) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+      this.value = this.value.substring(0, start) + "  " + this.value.substring(end);
+      this.selectionStart = this.selectionEnd = start + 2;
+    }
+  });
+
+  // Form validation before submit
+  document.getElementById("editForm").addEventListener("submit", function(e) {
+    const extraInput = document.getElementById("extraDataInput");
+    const value = extraInput.value.trim();
+    
+    if (value && !validateJson()) {
+      e.preventDefault();
+      switchTab("extra");
+      alert("Ekstra veriler geçersiz JSON formatında. Lütfen düzeltin ve tekrar deneyin.");
+      return false;
+    }
+  });
+
+  document.getElementById("editModal").addEventListener("click", function(e) {
+    if (e.target === this) {
+      closeEditModal();
+    }
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      closeEditModal();
+    }
+  });
+</script>
