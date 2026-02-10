@@ -503,19 +503,36 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      NULL, NULL, NULL, NULL, '{}'::jsonb, 7, true);
 
 -- Page Sections: Services
-INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
+INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, extra_data, sort_order, visible) VALUES
     ('services', 'hero', 'hero',
      'Services Page', NULL,
      'World-class rehabilitation solutions and individualized recovery plans, from acute care to ongoing outpatient treatment and beyond.',
-     NULL, NULL, 1),
+     NULL, NULL, '{}'::jsonb, 1, true),
     ('services', 'packages', 'services',
-     'Wellness Packages', NULL,
-     'Serenity Starter, Balance & Recenter, Deep Restoration',
-     NULL, NULL, 2),
+     'Wellness Packages', NULL, NULL, NULL, NULL,
+     '{"packages":[
+       {"title":"Serenity Starter","subtitle":"Recovering ability, mobility amd more","description":"Designed as the perfect introduction to wellness, this gentle treatment blends light massage, calming aromatherapy, and soothing energy techniques to ease tension and quiet the mind.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-1.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-1.webp","url":"/services/serenity-starter/"},
+       {"title":"Balance & Recenter","subtitle":"Overcoming the challenges of limb loss","description":"This holistic session combines guided breathwork, gentle body relaxation techniques, and subtle energy balancing to align mind, body, and spirit.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-2.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-2.webp","url":"/services/balance-recenter/"},
+       {"title":"Deep Restoration","subtitle":"Optimizing your individual abilities","description":"This intensive therapy weaves together slow massage, therapeutic touch, and calming aromatherapy to target deep physical and emotional tension.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-3.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-3.webp","url":"/services/deep-restoration/"},
+       {"title":"Moon & Soul Ritual","subtitle":"Restoring the skills to rebuild your life","description":"A nurturing, soulful experience designed to leave you feeling aligned, illuminated, and deeply at peace.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-5.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-5.webp","url":"/services/moon-soul-ritual/"},
+       {"title":"Inner Glow Detox","subtitle":"Discovering the path to independence","description":"Perfect for those seeking to refresh both body and mind, Inner Glow Detox leaves you feeling lighter, brighter, and full of vibrant energy.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-4.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-4.webp","url":"/services/inner-glow-detox/"},
+       {"title":"Blissful Renewal Day","subtitle":"Finding solutions to complex needs","description":"Perfect for those seeking a complete reset, this experience leaves you deeply restored, glowing, and ready to embrace life with renewed energy.","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-6.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-6.webp","url":"/services/blissful-renewal-day/"}
+     ]}'::jsonb, 2, true),
     ('services', 'services_list', 'services',
-     'Our Treatments', NULL,
-     'Swedish Relaxation Massage, Facial Massage, Aromatherapy Massage',
-     NULL, NULL, 3);
+     'Our Services', NULL, NULL, NULL, NULL,
+     '{"services":[
+       {"title":"Swedish Relaxation Massage","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp","url":"/services/swedish-relaxation-massage/"},
+       {"title":"Facial Massage","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-8.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-8.webp","url":"/services/facial-massage/"},
+       {"title":"Aromatherapy Massage","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp","url":"/services/aromatherapy-massage/"},
+       {"title":"Hot Stone Massage","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-10.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-10.webp","url":"/services/hot-stone-massage/"},
+       {"title":"Deep Tissue Therapy","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-11.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-11.webp","url":"/services/deep-tissue-therapy/"},
+       {"title":"Reflexology Therapy","icon_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-12.svg","bg_image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-service-12.webp","url":"/services/reflexology-therapy/"}
+     ]}'::jsonb, 3, true),
+    ('services', 'consultation', 'cta',
+     'Free Consultation', 'Get a special 50% new patient discount and unleash your health.',
+     'Whether you''re seeking pain relief or overall wellness, our expert practitioners are here to help you achieve your health goals. Don''t miss out on this opportunity to invest in your health at half the price!',
+     'Find Out More', '/contacts/',
+     '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-services-2-1024x820.webp"}'::jsonb, 4, true);
 
 -- Page Sections: Contacts
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES

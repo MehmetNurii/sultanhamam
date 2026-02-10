@@ -1,0 +1,51 @@
+﻿---
+import { getPageSection } from "../lib/supabase";
+const section = await getPageSection("services", "hero");
+const title = section?.title || "Services Page";
+const description =
+	section?.description ||
+	"World-class rehabilitation solutions and individualized recovery plans, from acute care to ongoing outpatient treatment and beyond.";
+---
+
+<div
+	class="elementor-element elementor-element-42d0c4b e-con-full e-flex cmsmasters-block-default e-con e-parent e-lazyloaded"
+	data-id="42d0c4b"
+	data-element_type="container"
+	data-settings='{"background_background":"classic"}'
+>
+	<div
+		class="elementor-element elementor-element-c472526 e-flex e-con-boxed cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
+		data-id="c472526"
+		data-element_type="container"
+		data-settings='{"background_background":"classic"}'
+	>
+		<div class="e-con-inner">
+			<div
+				class="elementor-element elementor-element-a5fc364 elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading animated fadeIn"
+				data-id="a5fc364"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn"}'
+				data-widget_type="heading.default"
+			>
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">
+						{title}
+					</h1>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-25f8f08 elementor-widget__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor animated fadeIn"
+				data-id="25f8f08"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":250}'
+				data-widget_type="text-editor.default"
+			>
+				<div class="elementor-widget-container">
+					<p>
+						{description}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

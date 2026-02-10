@@ -1,0 +1,128 @@
+﻿---
+import { getPageSection } from "../lib/supabase";
+const section = await getPageSection("services", "consultation");
+const title = section?.title || "Free Consultation";
+const subtitle =
+	section?.subtitle ||
+	"Get a special 50% new patient discount and unleash your health.";
+const description =
+	section?.description ||
+	"Whether you're seeking pain relief or overall wellness, our expert practitioners are here to help you achieve your health goals. Don't miss out on this opportunity to invest in your health at half the price!";
+const buttonText = section?.button_text || "Find Out More";
+const buttonUrl = section?.button_url || "/contacts/";
+const imageUrl =
+	section?.extra_data?.image_url ||
+	"/assets/light/wp-content/uploads/sites/4/2025/04/61-services-2-1024x820.webp";
+---
+
+<div
+	class="elementor-element elementor-element-2a6aa20 e-flex e-con-boxed cmsmasters-block-default e-con e-parent"
+	data-id="2a6aa20"
+	data-element_type="container"
+>
+	<div class="e-con-inner">
+		<div
+			class="elementor-element elementor-element-cbd2dd4 e-con-full e-flex cmsmasters-block-default e-con e-child"
+			data-id="cbd2dd4"
+			data-element_type="container"
+		>
+			<div
+				class="elementor-element elementor-element-c841c65 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image"
+				data-id="c841c65"
+				data-element_type="widget"
+				data-settings='{"_animation":"zoomIn"}'
+				data-widget_type="image.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<img
+						loading="lazy"
+						decoding="async"
+						width="1024"
+						height="820"
+						src={imageUrl}
+						class="attachment-large size-large wp-image-43846"
+						alt=""
+					/>
+				</div>
+			</div>
+		</div>
+		<div
+			class="elementor-element elementor-element-b7fcc56 e-con-full e-flex cmsmasters-block-default e-con e-child"
+			data-id="b7fcc56"
+			data-element_type="container"
+		>
+			<div
+				class="elementor-element elementor-element-6bfa9ef cmsmasters-color-variation-gradient elementor-widget__width-initial cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title"
+				data-id="6bfa9ef"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":250}'
+				data-widget_type="cmsmasters-title.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h2 class="cmsmasters-widget-title__heading">
+						<span class="title-inner-element">{title}</span>
+					</h2>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-7bab000 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+				data-id="7bab000"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":500}'
+				data-widget_type="heading.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">
+						{subtitle}
+					</h2>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-7960356 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor"
+				data-id="7960356"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeIn","_animation_delay":750}'
+				data-widget_type="text-editor.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<p>{description}</p>
+				</div>
+			</div>
+			<div
+				class="elementor-element elementor-element-29e4f0a cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
+				data-id="29e4f0a"
+				data-element_type="widget"
+				data-settings='{"_animation":"fadeInUp","_animation_delay":1000}'
+				data-widget_type="cmsmasters-button.default"
+				style="visibility: visible; opacity: 1;"
+			>
+				<div class="elementor-widget-container">
+					<div
+						class="elementor-widget-cmsmasters-button__button-container"
+					>
+						<div
+							class="elementor-widget-cmsmasters-button__button-container-inner"
+						>
+							<a
+								href={buttonUrl}
+								class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm"
+								role="button"
+								tabindex="0"
+								><span
+									class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"
+									><span
+										class="elementor-widget-cmsmasters-button__text"
+										>{buttonText}</span
+									></span
+								></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
