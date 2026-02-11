@@ -360,3 +360,213 @@ export async function deletePageSection(id: number) {
         return false;
     }
 }
+
+// ============================================
+// Services (Detail Pages) CRUD
+// ============================================
+
+export interface Service {
+    id: number;
+    slug: string;
+    title: string;
+    category: string | null;
+    short_description: string | null;
+    full_description: string | null;
+    hero_image_url: string | null;
+    icon_url: string | null;
+    sidebar_links: Record<string, unknown>[];
+    visible: boolean;
+    sort_order: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface ServiceFaq {
+    id: number;
+    service_id: number;
+    question: string;
+    answer: string;
+    sort_order: number;
+    created_at: string;
+}
+
+export async function getServices(): Promise<Service[]> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('services')
+            .select('*')
+            .order('sort_order');
+
+        if (error) {
+            console.error('Error fetching services:', error);
+            return [];
+        }
+        return data || [];
+    } catch (err) {
+        console.error('Error in getServices:', err);
+        return [];
+    }
+}
+
+export async function getServiceById(id: number): Promise<Service | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('services')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching service:', error);
+            return null;
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in getServiceById:', err);
+        return null;
+    }
+}
+
+export async function createService(service: Omit<Service, 'id' | 'created_at' | 'updated_at'>): Promise<Service | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('services')
+            .insert(service)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error creating service:', error);
+            return null;
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in createService:', err);
+        return null;
+    }
+}
+
+export async function updateService(id: number, updates: Partial<Omit<Service, 'id' | 'created_at' | 'updated_at'>>): Promise<Service | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('services')
+            .update({ ...updates, updated_at: new Date().toISOString() })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating service:', error);
+            return null;
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in updateService:', err);
+        return null;
+    }
+}
+
+export async function deleteService(id: number): Promise<boolean> {
+    try {
+        const client = getSupabaseClient();
+        const { error } = await client
+            .from('services')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error deleting service:', error);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error('Error in deleteService:', err);
+        return false;
+    }
+}
+
+// Service FAQs CRUD
+
+export async function getServiceFaqs(serviceId: number): Promise<ServiceFaq[]> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('service_faqs')
+            .select('*')
+            .eq('service_id', serviceId)
+            .order('sort_order');
+
+        if (error) {
+            console.error('Error fetching service FAQs:', error);
+            return [];
+        }
+        return data || [];
+    } catch (err) {
+        console.error('Error in getServiceFaqs:', err);
+        return [];
+    }
+}
+
+export async function createServiceFaq(faq: Omit<ServiceFaq, 'id' | 'created_at'>): Promise<ServiceFaq | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('service_faqs')
+            .insert(faq)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error creating FAQ:', error);
+            return null;
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in createServiceFaq:', err);
+        return null;
+    }
+}
+
+export async function updateServiceFaq(id: number, updates: Partial<Omit<ServiceFaq, 'id' | 'created_at'>>): Promise<ServiceFaq | null> {
+    try {
+        const client = getSupabaseClient();
+        const { data, error } = await client
+            .from('service_faqs')
+            .update(updates)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating FAQ:', error);
+            return null;
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in updateServiceFaq:', err);
+        return null;
+    }
+}
+
+export async function deleteServiceFaq(id: number): Promise<boolean> {
+    try {
+        const client = getSupabaseClient();
+        const { error } = await client
+            .from('service_faqs')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error deleting FAQ:', error);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error('Error in deleteServiceFaq:', err);
+        return false;
+    }
+}

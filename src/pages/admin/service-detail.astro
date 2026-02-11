@@ -1,0 +1,475 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import {
+    getServiceById,
+    updateService,
+    getServiceFaqs,
+    createServiceFaq,
+    updateServiceFaq,
+    deleteServiceFaq,
+    type Service,
+    type ServiceFaq,
+} from "../../lib/supabase";
+
+const id = parseInt(Astro.url.searchParams.get("id") || "0");
+const updated = Astro.url.searchParams.get("updated");
+const faqUpdated = Astro.url.searchParams.get("faq_updated");
+
+// Handle POST actions
+if (Astro.request.method === "POST") {
+    const formData = await Astro.request.formData();
+    const action = formData.get("action") as string;
+
+    if (action === "update_service") {
+        const sidebarLinksRaw = (formData.get("sidebar_links") as string) || "[]";
+        let parsedLinks: any[] = [];
+        try {
+            parsedLinks = JSON.parse(sidebarLinksRaw);
+        } catch (e) {
+            parsedLinks = [];
+        }
+
+        await updateService(id, {
+            title: formData.get("title") as string,
+            slug: formData.get("slug") as string,
+            category: (formData.get("category") as string) || null,
+            short_description: (formData.get("short_description") as string) || null,
+            full_description: (formData.get("full_description") as string) || null,
+            hero_image_url: (formData.get("hero_image_url") as string) || null,
+            icon_url: (formData.get("icon_url") as string) || null,
+            sidebar_links: parsedLinks,
+            visible: formData.get("visible") === "true",
+            sort_order: parseInt(formData.get("sort_order") as string) || 0,
+        });
+        return Astro.redirect(`/admin/service-detail?id=${id}&updated=true`);
+    }
+
+    if (action === "add_faq") {
+        await createServiceFaq({
+            service_id: id,
+            question: formData.get("question") as string,
+            answer: formData.get("answer") as string,
+            sort_order: parseInt(formData.get("sort_order") as string) || 0,
+        });
+        return Astro.redirect(`/admin/service-detail?id=${id}&faq_updated=true`);
+    }
+
+    if (action === "update_faq") {
+        const faqId = parseInt(formData.get("faq_id") as string);
+        await updateServiceFaq(faqId, {
+            question: formData.get("question") as string,
+            answer: formData.get("answer") as string,
+            sort_order: parseInt(formData.get("sort_order") as string) || 0,
+        });
+        return Astro.redirect(`/admin/service-detail?id=${id}&faq_updated=true`);
+    }
+
+    if (action === "delete_faq") {
+        const faqId = parseInt(formData.get("faq_id") as string);
+        await deleteServiceFaq(faqId);
+        return Astro.redirect(`/admin/service-detail?id=${id}&faq_updated=true`);
+    }
+}
+
+// Fetch data
+const service = id ? await getServiceById(id) : null;
+if (!service) {
+    return Astro.redirect("/admin/services");
+}
+
+const faqs = await getServiceFaqs(id);
+const sidebarLinksJson = JSON.stringify(service.sidebar_links || [], null, 2);
+---
+
+<AdminLayout title={`Hizmet: ${service.title}`} currentPage="services">
+    <!-- Breadcrumb -->
+    <div class="sd-breadcrumb">
+        <a href="/admin/services" class="sd-breadcrumb-link">← Hizmetler</a>
+        <span class="sd-breadcrumb-sep">/</span>
+        <span class="sd-breadcrumb-current">{service.title}</span>
+    </div>
+
+    <!-- Success Messages -->
+    {updated && (
+        <div class="admin-alert admin-alert-success admin-mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Hizmet başarıyla güncellendi!</span>
+        </div>
+    )}
+    {faqUpdated && (
+        <div class="admin-alert admin-alert-success admin-mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>FAQ başarıyla güncellendi!</span>
+        </div>
+    )}
+
+    <!-- Service Edit Form -->
+    <form method="POST" class="sd-form-card">
+        <input type="hidden" name="action" value="update_service" />
+
+        <div class="sd-card-header">
+            <h3>Hizmet Bilgileri</h3>
+            <div class="sd-header-actions">
+                <a href={`/services/${service.slug}`} target="_blank" class="admin-btn admin-btn-secondary admin-btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Önizle
+                </a>
+                <button type="submit" class="admin-btn admin-btn-primary admin-btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Kaydet
+                </button>
+            </div>
+        </div>
+
+        <div class="sd-card-body">
+            <div class="sd-form-grid">
+                <div class="sd-form-group">
+                    <label class="sd-label">Başlık *</label>
+                    <input type="text" name="title" value={service.title} required class="sd-input" />
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">Slug *</label>
+                    <input type="text" name="slug" value={service.slug} required class="sd-input" />
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">Kategori</label>
+                    <input type="text" name="category" value={service.category || ""} class="sd-input" />
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">Sıralama</label>
+                    <input type="number" name="sort_order" value={service.sort_order} class="sd-input" />
+                </div>
+            </div>
+
+            <div class="sd-form-group sd-full">
+                <label class="sd-label">Kısa Açıklama</label>
+                <textarea name="short_description" rows="3" class="sd-textarea">{service.short_description || ""}</textarea>
+            </div>
+
+            <div class="sd-form-group sd-full">
+                <label class="sd-label">Tam Açıklama (HTML)</label>
+                <textarea name="full_description" rows="8" class="sd-textarea sd-mono">{service.full_description || ""}</textarea>
+            </div>
+
+            <div class="sd-form-grid">
+                <div class="sd-form-group">
+                    <label class="sd-label">Hero Görsel URL</label>
+                    <input type="text" name="hero_image_url" value={service.hero_image_url || ""} class="sd-input" />
+                    {service.hero_image_url && (
+                        <img src={service.hero_image_url} alt="" class="sd-preview-img" />
+                    )}
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">İkon URL</label>
+                    <input type="text" name="icon_url" value={service.icon_url || ""} class="sd-input" />
+                    {service.icon_url && (
+                        <img src={service.icon_url} alt="" class="sd-preview-icon" />
+                    )}
+                </div>
+            </div>
+
+            <div class="sd-form-group sd-full">
+                <label class="sd-label">Sidebar Linkleri (JSON)</label>
+                <textarea name="sidebar_links" rows="6" class="sd-textarea sd-mono">{sidebarLinksJson}</textarea>
+            </div>
+
+            <div class="sd-form-group">
+                <label class="sd-label">Görünürlük</label>
+                <select name="visible" class="sd-select">
+                    <option value="true" selected={service.visible}>Görünür</option>
+                    <option value="false" selected={!service.visible}>Gizli</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <!-- FAQs Section -->
+    <div class="sd-form-card sd-mt">
+        <div class="sd-card-header">
+            <h3>Sık Sorulan Sorular ({faqs.length})</h3>
+            <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" onclick="document.getElementById('add-faq-form').style.display = document.getElementById('add-faq-form').style.display === 'none' ? 'block' : 'none'">
+                + Yeni FAQ
+            </button>
+        </div>
+
+        <!-- Add FAQ Form -->
+        <div id="add-faq-form" style="display: none;" class="sd-faq-add">
+            <form method="POST">
+                <input type="hidden" name="action" value="add_faq" />
+                <div class="sd-form-group">
+                    <label class="sd-label">Soru *</label>
+                    <input type="text" name="question" required class="sd-input" placeholder="Soru giriniz..." />
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">Cevap *</label>
+                    <textarea name="answer" rows="3" required class="sd-textarea" placeholder="Cevap giriniz..."></textarea>
+                </div>
+                <div class="sd-form-group">
+                    <label class="sd-label">Sıralama</label>
+                    <input type="number" name="sort_order" value={faqs.length + 1} class="sd-input" style="width: 100px;" />
+                </div>
+                <button type="submit" class="admin-btn admin-btn-primary admin-btn-sm">FAQ Ekle</button>
+            </form>
+        </div>
+
+        <!-- FAQ List -->
+        <div class="sd-faq-list">
+            {faqs.length === 0 ? (
+                <div class="sd-empty">Henüz FAQ eklenmemiş.</div>
+            ) : (
+                faqs.map((faq: ServiceFaq) => (
+                    <div class="sd-faq-item" id={`faq-${faq.id}`}>
+                        <div class="sd-faq-header">
+                            <div class="sd-faq-order">{faq.sort_order}</div>
+                            <div class="sd-faq-question">{faq.question}</div>
+                            <div class="sd-faq-actions">
+                                <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" onclick={`toggleFaqEdit(${faq.id})`}>Düzenle</button>
+                                <form method="POST" style="display:inline">
+                                    <input type="hidden" name="action" value="delete_faq" />
+                                    <input type="hidden" name="faq_id" value={faq.id} />
+                                    <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" onclick="return confirm('Bu FAQ silinsin mi?')">Sil</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="sd-faq-answer">{faq.answer}</div>
+
+                        <!-- Edit FAQ Form (hidden) -->
+                        <div class="sd-faq-edit" id={`faq-edit-${faq.id}`} style="display: none;">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="update_faq" />
+                                <input type="hidden" name="faq_id" value={faq.id} />
+                                <div class="sd-form-group">
+                                    <label class="sd-label">Soru</label>
+                                    <input type="text" name="question" value={faq.question} required class="sd-input" />
+                                </div>
+                                <div class="sd-form-group">
+                                    <label class="sd-label">Cevap</label>
+                                    <textarea name="answer" rows="3" required class="sd-textarea">{faq.answer}</textarea>
+                                </div>
+                                <div class="sd-form-group">
+                                    <label class="sd-label">Sıralama</label>
+                                    <input type="number" name="sort_order" value={faq.sort_order} class="sd-input" style="width: 100px;" />
+                                </div>
+                                <div class="sd-faq-edit-actions">
+                                    <button type="submit" class="admin-btn admin-btn-primary admin-btn-sm">Güncelle</button>
+                                    <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" onclick={`toggleFaqEdit(${faq.id})`}>İptal</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                ))
+            )}
+        </div>
+    </div>
+</AdminLayout>
+
+<style is:inline>
+    /* Breadcrumb */
+    .sd-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+    }
+    .sd-breadcrumb-link {
+        color: var(--admin-accent);
+        text-decoration: none;
+    }
+    .sd-breadcrumb-link:hover { text-decoration: underline; }
+    .sd-breadcrumb-sep { color: var(--admin-text-muted); }
+    .sd-breadcrumb-current { color: var(--admin-text); font-weight: 500; }
+
+    /* Alert */
+    .admin-alert {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        border-radius: var(--admin-radius-md);
+        font-size: 0.875rem;
+    }
+    .admin-alert-success {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--admin-success);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Card */
+    .sd-form-card {
+        background: var(--admin-bg-card);
+        border: 1px solid var(--admin-border-color);
+        border-radius: var(--admin-radius-lg);
+        overflow: hidden;
+    }
+    .sd-mt { margin-top: 24px; }
+
+    .sd-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--admin-border-color);
+    }
+    .sd-card-header h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--admin-text);
+    }
+    .sd-header-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .sd-card-body {
+        padding: 24px;
+    }
+
+    /* Form */
+    .sd-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+    .sd-form-group {
+        margin-bottom: 16px;
+    }
+    .sd-full { width: 100%; }
+    .sd-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--admin-text-muted);
+        margin-bottom: 6px;
+    }
+    .sd-input, .sd-textarea, .sd-select {
+        width: 100%;
+        padding: 10px 14px;
+        background: var(--admin-bg-main);
+        border: 1px solid var(--admin-border-color);
+        border-radius: var(--admin-radius-md);
+        color: var(--admin-text);
+        font-size: 0.875rem;
+        transition: border-color 0.2s;
+        font-family: inherit;
+    }
+    .sd-input:focus, .sd-textarea:focus, .sd-select:focus {
+        outline: none;
+        border-color: var(--admin-accent);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    .sd-mono {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.8rem;
+    }
+
+    /* Preview images */
+    .sd-preview-img {
+        margin-top: 8px;
+        width: 100%;
+        max-height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--admin-border-color);
+    }
+    .sd-preview-icon {
+        margin-top: 8px;
+        width: 40px;
+        height: 40px;
+    }
+
+    /* FAQ styles */
+    .sd-faq-add {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--admin-border-color);
+        background: rgba(99, 102, 241, 0.03);
+    }
+    .sd-faq-list { }
+    .sd-faq-item {
+        border-bottom: 1px solid var(--admin-border-color);
+        padding: 16px 24px;
+    }
+    .sd-faq-item:last-child { border-bottom: none; }
+    .sd-faq-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .sd-faq-order {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--admin-accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .sd-faq-question {
+        flex: 1;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--admin-text);
+    }
+    .sd-faq-actions {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    .sd-faq-answer {
+        margin: 8px 0 0 40px;
+        font-size: 0.82rem;
+        color: var(--admin-text-muted);
+        line-height: 1.5;
+    }
+    .sd-faq-edit {
+        margin-top: 12px;
+        padding: 16px;
+        background: rgba(99, 102, 241, 0.03);
+        border-radius: var(--admin-radius-md);
+    }
+    .sd-faq-edit-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .sd-empty {
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--admin-text-muted);
+        font-size: 0.85rem;
+    }
+
+    /* Danger button */
+    .admin-btn-danger {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .admin-btn-danger:hover {
+        background: rgba(239, 68, 68, 0.25);
+    }
+</style>
+
+<script is:inline>
+    function toggleFaqEdit(faqId) {
+        const editDiv = document.getElementById('faq-edit-' + faqId);
+        if (editDiv) {
+            editDiv.style.display = editDiv.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+</script>
