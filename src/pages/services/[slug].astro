@@ -1,0 +1,1684 @@
+---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { supabase } from "../../lib/supabase";
+
+// Generate static paths for all services
+export async function getStaticPaths() {
+    const { data: services, error } = await supabase
+        .from("services")
+        .select("slug")
+        .eq("visible", true)
+        .order("sort_order");
+
+    if (error) {
+        console.error("Error fetching services:", error);
+        return [];
+    }
+
+    return services.map((service) => ({
+        params: { slug: service.slug },
+    }));
+}
+
+// Get the current service slug from params
+const { slug } = Astro.params;
+
+// Fetch service details
+const { data: service, error: serviceError } = await supabase
+    .from("services")
+    .select("*")
+    .eq("slug", slug)
+    .eq("visible", true)
+    .single();
+
+if (serviceError || !service) {
+    return Astro.redirect("/404");
+}
+
+// Fetch FAQs for this service
+const { data: faqs, error: faqsError } = await supabase
+    .from("service_faqs")
+    .select("*")
+    .eq("service_id", service.id)
+    .order("sort_order");
+
+const serviceFaqs = faqsError ? [] : faqs;
+
+// Parse sidebar links from JSONB
+const sidebarLinks = service.sidebar_links || [];
+
+// Fetch team members from page_sections (index page team section)
+const { data: teamSection, error: teamError } = await supabase
+    .from("page_sections")
+    .select("extra_data")
+    .eq("page_slug", "index")
+    .eq("section_key", "team")
+    .single();
+
+const teamMembers =
+    !teamError && teamSection?.extra_data?.team_members
+        ? teamSection.extra_data.team_members
+        : [];
+
+// Set default FAQ state (for accordion) - index 1 (second FAQ)
+const defaultOpenFaqIndex = serviceFaqs.length > 1 ? 1 : 0;
+---
+
+<!doctype html>
+<html
+    lang="en-US"
+    data-cmsmasters-condition="disable"
+    style="overflow-y: inherit;"
+>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="profile"
+            href="/assets/external_aHR0cHM6Ly9nbXBnLm9yZy94Zm4vMTE_.html"
+        />
+        <title>{service.title} – Light Demo</title>
+        <meta name="robots" content="max-image-preview:large" />
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Light Demo » Feed"
+            href="https://wellness-bliss.cmsmasters.studio/light/feed/"
+        />
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Light Demo » Comments Feed"
+            href="https://wellness-bliss.cmsmasters.studio/light/comments/feed/"
+        />
+        <link
+            rel="alternate"
+            type="text/calendar"
+            title="Light Demo » iCal Feed"
+            href="https://wellness-bliss.cmsmasters.studio/light/events/?ical=1"
+        />
+        <style
+            is:inline
+            id="wp-img-auto-sizes-contain-inline-css"
+            type="text/css"
+        >
+            img:is([sizes="auto" i], [sizes^="auto," i]) {
+                contain-intrinsic-size: 3000px 1500px;
+            }
+            /*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+        </style>
+        <link
+            rel="stylesheet"
+            id="tribe_events_stylesheet_url-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/wellness-bliss-tribe-events.min.css"
+            type="text/css"
+            media="all"
+        />
+        <style
+            is:inline
+            id="tribe_events_stylesheet_url-inline-css"
+            type="text/css"
+        >
+            :root {
+                /* Customizer-added Events Bar styles */
+                --tec-featured-color-scheme-custom: #382d2d;
+                --tec-color-text-events-bar-input: #382d2d;
+                --tec-color-text-events-bar-input-placeholder: #382d2d;
+                --tec-opacity-events-bar-input-placeholder: 0.6;
+                --tec-color-text-view-selector-list-item: #382d2d;
+                --tec-color-text-events-bar-submit-button: #ffffff;
+                --tec-color-background-events-bar-submit-button: #d96b2f;
+                --tec-font-size-0: 11px;
+                --tec-font-size-1: 12px;
+                --tec-font-size-2: 14px;
+                --tec-font-size-3: 16px;
+                --tec-font-size-4: 18px;
+                --tec-font-size-5: 20px;
+                --tec-font-size-6: 22px;
+                --tec-font-size-7: 24px;
+                --tec-font-size-8: 28px;
+                --tec-font-size-9: 32px;
+                --tec-font-size-10: 42px;
+                --tec-font-size: 16px;
+                --tec-color-text-events-title: #382d2d;
+                --tec-color-text-event-title: #382d2d;
+                --tec-color-text-event-date: #382d2d;
+                --tec-color-text-event-date-secondary: #382d2d;
+                --tec-color-link-primary: #d35355;
+                --tec-color-link-accent: #d35355;
+                --tec-color-link-primary: #382d2d;
+                --tec-color-link-accent: #382d2d;
+                --tec-color-accent-primary: #382d2d;
+                --tec-color-text-view-selector-list-item-hover: #382d2d;
+                --tec-color-accent-primary-background-datepicker: #382d2d;
+                --tec-color-button-primary: #382d2d;
+                --tec-color-day-marker-current-month: #382d2d;
+                --tec-color-accent-primary-multiday: rgba(56, 45, 45, 0.24);
+                --tec-color-accent-primary-multiday-hover: rgba(
+                    56,
+                    45,
+                    45,
+                    0.34
+                );
+                --tec-color-accent-primary-background: rgba(56, 45, 45, 0.1);
+                --tec-color-background-secondary-datepicker: rgba(
+                    56,
+                    45,
+                    45,
+                    0.5
+                );
+                --tec-color-button-primary-background: rgba(56, 45, 45, 0.07);
+                --tec-color-day-marker-current-month-hover: rgba(
+                    56,
+                    45,
+                    45,
+                    0.8
+                );
+                --tec-color-day-marker-current-month-active: rgba(
+                    56,
+                    45,
+                    45,
+                    0.9
+                );
+                --tec-color-background-primary-multiday: rgba(56, 45, 45, 0.24);
+                --tec-color-background-primary-multiday-hover: rgba(
+                    56,
+                    45,
+                    45,
+                    0.34
+                );
+                --tec-color-background-primary-multiday-active: rgba(
+                    56,
+                    45,
+                    45,
+                    0.34
+                );
+                --tec-color-background-secondary-multiday: rgba(
+                    56,
+                    45,
+                    45,
+                    0.24
+                );
+                --tec-color-background-secondary-multiday-hover: rgba(
+                    56,
+                    45,
+                    45,
+                    0.34
+                );
+
+                --tec-color-border-secondary-month-grid: #ede2d7;
+                --tec-color-border-active-month-grid-hover: #ede2d7;
+                --tec-color-text-day-of-week-month: #382d2d;
+                --tec-color-day-marker-month: #382d2d;
+                --tec-color-day-marker-past-month: #382d2d;
+            }
+            /*# sourceURL=tribe_events_stylesheet_url-inline-css */
+        </style>
+        <link
+            rel="stylesheet"
+            id="cmsmasters-default-vars-css"
+            href="/assets/light/wp-content/themes/wellness-bliss/theme-config/assets/css/default-vars.min.css"
+            type="text/css"
+            media="all"
+        />
+        <style is:inline id="wp-emoji-styles-inline-css" type="text/css">
+            img.wp-smiley,
+            img.emoji {
+                display: inline !important;
+                border: none !important;
+                box-shadow: none !important;
+                height: 1em !important;
+                width: 1em !important;
+                margin: 0 0.07em !important;
+                vertical-align: -0.1em !important;
+                background: none !important;
+                padding: 0 !important;
+            }
+            /*# sourceURL=wp-emoji-styles-inline-css */
+        </style>
+        <style is:inline id="classic-theme-styles-inline-css" type="text/css">
+            /*! This file is auto-generated */
+            .wp-block-button__link {
+                color: #fff;
+                background-color: #32373c;
+                border-radius: 9999px;
+                box-shadow: none;
+                text-decoration: none;
+                padding: calc(0.667em + 2px) calc(1.333em + 2px);
+                font-size: 1.125em;
+            }
+            .wp-block-file__button {
+                background: #32373c;
+                color: #fff;
+                text-decoration: none;
+            }
+            /*# sourceURL=/wp-includes/css/classic-themes.min.css */
+        </style>
+        <style is:inline id="global-styles-inline-css" type="text/css">
+            :root {
+                --wp--preset--aspect-ratio--square: 1;
+                --wp--preset--aspect-ratio--4-3: 4/3;
+                --wp--preset--aspect-ratio--3-4: 3/4;
+                --wp--preset--aspect-ratio--3-2: 3/2;
+                --wp--preset--aspect-ratio--2-3: 2/3;
+                --wp--preset--aspect-ratio--16-9: 16/9;
+                --wp--preset--aspect-ratio--9-16: 9/16;
+                --wp--preset--color--black: #000000;
+                --wp--preset--color--cyan-bluish-gray: #abb8c3;
+                --wp--preset--color--white: #ffffff;
+                --wp--preset--color--pale-pink: #f78da7;
+                --wp--preset--color--vivid-red: #cf2e2e;
+                --wp--preset--color--luminous-vivid-orange: #ff6900;
+                --wp--preset--color--luminous-vivid-amber: #fcb900;
+                --wp--preset--color--light-green-cyan: #7bdcb5;
+                --wp--preset--color--vivid-green-cyan: #00d084;
+                --wp--preset--color--pale-cyan-blue: #8ed1fc;
+                --wp--preset--color--vivid-cyan-blue: #0693e3;
+                --wp--preset--color--vivid-purple: #9b51e0;
+                --wp--preset--color--cmsmasters-colors-text: var(
+                    --cmsmasters-colors-text
+                );
+                --wp--preset--color--cmsmasters-colors-link: var(
+                    --cmsmasters-colors-link
+                );
+                --wp--preset--color--cmsmasters-colors-hover: var(
+                    --cmsmasters-colors-hover
+                );
+                --wp--preset--color--cmsmasters-colors-heading: var(
+                    --cmsmasters-colors-heading
+                );
+                --wp--preset--color--cmsmasters-colors-bg: var(
+                    --cmsmasters-colors-bg
+                );
+                --wp--preset--color--cmsmasters-colors-alternate: var(
+                    --cmsmasters-colors-alternate
+                );
+                --wp--preset--color--cmsmasters-colors-bd: var(
+                    --cmsmasters-colors-bd
+                );
+                --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
+                    135deg,
+                    rgb(6, 147, 227) 0%,
+                    rgb(155, 81, 224) 100%
+                );
+                --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(
+                    135deg,
+                    rgb(122, 220, 180) 0%,
+                    rgb(0, 208, 130) 100%
+                );
+                --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(
+                    135deg,
+                    rgb(252, 185, 0) 0%,
+                    rgb(255, 105, 0) 100%
+                );
+                --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(
+                    135deg,
+                    rgb(255, 105, 0) 0%,
+                    rgb(207, 46, 46) 100%
+                );
+                --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(
+                    135deg,
+                    rgb(238, 238, 238) 0%,
+                    rgb(169, 184, 195) 100%
+                );
+                --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(
+                    135deg,
+                    rgb(74, 234, 220) 0%,
+                    rgb(151, 120, 209) 20%,
+                    rgb(207, 42, 186) 40%,
+                    rgb(238, 44, 130) 60%,
+                    rgb(251, 105, 98) 80%,
+                    rgb(254, 248, 76) 100%
+                );
+                --wp--preset--gradient--blush-light-purple: linear-gradient(
+                    135deg,
+                    rgb(255, 206, 236) 0%,
+                    rgb(152, 150, 240) 100%
+                );
+                --wp--preset--gradient--blush-bordeaux: linear-gradient(
+                    135deg,
+                    rgb(254, 205, 165) 0%,
+                    rgb(254, 45, 45) 50%,
+                    rgb(107, 0, 62) 100%
+                );
+                --wp--preset--gradient--luminous-dusk: linear-gradient(
+                    135deg,
+                    rgb(255, 203, 112) 0%,
+                    rgb(199, 81, 192) 50%,
+                    rgb(65, 88, 208) 100%
+                );
+                --wp--preset--gradient--pale-ocean: linear-gradient(
+                    135deg,
+                    rgb(255, 245, 203) 0%,
+                    rgb(182, 227, 212) 50%,
+                    rgb(51, 167, 181) 100%
+                );
+                --wp--preset--gradient--electric-grass: linear-gradient(
+                    135deg,
+                    rgb(202, 248, 128) 0%,
+                    rgb(113, 206, 126) 100%
+                );
+                --wp--preset--gradient--midnight: linear-gradient(
+                    135deg,
+                    rgb(2, 3, 129) 0%,
+                    rgb(40, 116, 252) 100%
+                );
+                --wp--preset--font-size--small: 13px;
+                --wp--preset--font-size--medium: 20px;
+                --wp--preset--font-size--large: 36px;
+                --wp--preset--font-size--x-large: 42px;
+                --wp--preset--spacing--20: 0.44rem;
+                --wp--preset--spacing--30: 0.67rem;
+                --wp--preset--spacing--40: 1rem;
+                --wp--preset--spacing--50: 1.5rem;
+                --wp--preset--spacing--60: 2.25rem;
+                --wp--preset--spacing--70: 3.38rem;
+                --wp--preset--spacing--80: 5.06rem;
+                --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+                --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+                --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+                --wp--preset--shadow--outlined:
+                    6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);
+                --wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);
+            }
+            :where(.is-layout-flex) {
+                gap: 0.5em;
+            }
+            :where(.is-layout-grid) {
+                gap: 0.5em;
+            }
+            body .is-layout-flex {
+                display: flex;
+            }
+            .is-layout-flex {
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .is-layout-flex > :is(*, div) {
+                margin: 0;
+            }
+            body .is-layout-grid {
+                display: grid;
+            }
+            .is-layout-grid > :is(*, div) {
+                margin: 0;
+            }
+            :where(.wp-block-columns.is-layout-flex) {
+                gap: 2em;
+            }
+            :where(.wp-block-columns.is-layout-grid) {
+                gap: 2em;
+            }
+            :where(.wp-block-post-template.is-layout-flex) {
+                gap: 1.25em;
+            }
+            :where(.wp-block-post-template.is-layout-grid) {
+                gap: 1.25em;
+            }
+            .has-black-color {
+                color: var(--wp--preset--color--black) !important;
+            }
+            .has-cyan-bluish-gray-color {
+                color: var(--wp--preset--color--cyan-bluish-gray) !important;
+            }
+            .has-white-color {
+                color: var(--wp--preset--color--white) !important;
+            }
+            .has-pale-pink-color {
+                color: var(--wp--preset--color--pale-pink) !important;
+            }
+            .has-vivid-red-color {
+                color: var(--wp--preset--color--vivid-red) !important;
+            }
+            .has-luminous-vivid-orange-color {
+                color: var(
+                    --wp--preset--color--luminous-vivid-orange
+                ) !important;
+            }
+            .has-luminous-vivid-amber-color {
+                color: var(
+                    --wp--preset--color--luminous-vivid-amber
+                ) !important;
+            }
+            .has-light-green-cyan-color {
+                color: var(--wp--preset--color--light-green-cyan) !important;
+            }
+            .has-vivid-green-cyan-color {
+                color: var(--wp--preset--color--vivid-green-cyan) !important;
+            }
+            .has-pale-cyan-blue-color {
+                color: var(--wp--preset--color--pale-cyan-blue) !important;
+            }
+            .has-vivid-cyan-blue-color {
+                color: var(--wp--preset--color--vivid-cyan-blue) !important;
+            }
+            .has-vivid-purple-color {
+                color: var(--wp--preset--color--vivid-purple) !important;
+            }
+            .has-black-background-color {
+                background-color: var(--wp--preset--color--black) !important;
+            }
+            .has-cyan-bluish-gray-background-color {
+                background-color: var(
+                    --wp--preset--color--cyan-bluish-gray
+                ) !important;
+            }
+            .has-white-background-color {
+                background-color: var(--wp--preset--color--white) !important;
+            }
+            .has-pale-pink-background-color {
+                background-color: var(
+                    --wp--preset--color--pale-pink
+                ) !important;
+            }
+            .has-vivid-red-background-color {
+                background-color: var(
+                    --wp--preset--color--vivid-red
+                ) !important;
+            }
+            .has-luminous-vivid-orange-background-color {
+                background-color: var(
+                    --wp--preset--color--luminous-vivid-orange
+                ) !important;
+            }
+            .has-luminous-vivid-amber-background-color {
+                background-color: var(
+                    --wp--preset--color--luminous-vivid-amber
+                ) !important;
+            }
+            .has-light-green-cyan-background-color {
+                background-color: var(
+                    --wp--preset--color--light-green-cyan
+                ) !important;
+            }
+            .has-vivid-green-cyan-background-color {
+                background-color: var(
+                    --wp--preset--color--vivid-green-cyan
+                ) !important;
+            }
+            .has-pale-cyan-blue-background-color {
+                background-color: var(
+                    --wp--preset--color--pale-cyan-blue
+                ) !important;
+            }
+            .has-vivid-cyan-blue-background-color {
+                background-color: var(
+                    --wp--preset--color--vivid-cyan-blue
+                ) !important;
+            }
+            .has-vivid-purple-background-color {
+                background-color: var(
+                    --wp--preset--color--vivid-purple
+                ) !important;
+            }
+            .has-black-border-color {
+                border-color: var(--wp--preset--color--black) !important;
+            }
+            .has-cyan-bluish-gray-border-color {
+                border-color: var(
+                    --wp--preset--color--cyan-bluish-gray
+                ) !important;
+            }
+            .has-white-border-color {
+                border-color: var(--wp--preset--color--white) !important;
+            }
+            .has-pale-pink-border-color {
+                border-color: var(--wp--preset--color--pale-pink) !important;
+            }
+            .has-vivid-red-border-color {
+                border-color: var(--wp--preset--color--vivid-red) !important;
+            }
+            .has-luminous-vivid-orange-border-color {
+                border-color: var(
+                    --wp--preset--color--luminous-vivid-orange
+                ) !important;
+            }
+            .has-luminous-vivid-amber-border-color {
+                border-color: var(
+                    --wp--preset--color--luminous-vivid-amber
+                ) !important;
+            }
+            .has-light-green-cyan-border-color {
+                border-color: var(
+                    --wp--preset--color--light-green-cyan
+                ) !important;
+            }
+            .has-vivid-green-cyan-border-color {
+                border-color: var(
+                    --wp--preset--color--vivid-green-cyan
+                ) !important;
+            }
+            .has-pale-cyan-blue-border-color {
+                border-color: var(
+                    --wp--preset--color--pale-cyan-blue
+                ) !important;
+            }
+            .has-vivid-cyan-blue-border-color {
+                border-color: var(
+                    --wp--preset--color--vivid-cyan-blue
+                ) !important;
+            }
+            .has-vivid-purple-border-color {
+                border-color: var(--wp--preset--color--vivid-purple) !important;
+            }
+            .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+                background: var(
+                    --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple
+                ) !important;
+            }
+            .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+                background: var(
+                    --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan
+                ) !important;
+            }
+            .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+                background: var(
+                    --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange
+                ) !important;
+            }
+            .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+                background: var(
+                    --wp--preset--gradient--luminous-vivid-orange-to-vivid-red
+                ) !important;
+            }
+            .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+                background: var(
+                    --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray
+                ) !important;
+            }
+            .has-cool-to-warm-spectrum-gradient-background {
+                background: var(
+                    --wp--preset--gradient--cool-to-warm-spectrum
+                ) !important;
+            }
+            .has-blush-light-purple-gradient-background {
+                background: var(
+                    --wp--preset--gradient--blush-light-purple
+                ) !important;
+            }
+            .has-blush-bordeaux-gradient-background {
+                background: var(
+                    --wp--preset--gradient--blush-bordeaux
+                ) !important;
+            }
+            .has-luminous-dusk-gradient-background {
+                background: var(
+                    --wp--preset--gradient--luminous-dusk
+                ) !important;
+            }
+            .has-pale-ocean-gradient-background {
+                background: var(--wp--preset--gradient--pale-ocean) !important;
+            }
+            .has-electric-grass-gradient-background {
+                background: var(
+                    --wp--preset--gradient--electric-grass
+                ) !important;
+            }
+            .has-midnight-gradient-background {
+                background: var(--wp--preset--gradient--midnight) !important;
+            }
+            .has-small-font-size {
+                font-size: var(--wp--preset--font-size--small) !important;
+            }
+            .has-medium-font-size {
+                font-size: var(--wp--preset--font-size--medium) !important;
+            }
+            .has-large-font-size {
+                font-size: var(--wp--preset--font-size--large) !important;
+            }
+            .has-x-large-font-size {
+                font-size: var(--wp--preset--font-size--x-large) !important;
+            }
+            :where(.wp-block-post-template.is-layout-flex) {
+                gap: 1.25em;
+            }
+            :where(.wp-block-post-template.is-layout-grid) {
+                gap: 1.25em;
+            }
+            :where(.wp-block-term-template.is-layout-flex) {
+                gap: 1.25em;
+            }
+            :where(.wp-block-term-template.is-layout-grid) {
+                gap: 1.25em;
+            }
+            :where(.wp-block-columns.is-layout-flex) {
+                gap: 2em;
+            }
+            :where(.wp-block-columns.is-layout-grid) {
+                gap: 2em;
+            }
+            :root :where(.wp-block-pullquote) {
+                font-size: 1.5em;
+                line-height: 1.6;
+            }
+            /*# sourceURL=global-styles-inline-css */
+        </style>
+        <link
+            rel="stylesheet"
+            id="woocommerce-layout-css"
+            href="/assets/light/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="woocommerce-smallscreen-css"
+            href="/assets/light/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css"
+            type="text/css"
+            media="only screen and (max-width: 768px)"
+        />
+        <link
+            rel="stylesheet"
+            id="woocommerce-general-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/wellness-bliss-woocommerce.min.css"
+            type="text/css"
+            media="all"
+        />
+        <style is:inline id="woocommerce-inline-inline-css" type="text/css">
+            .woocommerce form .form-row .required {
+                visibility: visible;
+            }
+            /*# sourceURL=woocommerce-inline-inline-css */
+        </style>
+        <link
+            rel="stylesheet"
+            id="tec-events-elementor-widgets-base-styles-css"
+            href="/assets/light/wp-content/plugins/the-events-calendar/build/css/integrations/plugins/elementor/widgets/widget-base.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="brands-styles-css"
+            href="/assets/light/wp-content/plugins/woocommerce/assets/css/brands.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="wellness-bliss-root-style-css"
+            href="/assets/light/wp-content/themes/wellness-bliss/style.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-icons-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="wellness-bliss-frontend-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/wellness-bliss-frontend.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id=" wellness-bliss-gutenberg-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/wellness-bliss-gutenberg-wp-frontend.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-frontend-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/custom-frontend.min.css"
+            type="text/css"
+            media="all"
+        />
+        <style
+            set:html={`
+            .elementor-159
+                .elementor-element.elementor-element-68f4c860:not(
+                    .elementor-motion-effects-element-type-background
+                ):not(.cmsmasters-bg-effect),
+            .elementor-159
+                .elementor-element.elementor-element-68f4c860
+                > .elementor-motion-effects-container
+                > .elementor-motion-effects-layer,
+            .elementor-159
+                .elementor-element.elementor-element-68f4c860
+                > .cmsmasters-bg-effects-container
+                > .cmsmasters-bg-effects-element {
+                background-image: url("${service.hero_image_url}");
+            }
+        `}
+        ></style>
+
+        <link
+            rel="stylesheet"
+            id="elementor-post-49-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/post-49.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="cmsmasters-icons-css"
+            href="/assets/light/wp-content/plugins/cmsmasters-elementor-addon/assets/lib/cmsicons/css/cmsmasters-icons.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="cmsmasters-frontend-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-frontend.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-heading-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/css/widget-heading.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-toggles-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-toggles.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-post-28836-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/post-28836.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="wc-frontend-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/wellness-bliss-wc-frontend.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-icon-list-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-icon-list.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-button-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-button.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-site-logo-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-site-logo.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-nav-menu-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-nav-menu.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-search-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-search.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-mailchimp-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-mailchimp.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-social-icons-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="e-apple-webkit-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/custom-apple-webkit.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-spacer-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/css/widget-spacer.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-contact-form-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-contact-form.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="swiper-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="e-swiper-css"
+            href="/assets/light/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="widget-cmsmasters-blog-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/cmsmasters-custom-widget-cmsmasters-blog.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-post-86-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/post-86.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-post-189-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/post-189.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-post-159-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/css/post-159.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="wellness-bliss-child-style-css"
+            href="/assets/light/wp-content/themes/wellness-bliss-child-demo/style.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="wellness-bliss-child-theme-style-css"
+            href="/assets/light/wp-content/themes/wellness-bliss-child-demo/assets/css/theme-style.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            id="elementor-icons-Local-Icons-css"
+            href="/assets/light/wp-content/uploads/sites/4/elementor/cmsmasters-local-icons/Local-Icons/style.css"
+            type="text/css"
+            media="all"
+        />
+
+        <script
+            is:inline
+            type="text/javascript"
+            src="/assets/light/wp-includes/js/jquery/jquery.min.js"
+            id="jquery-core-js"></script>
+        <script
+            is:inline
+            type="text/javascript"
+            src="/assets/light/wp-includes/js/jquery/jquery-migrate.min.js"
+            id="jquery-migrate-js"></script>
+        <link
+            rel="icon"
+            href="/assets/light/wp-content/uploads/sites/4/2025/04/cropped-favicon-32x32.png"
+            sizes="32x32"
+        />
+        <link
+            rel="icon"
+            href="/assets/light/wp-content/uploads/sites/4/2025/04/cropped-favicon-192x192.png"
+            sizes="192x192"
+        />
+        <link
+            rel="apple-touch-icon"
+            href="/assets/light/wp-content/uploads/sites/4/2025/04/cropped-favicon-180x180.png"
+        />
+        <meta
+            name="msapplication-TileImage"
+            content="https://wellness-bliss.cmsmasters.studio/light/wp-content/uploads/sites/4/2025/04/cropped-favicon-270x270.png"
+        />
+    </head>
+    <body
+        id="cmsmasters_body"
+        class="wp-singular services-template-default single single-services postid-28836 wp-embed-responsive wp-theme-wellness-bliss wp-child-theme-wellness-bliss-child-demo theme-wellness-bliss woocommerce-js tribe-js cmsmasters-content-layout-fullwidth elementor-default elementor-kit-49 elementor-page elementor-page-28836 elementor-page-159 e--ua-blink e--ua-webkit"
+        data-elementor-device-mode="desktop"
+    >
+        <Header />
+        <div
+            data-elementor-type="cmsmasters_singular"
+            data-elementor-id="159"
+            class="elementor elementor-159 cmsmasters-location-cmsmasters_singular cmsmasters-header-position-absolute- post-28836 services type-services status-publish has-post-thumbnail hentry service_category-sensory-relaxation-therapies"
+            data-cms-icon='<i aria-hidden="true" aria-label="Popup Close" class="cmsmsdemo-icons- cmsms-demo-icons-cancel"></i>'
+        >
+            <div class="elementor-inner">
+                <div class="elementor-section-wrap">
+                    <div
+                        class="elementor-element elementor-element-4f422623 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded"
+                        data-id="4f422623"
+                        data-element_type="container"
+                    >
+                        <div class="e-con-inner">
+                            <div
+                                class="elementor-element elementor-element-68f4c860 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child"
+                                data-id="68f4c860"
+                                data-element_type="container"
+                                data-settings='{"background_background":"classic"}'
+                            >
+                                <div
+                                    class="elementor-element elementor-element-1355baef cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-spacer"
+                                    data-id="1355baef"
+                                    data-element_type="widget"
+                                    data-widget_type="spacer.default"
+                                >
+                                    <div class="elementor-widget-container">
+                                        <div class="elementor-spacer">
+                                            <div
+                                                class="element or-spacer-inner"
+                                            >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="elementor-element elementor-element-3d3f54d5 e-con-full e-flex cmsmasters-block-default e-con e-child"
+                                data-id="3d3f54d5"
+                                data-element_type="container"
+                                data-settings='{"background_background":"classic"}'
+                            >
+                                <div
+                                    class="elementor-element elementor-element-678ae9ea cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data"
+                                    data-id="678ae9ea"
+                                    data-element_type="widget"
+                                    data-widget_type="cmsmasters-meta-data.default"
+                                >
+                                    <div class="elementor-widget-container">
+                                        <div class="cmsmasters-meta-data">
+                                            <div
+                                                class="cmsmasters-meta-data__inner"
+                                            >
+                                                <div
+                                                    class="cmsmasters-meta-data__item elementor-repeater-item-c5996b7"
+                                                >
+                                                    <div
+                                                        class="cmsmasters-meta-data__item__inner"
+                                                    >
+                                                        <span
+                                                            data-taxonomy="service_category"
+                                                            class="cmsmasters-postmeta"
+                                                            data-name="taxonomy"
+                                                            ><span
+                                                                class="cmsmasters-postmeta__inner"
+                                                                ><span
+                                                                    class="cmsmasters-postmeta__content"
+                                                                    ><span
+                                                                        class="term-wrap"
+                                                                        ><a
+                                                                            class="term"
+                                                                            rel="category tag"
+                                                                            href="#"
+                                                                            ><span
+                                                                                >{
+                                                                                    service.category
+                                                                                }</span
+                                                                            ></a
+                                                                        ></span
+                                                                    ></span
+                                                                ></span
+                                                            ></span
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="elementor-element elementor-element-7fc5e50a cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title"
+                                    data-id="7fc5e50a"
+                                    data-element_type="widget"
+                                    data-widget_type="cmsmasters-post-title.default"
+                                >
+                                    <div class="elementor-widget-container">
+                                        <h1
+                                            class="entry-title cmsmasters-widget-title__heading"
+                                        >
+                                            {service.title}
+                                        </h1>
+                                    </div>
+                                </div>
+                                <div
+                                    class="elementor-element elementor-element-17f8683d cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor"
+                                    data-id="17f8683d"
+                                    data-element_type="widget"
+                                    data-widget_type="text-editor.default"
+                                >
+                                    <div class="elementor-widget-container">
+                                        {service.short_description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="elementor-element elementor-element-5986f950 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded"
+                        data-id="5986f950"
+                        data-element_type="container"
+                    >
+                        <div class="e-con-inner">
+                            <div
+                                class="elementor-element elementor-element-41c383fb e-con-full e-flex cmsmasters-block-default e-con e-child"
+                                data-id="41c383fb"
+                                data-element_type="container"
+                            >
+                                <div
+                                    class="elementor-element elementor-element-180c8abe e-flex e-con-boxed cmsmasters-block-default e-con e-child"
+                                    data-id="180c8abe"
+                                    data-element_type="container"
+                                    data-settings='{"background_background":"classic"}'
+                                >
+                                    <div class="e-con-inner">
+                                        <div
+                                            class="elementor-element elementor-element-5ea6ac4c cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+                                            data-id="5ea6ac4c"
+                                            data-element_type="widget"
+                                            data-widget_type="heading.default"
+                                        >
+                                            <div
+                                                class="elementor-widget-container"
+                                            >
+                                                <h5
+                                                    class="elementor-heading-title elementor-size-default"
+                                                >
+                                                    Our Services
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        {
+                                            sidebarLinks.map((link: any) => (
+                                                <div
+                                                    class="elementor-element elementor-element-10299e80 cmsmasters-button-align-justify cmsmasters-icon-arrangement-side cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button"
+                                                    data-id="10299e80"
+                                                    data-element_type="widget"
+                                                    data-widget_type="cmsmasters-button.default"
+                                                >
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-widget-cmsmasters-button__button-container">
+                                                            <div class="elementor-widget-cmsmasters-button__button-container-inner">
+                                                                <a
+                                                                    href={
+                                                                        link.url
+                                                                    }
+                                                                    class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view-stacked cmsmasters-icon-shape-circle cmsmasters-button-size-sm"
+                                                                    role="button"
+                                                                    tabindex="0"
+                                                                >
+                                                                    <span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-right">
+                                                                        <>
+                                                                            <span class="elementor-widget-cmsmasters-button__icon">
+                                                                                <i
+                                                                                    aria-hidden="true"
+                                                                                    class="cmsmsdemo-icons- cmsms-demo-icons-arrow-right"
+                                                                                />
+                                                                            </span>
+                                                                            <span class="elementor-widget-cmsmasters-button__text">
+                                                                                {
+                                                                                    link.title
+                                                                                }
+                                                                            </span>
+                                                                        </>
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                        </div>{" "}
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                <div
+                                    class="elementor-element elementor-element-49e10897 e-flex e-con-boxed cmsmasters-block-default e-con e-child"
+                                    data-id="49e10897"
+                                    data-element_type="container"
+                                    data-settings='{"background_background":"classic"}'
+                                >
+                                    <div class="e-con-inner">
+                                        <div
+                                            class="elementor-element elementor-element-131968a0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+                                            data-id="131968a0"
+                                            data-element_type="widget"
+                                            data-widget_type="heading.default"
+                                        >
+                                            <div
+                                                class="elementor-widget-container"
+                                            >
+                                                <h5
+                                                    class="elementor-heading-title elementor-size-default"
+                                                >
+                                                    Book a Consultation:
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="elementor-element elementor-element-5858db77 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-forminator"
+                                            data-id="5858db77"
+                                            data-element_type="widget"
+                                            data-settings='{"form_list":"46"}'
+                                            data-widget_type="cmsmasters-forminator.default"
+                                        >
+                                            <div
+                                                class="elementor-widget-container"
+                                            >
+                                                <div
+                                                    class="elementor-widget-cmsmasters-contact-form__wrapper elementor-widget-cmsmasters-contact-form cmsmasters-default-color cmsmasters-default-font"
+                                                    id="cmsmasters-widget-form-5858db77"
+                                                >
+                                                    <div
+                                                        class="elementor-widget-cmsmasters-contact-form__inner"
+                                                    >
+                                                        <form
+                                                            id="booking-form"
+                                                            class="forminator-ui forminator-custom-form forminator-design--default forminator-custom forminator-size--small"
+                                                            method="post"
+                                                            style="padding: 15px;"
+                                                        >
+                                                            <div
+                                                                class="forminator-row"
+                                                            >
+                                                                <div
+                                                                    class="forminator-field-name forminator-col forminator-col-12"
+                                                                >
+                                                                    <div
+                                                                        class="forminator-field"
+                                                                    >
+                                                                        <input
+                                                                            type="text"
+                                                                            name="name"
+                                                                            placeholder="Your Full Name"
+                                                                            class="forminator-input forminator-name--field"
+                                                                            required
+                                                                            style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px;"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="forminator-row"
+                                                            >
+                                                                <div
+                                                                    class="forminator-field-phone forminator-col forminator-col-12"
+                                                                >
+                                                                    <div
+                                                                        class="forminator-field"
+                                                                    >
+                                                                        <input
+                                                                            type="tel"
+                                                                            name="phone"
+                                                                            placeholder="Your Phone"
+                                                                            class="forminator-input forminator-field--phone"
+                                                                            style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px;"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="forminator-row"
+                                                            >
+                                                                <div
+                                                                    class="forminator-field-date forminator-col forminator-col-12"
+                                                                >
+                                                                    <div
+                                                                        class="forminator-field"
+                                                                    >
+                                                                        <input
+                                                                            type="date"
+                                                                            name="date"
+                                                                            placeholder="Select Date"
+                                                                            class="forminator-input forminator-datepicker"
+                                                                            style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px;"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="forminator-row"
+                                                            >
+                                                                <div
+                                                                    class="forminator-field-time forminator-col forminator-col-12"
+                                                                >
+                                                                    <div
+                                                                        class="forminator-field"
+                                                                    >
+                                                                        <select
+                                                                            name="time"
+                                                                            class="forminator-input"
+                                                                            style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px;"
+                                                                        >
+                                                                            <option
+                                                                                value=""
+                                                                                >Select
+                                                                                Time</option
+                                                                            >
+                                                                            <option
+                                                                                value="08:00"
+                                                                                >08:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="09:00"
+                                                                                >09:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="10:00"
+                                                                                >10:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="11:00"
+                                                                                >11:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="12:00"
+                                                                                >12:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="13:00"
+                                                                                >13:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="14:00"
+                                                                                >14:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="15:00"
+                                                                                >15:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="16:00"
+                                                                                >16:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="17:00"
+                                                                                >17:00</option
+                                                                            >
+                                                                            <option
+                                                                                value="18:00"
+                                                                                >18:00</option
+                                                                            >
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="forminator-row forminator-row-last"
+                                                            >
+                                                                <div
+                                                                    class="forminator-col"
+                                                                >
+                                                                    <div
+                                                                        class="forminator-field"
+                                                                    >
+                                                                        <button
+                                                                            type="submit"
+                                                                            class="forminator-button forminator-button-submit"
+                                                                            style="width: 100%; padding: 12px; background: #4a90e2; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;"
+                                                                            >Book
+                                                                            a
+                                                                            Visit</button
+                                                                        >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="elementor-element elementor-element-660c204d e-con-full e-flex cmsmasters-block-default e-con e-child"
+                                data-id="660c204d"
+                                data-element_type="container"
+                            >
+                                <div
+                                    class="elementor-element elementor-element-5fcee22 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-content cmsmasters-widget-content elementor-widget-theme-post-content"
+                                    data-id="5fcee22"
+                                    data-element_type="widget"
+                                    data-widget_type="cmsmasters-post-content.default"
+                                >
+                                    <div class="elementor-widget-container">
+                                        <div class="entry-content">
+                                            <div
+                                                data-elementor-type="wp-post"
+                                                data-elementor-id="28836"
+                                                class="elementor elementor-28836"
+                                            >
+                                                <div
+                                                    class="elementor-element elementor-element-3f41f41 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded"
+                                                    data-id="3f41f41"
+                                                    data-element_type="container"
+                                                >
+                                                    <div class="e-con-inner">
+                                                        <div
+                                                            class="elementor-element elementor-element-5392fa1 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+                                                            data-id="5392fa1"
+                                                            data-element_type="widget"
+                                                            data-widget_type="heading.default"
+                                                        >
+                                                            <div
+                                                                class="elementor-widget-container"
+                                                            >
+                                                                <h3
+                                                                    class="elementor-heading-title elementor-size-default"
+                                                                >
+                                                                    About {
+                                                                        service.title
+                                                                    }
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="elementor-element elementor-element-e23d2d1 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor"
+                                                            data-id="e23d2d1"
+                                                            data-element_type="widget"
+                                                            data-widget_type="text-editor.default"
+                                                        >
+                                                            <div
+                                                                class="elementor-widget-container"
+                                                            >
+                                                                {
+                                                                    service.full_description
+                                                                        .split(
+                                                                            "\n\n",
+                                                                        )
+                                                                        .map(
+                                                                            (
+                                                                                paragraph: string,
+                                                                            ) => (
+                                                                                <p>
+                                                                                    {
+                                                                                        paragraph
+                                                                                    }
+                                                                                </p>
+                                                                            ),
+                                                                        )
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                        {
+                                                            serviceFaqs.length >
+                                                                0 && (
+                                                                <>
+                                                                    <div
+                                                                        class="elementor-element elementor-element-02da6f6 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+                                                                        data-id="02da6f6"
+                                                                        data-element_type="widget"
+                                                                        data-widget_type="heading.default"
+                                                                    >
+                                                                        <div class="elementor-widget-container">
+                                                                            <h3 class="elementor-heading-title elementor-size-default">
+                                                                                Frequently
+                                                                                Asked
+                                                                                Questions
+                                                                            </h3>{" "}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        data-separate-animation-selector=".elementor-widget-cmsmasters-toggles__item"
+                                                                        data-text-animation-class="sequental, random"
+                                                                        class="elementor-element elementor-element-e442080 cmsmasters-title-alignment-left cmsmasters-item-icon-position-left cmsmasters-trigger-icon-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-toggles cmsmasters-widget-toggles"
+                                                                        data-id="e442080"
+                                                                        data-element_type="widget"
+                                                                        data-widget_type="cmsmasters-toggles.default"
+                                                                    >
+                                                                        <div class="elementor-widget-container">
+                                                                            <div class="elementor-widget-cmsmasters-toggles__list">
+                                                                                {serviceFaqs.map(
+                                                                                    (
+                                                                                        faq: any,
+                                                                                        index: number,
+                                                                                    ) => (
+                                                                                        <div
+                                                                                            class={`elementor-widget-cmsmasters-toggles__item ${index === defaultOpenFaqIndex ? "active-toggle" : ""}`}
+                                                                                        >
+                                                                                            <h5
+                                                                                                id={`elementor-tab-title-239${index + 1}`}
+                                                                                                class={`elementor-widget-cmsmasters-toggles__title ${index === defaultOpenFaqIndex ? "active-toggle" : ""}`}
+                                                                                                data-tab={
+                                                                                                    index +
+                                                                                                    1
+                                                                                                }
+                                                                                                role="button"
+                                                                                                tabindex="0"
+                                                                                            >
+                                                                                                <a
+                                                                                                    class="elementor-widget-cmsmasters-toggles__title-link cmsmasters_enable_trigger_icon"
+                                                                                                    href="#"
+                                                                                                    tabindex="-1"
+                                                                                                >
+                                                                                                    <span class="elementor-widget-cmsmasters-toggles__title-text">
+                                                                                                        {
+                                                                                                            faq.question
+                                                                                                        }
+                                                                                                    </span>
+                                                                                                </a>
+                                                                                                <span class="elementor-widget-cmsmasters-toggles__trigger">
+                                                                                                    <span class="elementor-widget-cmsmasters-toggles__trigger-closed">
+                                                                                                        <i
+                                                                                                            aria-hidden="true"
+                                                                                                            aria-label="Closed"
+                                                                                                            class="cmsmsdemo-icons- cmsms-demo-icons-toggle-down"
+                                                                                                        />
+                                                                                                    </span>
+                                                                                                    <span class="elementor-widget-cmsmasters-toggles__trigger-opened">
+                                                                                                        <i
+                                                                                                            aria-hidden="true"
+                                                                                                            aria-label="Opened"
+                                                                                                            class="cmsmsdemo-icons- cmsms-demo-icons-toggle-up"
+                                                                                                        />
+                                                                                                    </span>
+                                                                                                </span>
+                                                                                            </h5>
+                                                                                            <div
+                                                                                                id={`elementor-widget-cmsmasters-toggles__content-239${index + 1}`}
+                                                                                                class={`elementor-widget-cmsmasters-toggles__content elementor-clearfix ${index === defaultOpenFaqIndex ? "active-toggle" : ""}`}
+                                                                                                data-tab={
+                                                                                                    index +
+                                                                                                    1
+                                                                                                }
+                                                                                                style={
+                                                                                                    index ===
+                                                                                                    defaultOpenFaqIndex
+                                                                                                        ? "display: block;"
+                                                                                                        : "display: none;"
+                                                                                                }
+                                                                                                hidden={
+                                                                                                    index !==
+                                                                                                    defaultOpenFaqIndex
+                                                                                                }
+                                                                                            >
+                                                                                                <p>
+                                                                                                    {
+                                                                                                        faq.answer
+                                                                                                    }
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ),
+                                                                                )}
+                                                                            </div>{" "}
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            )
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Our Specialists Section -->
+                                {
+                                    teamMembers.length > 0 && (
+                                        <div
+                                            class="elementor-element elementor-element-d0848da cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading"
+                                            data-id="d0848da"
+                                            data-element_type="widget"
+                                            data-widget_type="heading.default"
+                                        >
+                                            <div class="elementor-widget-container">
+                                                <h3 class="elementor-heading-title elementor-size-default">
+                                                    Our Specialists
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    teamMembers.length > 0 && (
+                                    <div class="elementor-element elementor-element-59923627 cmsmasters-blog--layout-custom cmsmasters-slider--effect-slide cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-blog-slider elementor-widget-cmsmasters-blog-similar e-widget-swiper" data-id="59923627" data-element_type="widget">
+                                        <div class="elementor-widget-container">
+                                            <div class="cmsmasters-blog cmsmasters-blog-slider cmsmasters-blog--type-default">
+                                                <div class="cmsmasters-blog__posts-variable">
+                                                    <div class="cmsmasters-blog__posts-wrap">
+                                                        <div class="cmsmasters-blog__posts">
+                                                            <div id="cmsmasters-slider-59923627" class="cmsmasters-slider cmsmasters-slider--init cmsmasters-slider--dir-horizontal cmsmasters-slider--effect-slide cmsmasters-slider-per-view-3">
+                                                                <div class="swiper cmsmasters-swiper-container">
+                                                                    <div class="swiper-wrapper">
+                                                                        {teamMembers.map(
+                                                                            (
+                                                                                member: any,
+                                                                                index: number,
+                                                                            ) => (
+                                                                                <div class="swiper-slide">
+                                                                                    <article class={`cmsmasters-blog__post post-member-${index}`}>
+                                                                                        <div class="cmsmasters-blog__post-inner">
+                                                                                            <style is:inline set:html={`.post-member-${index} .elementor-element.elementor-element-5b3731b2:not(.elementor-motion-effects-element-type-background):not(.cmsmasters-bg-effect), .post-member-${index} .elementor-element.elementor-element-5b3731b2 > .elementor-motion-effects-container > .elementor-motion-effects-layer, .post-member-${index} .elementor-element.elementor-element-5b3731b2 > .cmsmasters-bg-effects-container > .cmsmasters-bg-effects-element{background-image:url("${member.image_url}");}@media(max-width:1180px){.post-member-${index} .elementor-element.elementor-element-5b3731b2:not(.elementor-motion-effects-element-type-background):not(.cmsmasters-bg-effect), .post-member-${index} .elementor-element.elementor-element-5b3731b2 > .elementor-motion-effects-container > .elementor-motion-effects-layer, .post-member-${index} .elementor-element.elementor-element-5b3731b2 > .cmsmasters-bg-effects-container > .cmsmasters-bg-effects-element{background-image:url("${member.image_url}");}}`} />
+                                                                                            <div data-elementor-type="cmsmasters_entry" data-elementor-id="139" class="elementor elementor-139 cmsmasters-location-cmsmasters_singular cmsmasters-header-position-absolute-">
+                                                                                                <div class="elementor-inner">
+                                                                                                    <div class="elementor-section-wrap">
+                                                                                                        <div class="elementor-element elementor-element-397002 e-con-full cmsms_container_for_transform_hover_effect e-flex cmsmasters-block-default e-con e-parent" data-id="397002" data-element_type="container" data-settings='{"background_background":"classic"}'>
+                                                                                                            <div class="elementor-element elementor-element-5ccc3662 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="5ccc3662" data-element_type="container">
+                                                                                                                <div class="elementor-element elementor-element-47a3f077 cmsmasters-line-clamp-no cmsmasters-color-variation-default cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-post-title cmsmasters-widget-title" data-id="47a3f077" data-element_type="widget" data-widget_type="cmsmasters-post-title.default">
+                                                                                                                    <div class="elementor-widget-container">
+                                                                                                                        <div class="entry-title cmsmasters-widget-title__heading ">{member.name}</div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="elementor-element elementor-element-4c9e5ed9 cmsmasters-count--dir-row cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-meta-data" data-id="4c9e5ed9" data-element_type="widget" data-widget_type="cmsmasters-meta-data.default">
+                                                                                                                    <div class="elementor-widget-container">
+                                                                                                                        <div class="cmsmasters-meta-data">
+                                                                                                                            <div class="cmsmasters-meta-data__inner">
+                                                                                                                                <div class="cmsmasters-meta-data__item elementor-repeater-item-8d4d09e">
+                                                                                                                                    <div class="cmsmasters-meta-data__item__inner">
+                                                                                                                                        <span data-taxonomy="cmsms_profile_category" class="cmsmasters-postmeta" data-name="taxonomy">
+                                                                                                                                            <span class="cmsmasters-postmeta__inner">
+                                                                                                                                                <span class="cmsmasters-postmeta__content">
+                                                                                                                                                    <span class="term-wrap">
+                                                                                                                                                        <span>{member.role}</span>
+                                                                                                                                                    </span>
+                                                                                                                                                </span>
+                                                                                                                                            </span>
+                                                                                                                                        </span>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="elementor-element elementor-element-5b3731b2 e-con-full e-flex cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child" data-id="5b3731b2" data-element_type="container" data-settings='{"background_background":"classic"}'>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </article>
+                                                                                    </div>
+                                                                                ),
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script is:inline>
+            // FAQ Toggle functionality
+            document.addEventListener("DOMContentLoaded", function () {
+                const toggleTitles = document.querySelectorAll(
+                    ".elementor-widget-cmsmasters-toggles__title",
+                );
+
+                toggleTitles.forEach((title) => {
+                    title.addEventListener("click", function (e) {
+                        e.preventDefault();
+
+                        const parent = this.closest(
+                            ".elementor-widget-cmsmasters-toggles__item",
+                        );
+                        const content = parent.querySelector(
+                            ".elementor-widget-cmsmasters-toggles__content",
+                        );
+                        const isActive =
+                            this.classList.contains("active-toggle");
+
+                        // Toggle active class
+                        this.classList.toggle("active-toggle");
+                        parent.classList.toggle("active-toggle");
+                        content.classList.toggle("active-toggle");
+
+                        // Toggle display
+                        if (isActive) {
+                            content.style.display = "none";
+                            content.setAttribute("hidden", "");
+                        } else {
+                            content.style.display = "block";
+                            content.removeAttribute("hidden");
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+    <Footer />
+</html>

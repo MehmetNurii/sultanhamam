@@ -3,6 +3,8 @@
 -- =============================================
 
 -- 1. CLEANUP
+DROP TABLE IF EXISTS service_faqs;
+DROP TABLE IF EXISTS services;
 DROP TABLE IF EXISTS page_sections;
 DROP TABLE IF EXISTS navigation;
 DROP TABLE IF EXISTS pages;
@@ -62,6 +64,33 @@ CREATE TABLE page_sections (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(page_slug, section_key)
+);
+
+-- Services
+CREATE TABLE services (
+    id SERIAL PRIMARY KEY,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    short_description TEXT,
+    full_description TEXT,
+    hero_image_url TEXT,
+    icon_url TEXT,
+    sidebar_links JSONB DEFAULT '[]'::jsonb,
+    visible BOOLEAN DEFAULT TRUE,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Service FAQs
+CREATE TABLE service_faqs (
+    id SERIAL PRIMARY KEY,
+    service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- 3. INITIAL DATA INSERTION
@@ -567,15 +596,93 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      NULL, NULL, 2);
 
 
--- 4. ROW LEVEL SECURITY
+-- 5. SERVICES DATA
+
+-- Insert Services
+INSERT INTO services (slug, title, category, short_description, full_description, hero_image_url, icon_url, sidebar_links, visible, sort_order) VALUES
+    ('aromatherapy-massage', 'Aromatherapy Massage', 'Sensory Relaxation Therapies',
+     'This massage combines gentle, flowing techniques with the healing power of essential oils chosen specifically for your needs — whether calming, energizing, or balancing.',
+     'At our studio, every service is designed to nurture your body, soothe your mind, and uplift your spirit. Whether you seek deep physical healing, emotional balance, or simply a moment of quiet peace, you''ll find a space here to reconnect with yourself. Our carefully curated massages, facials, energy therapies, and holistic rituals are crafted to meet you exactly where you are on your wellness journey.
+
+We blend skilled techniques with natural elements like essential oils, warm stones, and mindful touch to create an experience that goes far beyond relaxation. Each treatment is a personalized invitation to release tension, restore balance, and renew your inner glow.
+
+We honor the importance of slow moments, intentional care, and the healing power of touch. No matter which path you choose — whether a gentle massage, a detoxifying ritual, or a soulful energy reset — you will leave feeling lighter, centered, and beautifully restored.
+
+This is your time to pause, breathe deeply, and return to yourself.',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-9.webp',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-9.svg',
+     '[{"title":"Swedish Relaxation Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/swedish-relaxation-massage/"},{"title":"Serenity Starter","url":"https://wellness-bliss.cmsmasters.studio/light/services/serenity-starter/"},{"title":"Facial Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/facial-massage/"},{"title":"Balance & Recenter","url":"https://wellness-bliss.cmsmasters.studio/light/services/balance-recenter/"},{"title":"Aromatherapy Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/aromatherapy-massage/"},{"title":"Deep Restoration","url":"https://wellness-bliss.cmsmasters.studio/light/services/deep-restoration/"},{"title":"Hot Stone Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/hot-stone-massage/"},{"title":"Moon & Soul Ritual","url":"https://wellness-bliss.cmsmasters.studio/light/services/moon-soul-ritual/"}]'::jsonb,
+     true, 1),
+     
+    ('swedish-relaxation-massage', 'Swedish Relaxation Massage', 'Sensory Relaxation Therapies',
+     'Using gentle to medium pressure and flowing strokes, this massage promotes deep relaxation, improves circulation, and soothes tired muscles.',
+     'Swedish Relaxation Massage is the foundation of modern massage therapy. Using long, flowing strokes combined with gentle kneading and circular movements, this treatment helps ease muscle tension while promoting a profound sense of calm and well-being.
+
+Perfect for those new to massage or seeking pure relaxation, this technique enhances circulation, reduces stress hormones, and supports your body''s natural healing processes.
+
+Each session is tailored to your comfort level, ensuring you leave feeling refreshed, balanced, and deeply at ease.',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-7.webp',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-7.svg',
+     '[{"title":"Swedish Relaxation Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/swedish-relaxation-massage/"},{"title":"Facial Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/facial-massage/"},{"title":"Aromatherapy Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/aromatherapy-massage/"},{"title":"Hot Stone Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/hot-stone-massage/"},{"title":"Deep Tissue Therapy","url":"https://wellness-bliss.cmsmasters.studio/light/services/deep-tissue-therapy/"},{"title":"Reflexology Therapy","url":"https://wellness-bliss.cmsmasters.studio/light/services/reflexology-therapy/"}]'::jsonb,
+     true, 2),
+     
+    ('hot-stone-massage', 'Hot Stone Massage', 'Sensory Relaxation Therapies',
+     'Smooth, heated stones are placed on key points of the body and used in flowing massage strokes to ease muscle tension and enhance circulation.',
+     'Experience the soothing warmth of smooth, heated stones combined with expert massage techniques. Hot Stone Massage uses carefully placed volcanic stones to melt away deep-seated tension while promoting relaxation and energy flow.
+
+The gentle heat penetrates muscle tissue, allowing for deeper relaxation without intense pressure. This treatment is ideal for those with chronic muscle tension, stress, or simply seeking a uniquely calming experience.
+
+Leave feeling grounded, warm, and completely at peace.',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-10.webp',
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-service-icon-10.svg',
+     '[{"title":"Hot Stone Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/hot-stone-massage/"},{"title":"Swedish Relaxation Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/swedish-relaxation-massage/"},{"title":"Deep Tissue Therapy","url":"https://wellness-bliss.cmsmasters.studio/light/services/deep-tissue-therapy/"},{"title":"Aromatherapy Massage","url":"https://wellness-bliss.cmsmasters.studio/light/services/aromatherapy-massage/"}]'::jsonb,
+     true, 3);
+
+-- Insert Service FAQs for Aromatherapy Massage
+INSERT INTO service_faqs (service_id, question, answer, sort_order) VALUES
+    (1, 'How do I know which service is best for me?',
+     'If you''re looking to relax your body, a massage or body treatment might be perfect. If you''re seeking emotional balance or stress relief, a meditation or energy healing session could be ideal. Feel free to contact us — we''re happy to guide you to the right experience for your needs!', 1),
+    (1, 'What should I wear to my appointment?',
+     'Wear whatever makes you feel most comfortable! For massages and body treatments, we provide privacy, cozy linens, and soft robes. For meditation and energy sessions, light, loose clothing is ideal to help you fully relax.', 2),
+    (1, 'Are the aromatherapy oils and facial products natural?',
+     'Absolutely! We use only high-quality, natural, and ethically sourced ingredients. Every product is chosen to nourish your body, uplift your spirit, and support overall wellness.', 3),
+    (1, 'Can I combine two services in one visit?',
+     'Yes! Many of our guests love to pair services, like a massage followed by a meditation or facial. Let us know when you book, and we''ll help create a custom relaxation experience just for you.', 4),
+    (1, 'What if it''s my first time trying meditation or energy healing?',
+     'That''s wonderful — you''re in good hands! Our practitioners are experienced in guiding beginners gently and comfortably through each session. You''ll be supported every step of the way, with no pressure and no expectations.', 5);
+
+-- Insert Service FAQs for Swedish Relaxation Massage
+INSERT INTO service_faqs (service_id, question, answer, sort_order) VALUES
+    (2, 'Is Swedish massage good for beginners?',
+     'Absolutely! Swedish massage is perfect for first-timers. The gentle, flowing techniques help you ease into the experience while providing deep relaxation and stress relief.', 1),
+    (2, 'How long does a typical Swedish massage session last?',
+     'Sessions typically range from 60 to 90 minutes. We recommend starting with 60 minutes if you''re new to massage, and extending to 90 minutes for a more comprehensive full-body experience.', 2),
+    (2, 'Will I be sore after the massage?',
+     'Swedish massage uses gentle to medium pressure, so most people don''t experience soreness afterward. You may feel deeply relaxed and perhaps a bit sleepy — this is completely normal and a sign your body is releasing tension.', 3);
+
+-- Insert Service FAQs for Hot Stone Massage
+INSERT INTO service_faqs (service_id, question, answer, sort_order) VALUES
+    (3, 'How hot are the stones?',
+     'The stones are heated to a comfortable, therapeutic temperature — warm enough to relax muscles deeply, but never uncomfortably hot. We always check the temperature before placing them on your body.', 1),
+    (3, 'Is hot stone massage safe for everyone?',
+     'Hot stone massage is safe for most people. However, we don''t recommend it if you have certain conditions like high blood pressure, diabetes, or pregnancy. Please let us know about any health concerns during booking.', 2),
+    (3, 'Can I request cooler or warmer stones?',
+     'Absolutely! Your comfort is our priority. Let your therapist know if you''d prefer the stones to be warmer or cooler at any point during the session.', 3);
+
+
+-- 6. ROW LEVEL SECURITY
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE navigation ENABLE ROW LEVEL SECURITY;
 ALTER TABLE page_sections ENABLE ROW LEVEL SECURITY;
+ALTER TABLE services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE service_faqs ENABLE ROW LEVEL SECURITY;
 
 -- Allow public read/write (for demo/development)
 CREATE POLICY "Allow all for site_settings" ON site_settings FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for pages" ON pages FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for navigation" ON navigation FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for page_sections" ON page_sections FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for services" ON services FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for service_faqs" ON service_faqs FOR ALL USING (true) WITH CHECK (true);
 
