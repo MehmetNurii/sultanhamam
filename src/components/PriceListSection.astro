@@ -1,4 +1,92 @@
-﻿		<div class="elementor-element elementor-element-4f0b255 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="4f0b255" data-element_type="container">
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("prices-page", "pricing_categories");
+
+// Eğer section görünür değilse, hiçbir şey render etme
+if (!section || !section.visible) {
+	return null;
+}
+
+const pricingCategories = section?.extra_data?.pricing_categories || [];
+
+// Her kategori için element ID'leri (PriceListSection'ın orijinal yapısı için)
+const categoryElementIds = [
+	{
+		container: "3ce75e0",
+		iconBox: "61f6a64",
+		itemsContainer: "a13801f",
+		listWidgets: ["c4b04c0", "a679ff3", "7b1578c"],
+		dividers: ["fa8ceb3", "bfb9c1c", "2de357d"],
+		button: "c330312"
+	},
+	{
+		container: "71e8b8b",
+		iconBox: "0a0ffd8",
+		itemsContainer: "0a4c72e",
+		headingWidgets: ["7e26b8f", "5a6f925"],
+		listWidgets: ["831a17e", "fc8a64a"],
+		dividers: ["f472a81", "828e9a4"],
+		button: "8f48eef"
+	},
+	{
+		container: "8417934",
+		iconBox: "9db05a4",
+		itemsContainer: "4f6e5ca",
+		headingWidgets: ["dd49161", "bdb1df8"],
+		listWidgets: ["9fba241", "2ba082e"],
+		dividers: ["e26c9f4", "379b2b4"],
+		button: "b9d6981"
+	},
+	{
+		container: "fa21cfc",
+		iconBox: "6ae0993",
+		itemsContainer: "af4b454",
+		headingWidgets: ["7f6de97", "df59f7d"],
+		listWidgets: ["1dd5b19", "bc19a89"],
+		dividers: ["2c4b909", "2659108"],
+		button: "5041881"
+	},
+	{
+		container: "9b983ea",
+		iconBox: "9152138",
+		itemsContainer: "9537053",
+		headingWidgets: ["07d3640", "3a299d2"],
+		listWidgets: ["676c4be", "70fb010"],
+		dividers: ["cffa6f5", "81a1eb9"],
+		button: "baf59fa"
+	},
+	{
+		container: "e3a201f",
+		iconBox: "244fdab",
+		itemsContainer: "64e5b74",
+		headingWidgets: ["44a4ea0", "43d8fb9"],
+		listWidgets: ["ee1ca79", "7ada96b"],
+		dividers: ["610a7d9", "aa59292"],
+		button: "699534b"
+	}
+];
+
+const bgSettings = [
+	'{"background_background":"gradient","animation":"fadeIn"}',
+	'{"background_background":"classic","animation":"fadeIn"}',
+	'{"background_background":"classic","animation":"fadeIn","animation_delay":250}',
+	'{"background_background":"classic","animation":"fadeIn","animation_delay":250}',
+	'{"background_background":"classic","animation":"fadeIn","animation_delay":500}',
+	'{"background_background":"classic","animation":"fadeIn","animation_delay":500}'
+];
+
+// Helper: split flat items into pairs for display (Massage Therapy style)
+function chunkArray(arr: any[], size: number) {
+	const result: any[][] = [];
+	for (let i = 0; i < arr.length; i += size) {
+		result.push(arr.slice(i, i + size));
+	}
+	return result;
+}
+---
+
+		<div class="elementor-element elementor-element-4f0b255 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="4f0b255" data-element_type="container">
 					<div class="e-con-inner">
 		<div class="elementor-element elementor-element-e51219f e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="e51219f" data-element_type="container">
 		<div class="elementor-element elementor-element-3ce75e0 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="3ce75e0" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;,&quot;animation&quot;:&quot;fadeIn&quot;}" style="visibility: visible; opacity: 1;">
