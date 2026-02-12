@@ -8,7 +8,31 @@ if (!section || !section.visible) {
 	return null;
 }
 
-const pricingCategories = section?.extra_data?.pricing_categories || [];
+interface PricingItem { name: string; price: string; }
+interface PricingGroup { group_title: string; items: PricingItem[]; }
+interface PricingCategory {
+	title: string;
+	description: string;
+	icon_class?: string;
+	detail_url?: string;
+	detail_text?: string;
+	items?: PricingItem[];
+	groups?: PricingGroup[];
+}
+const pricingCategories = (section?.extra_data?.pricing_categories as PricingCategory[] | undefined) || [];
+
+// Her zaman 6 slot: eksik kategoride statik fallback (grid yapısı bozulmasın)
+const defaultCat = (i: number): PricingCategory => ({
+	title: ["Massage Therapy", "Guided Meditations", "Reflexology Therapy", "Lymphatic Drainage Massage", "Aromatherapy Session", "Intuitive Wellness Consultation"][i] ?? "",
+	description: ["{getCat(0).description}", "Breathwork and mindfulness tailored to your needs.", "Relieve pain and limitation of movement.", "Gentle technique to support immune function and reduce inflammation.", "Deeply relax the body, mind and soul.", "Holistic life guidance blending energy reading, herbal suggestions."][i] ?? "",
+	icon_class: ["cmsms-demo-icons-wellness-bliss", "cmsms-demo-icons-wellness-12", "cmsms-demo-icons-wellness-15", "cmsms-demo-icons-wellness-8", "cmsms-demo-icons-wellness-11", "cmsms-demo-icons-wellness-9"][i] ?? "",
+	detail_url: "#",
+	detail_text: "View Details",
+	items: [],
+	groups: [{ group_title: "Initial Consultation", items: [{ name: "45 mins", price: "$50" }] }, { group_title: "Follow Up Treatment", items: [{ name: "30 mins", price: "$40" }, { name: "60 mins", price: "$60" }] }]
+});
+function getCat(i: number): PricingCategory { return pricingCategories[i] ?? defaultCat(i); }
+function chunk<T>(arr: T[], n: number): T[][] { const r: T[][] = []; for (let i = 0; i < arr.length; i += n) r.push(arr.slice(i, i + n)); return r; }
 
 // Her kategori için element ID'leri (PriceListSection'ın orijinal yapısı için)
 const categoryElementIds = [
@@ -76,14 +100,6 @@ const bgSettings = [
 	'{"background_background":"classic","animation":"fadeIn","animation_delay":500}'
 ];
 
-// Helper: split flat items into pairs for display (Massage Therapy style)
-function chunkArray(arr: any[], size: number) {
-	const result: any[][] = [];
-	for (let i = 0; i < arr.length; i += size) {
-		result.push(arr.slice(i, i + size));
-	}
-	return result;
-}
 ---
 
 		<div class="elementor-element elementor-element-4f0b255 e-flex e-con-boxed cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="4f0b255" data-element_type="container">
@@ -96,14 +112,14 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-bliss"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(0).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Massage Therapy						</span>
+							{getCat(0).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
@@ -115,29 +131,31 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-a13801f e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="a13801f" data-element_type="container">
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-c4b04c0 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="c4b04c0" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				{chunk(getCat(0).items ?? [], 2).map((pair, pairIdx) => {
+					const ids = categoryElementIds[0];
+					const listId = ids.listWidgets[pairIdx] ?? ids.listWidgets[0];
+					const divId = ids.dividers[pairIdx];
+					const pairs = chunk(getCat(0).items ?? [], 2);
+					return (
+				<>
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{pair.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							Relaxation Massage - 60 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$70</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							Relaxation Massage - 90 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$95</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-fa8ceb3 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="fa8ceb3" data-element_type="widget" data-widget_type="divider.default">
+				{pairIdx < pairs.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -145,73 +163,17 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-a679ff3 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="a679ff3" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							Deep Tissue Massage - 60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$75</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							Deep Tissue Massage - 90 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$100</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-bfb9c1c elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="bfb9c1c" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-7b1578c cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="7b1578c" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							Hot Stone Massage - 60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$80</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							Hot Stone Massage - 90 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$115</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-2de357d elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="2de357d" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-c330312 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-button" data-id="c330312" data-element_type="widget" data-widget_type="button.default">
 				<div class="elementor-widget-container">
 									<div class="elementor-button-wrapper">
-					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://wellness-bliss.cmsmasters.studio/light/services-page/">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href={getCat(0).detail_url || "#"}>
 						<span class="elementor-button-content-wrapper">
-									<span class="elementor-button-text">View Details</span>
+									<span class="elementor-button-text">{getCat(0).detail_text || "View Details"}</span>
 					</span>
 					</a>
 				</div>
@@ -225,18 +187,18 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-12"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(1).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Guided Meditations						</span>
+							{getCat(1).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
-						Breathwork and mindfulness tailored to your needs.					</p>
+						{getCat(1).description}					</p>
 				
 			</div>
 			
@@ -244,25 +206,38 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-0a4c72e e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="0a4c72e" data-element_type="container">
-				<div class="elementor-element elementor-element-7e26b8f cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="7e26b8f" data-element_type="widget" data-widget_type="heading.default">
+				{(getCat(1).groups ?? []).map((group, groupIdx) => {
+					const ids = categoryElementIds[1];
+					const headId = ids.headingWidgets?.[groupIdx] ?? ids.headingWidgets?.[0];
+					const listId = ids.listWidgets?.[groupIdx] ?? ids.listWidgets?.[0];
+					const divId = ids.dividers?.[groupIdx];
+					const groups = getCat(1).groups ?? [];
+					return (
+				<>
+				{headId && (
+				<div class={`elementor-element elementor-element-${headId} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading`} data-id={headId} data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Initial Consultation</div>				</div>
+					<div class="elementor-heading-title elementor-size-default">{group.group_title}</div>				</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-831a17e cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="831a17e" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				)}
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{group.items.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							45 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$50</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-f472a81 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="f472a81" data-element_type="widget" data-widget_type="divider.default">
+				{groupIdx < groups.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -270,44 +245,14 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-5a6f925 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="5a6f925" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Follow Up Treatment</div>				</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-fc8a64a cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="fc8a64a" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							30 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$40</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$60</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-828e9a4 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="828e9a4" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-8f48eef cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="8f48eef" data-element_type="widget" data-widget_type="cmsmasters-button.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="https://wellness-bliss.cmsmasters.studio/light/prices-page/" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">View Details</span></span></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={getCat(1).detail_url || "#"} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{getCat(1).detail_text || "View Details"}</span></span></a></div></div>				</div>
 				</div>
 				</div>
 				</div>
@@ -319,18 +264,18 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-15"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(2).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Reflexology Therapy						</span>
+							{getCat(2).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
-						Relieve pain and limitation of movement.					</p>
+						{getCat(2).description}					</p>
 				
 			</div>
 			
@@ -338,25 +283,38 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-4f6e5ca e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="4f6e5ca" data-element_type="container">
-				<div class="elementor-element elementor-element-dd49161 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="dd49161" data-element_type="widget" data-widget_type="heading.default">
+				{(getCat(2).groups ?? []).map((group, groupIdx) => {
+					const ids = categoryElementIds[2];
+					const headId = ids.headingWidgets?.[groupIdx] ?? ids.headingWidgets?.[0];
+					const listId = ids.listWidgets?.[groupIdx] ?? ids.listWidgets?.[0];
+					const divId = ids.dividers?.[groupIdx];
+					const groups = getCat(2).groups ?? [];
+					return (
+				<>
+				{headId && (
+				<div class={`elementor-element elementor-element-${headId} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading`} data-id={headId} data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Initial Consultation</div>				</div>
+					<div class="elementor-heading-title elementor-size-default">{group.group_title}</div>				</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-9fba241 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="9fba241" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				)}
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{group.items.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							45 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$50</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-e26c9f4 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="e26c9f4" data-element_type="widget" data-widget_type="divider.default">
+				{groupIdx < groups.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -364,44 +322,14 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-bdb1df8 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="bdb1df8" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Follow Up Treatment</div>				</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-2ba082e cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="2ba082e" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							30 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$45</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$60</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-379b2b4 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="379b2b4" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-b9d6981 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="b9d6981" data-element_type="widget" data-widget_type="cmsmasters-button.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="https://wellness-bliss.cmsmasters.studio/light/prices-page/" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">View Details</span></span></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={getCat(2).detail_url || "#"} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{getCat(2).detail_text || "View Details"}</span></span></a></div></div>				</div>
 				</div>
 				</div>
 		<div class="elementor-element elementor-element-fa21cfc e-con-full e-flex cmsmasters-block-default e-con e-child animated fadeIn" data-id="fa21cfc" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:250}" style="visibility: visible; opacity: 1;">
@@ -411,18 +339,18 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-8"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(3).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Lymphatic Drainage Massage						</span>
+							{getCat(3).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
-						Gentle technique to support immune function and reduce inflammation.					</p>
+						{getCat(3).description}					</p>
 				
 			</div>
 			
@@ -430,25 +358,38 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-af4b454 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="af4b454" data-element_type="container">
-				<div class="elementor-element elementor-element-7f6de97 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="7f6de97" data-element_type="widget" data-widget_type="heading.default">
+				{(getCat(3).groups ?? []).map((group, groupIdx) => {
+					const ids = categoryElementIds[3];
+					const headId = ids.headingWidgets?.[groupIdx] ?? ids.headingWidgets?.[0];
+					const listId = ids.listWidgets?.[groupIdx] ?? ids.listWidgets?.[0];
+					const divId = ids.dividers?.[groupIdx];
+					const groups = getCat(3).groups ?? [];
+					return (
+				<>
+				{headId && (
+				<div class={`elementor-element elementor-element-${headId} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading`} data-id={headId} data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Initial Consultation</div>				</div>
+					<div class="elementor-heading-title elementor-size-default">{group.group_title}</div>				</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-1dd5b19 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="1dd5b19" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				)}
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{group.items.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							45 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$50</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-2c4b909 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="2c4b909" data-element_type="widget" data-widget_type="divider.default">
+				{groupIdx < groups.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -456,44 +397,14 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-df59f7d cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="df59f7d" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Follow Up Treatment</div>				</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-bc19a89 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="bc19a89" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							30 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$45</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$60</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-2659108 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="2659108" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-5041881 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="5041881" data-element_type="widget" data-widget_type="cmsmasters-button.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="https://wellness-bliss.cmsmasters.studio/light/prices-page/" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">View Details</span></span></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={getCat(3).detail_url || "#"} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{getCat(3).detail_text || "View Details"}</span></span></a></div></div>				</div>
 				</div>
 				</div>
 				</div>
@@ -505,18 +416,18 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-11"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(4).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Aromatherapy Session						</span>
+							{getCat(4).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
-						Deeply relax the body, mind and soul.					</p>
+						{getCat(4).description}					</p>
 				
 			</div>
 			
@@ -524,25 +435,38 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-9537053 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="9537053" data-element_type="container">
-				<div class="elementor-element elementor-element-07d3640 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="07d3640" data-element_type="widget" data-widget_type="heading.default">
+				{(getCat(4).groups ?? []).map((group, groupIdx) => {
+					const ids = categoryElementIds[4];
+					const headId = ids.headingWidgets?.[groupIdx] ?? ids.headingWidgets?.[0];
+					const listId = ids.listWidgets?.[groupIdx] ?? ids.listWidgets?.[0];
+					const divId = ids.dividers?.[groupIdx];
+					const groups = getCat(4).groups ?? [];
+					return (
+				<>
+				{headId && (
+				<div class={`elementor-element elementor-element-${headId} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading`} data-id={headId} data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Initial Consultation</div>				</div>
+					<div class="elementor-heading-title elementor-size-default">{group.group_title}</div>				</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-676c4be cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="676c4be" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				)}
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{group.items.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							45 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$65</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-cffa6f5 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="cffa6f5" data-element_type="widget" data-widget_type="divider.default">
+				{groupIdx < groups.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -550,44 +474,14 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-3a299d2 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="3a299d2" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Follow Up Treatment</div>				</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-70fb010 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="70fb010" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							30 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$50</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$80</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-81a1eb9 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="81a1eb9" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-baf59fa cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="baf59fa" data-element_type="widget" data-widget_type="cmsmasters-button.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="https://wellness-bliss.cmsmasters.studio/light/prices-page/" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">View Details</span></span></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={getCat(4).detail_url || "#"} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{getCat(4).detail_text || "View Details"}</span></span></a></div></div>				</div>
 				</div>
 				</div>
 		<div class="elementor-element elementor-element-e3a201f e-con-full e-flex cmsmasters-block-default e-con e-child animated fadeIn" data-id="e3a201f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:500}" style="visibility: visible; opacity: 1;">
@@ -597,18 +491,18 @@ function chunkArray(arr: any[], size: number) {
 
 						<div class="elementor-icon-box-icon">
 				<span class="elementor-icon">
-				<i aria-hidden="true" class="cmsmsdemo-icons- cmsms-demo-icons-wellness-9"></i>				</span>
+				<i aria-hidden="true" class={`cmsmsdemo-icons- ${getCat(5).icon_class || ""}`.trim()}></i>				</span>
 			</div>
 			
 						<div class="elementor-icon-box-content">
 
 									<h5 class="elementor-icon-box-title">
 						<span>
-							Intuitive Wellness Consultation						</span>
+							{getCat(5).title}						</span>
 					</h5>
 				
 									<p class="elementor-icon-box-description">
-						Holistic life guidance blending energy reading, herbal suggestions.					</p>
+						{getCat(5).description}					</p>
 				
 			</div>
 			
@@ -616,25 +510,38 @@ function chunkArray(arr: any[], size: number) {
 						</div>
 				</div>
 		<div class="elementor-element elementor-element-64e5b74 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="64e5b74" data-element_type="container">
-				<div class="elementor-element elementor-element-44a4ea0 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="44a4ea0" data-element_type="widget" data-widget_type="heading.default">
+				{(getCat(5).groups ?? []).map((group, groupIdx) => {
+					const ids = categoryElementIds[5];
+					const headId = ids.headingWidgets?.[groupIdx] ?? ids.headingWidgets?.[0];
+					const listId = ids.listWidgets?.[groupIdx] ?? ids.listWidgets?.[0];
+					const divId = ids.dividers?.[groupIdx];
+					const groups = getCat(5).groups ?? [];
+					return (
+				<>
+				{headId && (
+				<div class={`elementor-element elementor-element-${headId} cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading`} data-id={headId} data-element_type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Initial Consultation</div>				</div>
+					<div class="elementor-heading-title elementor-size-default">{group.group_title}</div>				</div>
 				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-ee1ca79 cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="ee1ca79" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
+				)}
+				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class={`elementor-element elementor-element-${listId} cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list`} data-id={listId} data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
 				<div class="elementor-widget-container">
 							<ul class="cmsmasters-widget-icon-list-items">
+							{group.items.map((item, itemIdx) => (
 							<li class="cmsmasters-widget-icon-list-item">
 								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							45 mins						</span>
+										<span class={`cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-${itemIdx === 0 ? "ac48809" : "21a0817"}`}>
+						<span class={`cmsmasters-widget-icon-list-item-text${itemIdx > 0 ? " cmsmasters-widget-icon-list-item-text" : ""}`}>
+							{item.name}						</span>
 											</span>
 				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$40</span>				</li>
+				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">{item.price}</span>				</li>
+							))}
 					</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-610a7d9 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="610a7d9" data-element_type="widget" data-widget_type="divider.default">
+				{groupIdx < groups.length - 1 && divId && (
+				<div class={`elementor-element elementor-element-${divId} elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider`} data-id={divId} data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-divider">
 			<span class="elementor-divider-separator">
@@ -642,44 +549,14 @@ function chunkArray(arr: any[], size: number) {
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-43d8fb9 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="43d8fb9" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<div class="elementor-heading-title elementor-size-default">Follow Up Treatment</div>				</div>
-				</div>
-				<div data-separate-animation-selector=".cmsmasters-widget-icon-list-item" data-text-animation-class="sequental, random, line, word, char" class="elementor-element elementor-element-7ada96b cmsmasters-widget-layout-row cmsmasters-widget-align-stretch cmsmasters-widget-direction-default cmsmasters-widget-marker-element-icon cmsmasters-widget-marker-view-default cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-icon-list cmsmasters-widget-icon-list" data-id="7ada96b" data-element_type="widget" data-widget_type="cmsmasters-icon-list.default">
-				<div class="elementor-widget-container">
-							<ul class="cmsmasters-widget-icon-list-items">
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-ac48809">
-						<span class="cmsmasters-widget-icon-list-item-text">
-							30 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$30</span>				</li>
-							<li class="cmsmasters-widget-icon-list-item">
-								<span class="cmsmasters-widget-icon-list-item-text-wrap">
-										<span class="cmsmasters-widget-icon-list-item-text-inner elementor-repeater-item-21a0817">
-						<span class="cmsmasters-widget-icon-list-item-text cmsmasters-widget-icon-list-item-text">
-							60 mins						</span>
-											</span>
-				</span>
-				<span class="cmsmasters-widget-icon-list-item-value cmsmasters-widget-icon-list-item-value">$50</span>				</li>
-					</ul>
-						</div>
-				</div>
-				<div class="elementor-element elementor-element-aa59292 elementor-widget-divider--view-line cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-divider" data-id="aa59292" data-element_type="widget" data-widget_type="divider.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-divider">
-			<span class="elementor-divider-separator">
-						</span>
-		</div>
-						</div>
-				</div>
+				)}
+				</>
+					);
+				})}
 				</div>
 				<div class="elementor-element elementor-element-699534b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="699534b" data-element_type="widget" data-widget_type="cmsmasters-button.default">
 				<div class="elementor-widget-container">
-					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href="https://wellness-bliss.cmsmasters.studio/light/prices-page/" class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">View Details</span></span></a></div></div>				</div>
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={getCat(5).detail_url || "#"} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{getCat(5).detail_text || "View Details"}</span></span></a></div></div>				</div>
 				</div>
 				</div>
 				</div>
