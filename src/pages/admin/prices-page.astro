@@ -178,7 +178,7 @@ function getExtraDataInfo(section: PageSection): string[] {
                 </div>
                 <button
                   class="admin-btn admin-btn-primary admin-btn-sm"
-                  onclick={`openEditModal(${JSON.stringify(section).replace(/"/g, '&quot;')})`}
+                  onclick={`openEditModal(${JSON.stringify(section)})`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -690,6 +690,67 @@ function getExtraDataInfo(section: PageSection): string[] {
   .json-status.empty {
     color: var(--admin-text-muted);
   }
+
+  /* Pricing editor */
+  .pricing-cat-card {
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    background: var(--admin-bg-main);
+  }
+
+  .pricing-cat-header {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--admin-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pricing-cat-header small {
+    font-size: 0.7rem;
+    color: var(--admin-text-muted);
+  }
+
+  .pc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .pc-row input {
+    width: 100%;
+  }
+
+  .pc-group {
+    border: 1px solid var(--admin-border-color);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(0,0,0,0.02);
+  }
+
+  .pc-group-title {
+    margin-bottom: 8px;
+  }
+
+  .pc-add-item,
+  .pc-add-group,
+  .pc-add-group-row {
+    margin-top: 8px;
+  }
+
+  .pc-items-wrap,
+  .pc-groups-wrap {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 </style>
 
 <!-- Edit Modal -->
@@ -713,8 +774,9 @@ function getExtraDataInfo(section: PageSection): string[] {
       <div class="admin-modal-body">
         <!-- Tabs -->
         <div class="modal-tabs">
-          <button type="button" class="modal-tab active" onclick="switchTab('general')">Genel Bilgiler</button>
-          <button type="button" class="modal-tab" onclick="switchTab('extra')" id="extraTabBtn">Ekstra Veriler</button>
+          <button type="button" class="modal-tab active" id="tabBtnGeneral" onclick="switchTab('general')">Genel Bilgiler</button>
+          <button type="button" class="modal-tab" id="tabBtnPricing" onclick="switchTab('pricing')" style="display: none;">Fiyat Kartları</button>
+          <button type="button" class="modal-tab" id="tabBtnExtra" onclick="switchTab('extra')">Ekstra Veriler (JSON)</button>
         </div>
 
         <!-- General Tab -->
@@ -762,6 +824,14 @@ function getExtraDataInfo(section: PageSection): string[] {
           </div>
         </div>
 
+        <!-- Fiyat Kartları Tab (sadece pricing bölümü için) -->
+        <div id="tab-pricing" class="tab-panel">
+          <p class="admin-text-muted" style="margin-bottom: 16px; font-size: 0.8rem;">
+            Her fiyat kartını buradan düzenleyebilirsiniz. JSON ile uğraşmak istemiyorsanız bu sekmeyi kullanın; Kaydet'e basınca veriler otomatik olarak <code>pricing_categories</code> içine yazılır.
+          </p>
+          <div id="pricingCategoriesForm"></div>
+        </div>
+
         <!-- Extra Data Tab -->
         <div id="tab-extra" class="tab-panel">
           <div id="extraDataEditor">
@@ -802,11 +872,9 @@ function getExtraDataInfo(section: PageSection): string[] {
 
 <script is:inline>
   let originalExtraData = null;
+  let currentSectionType = null;
 
   function openEditModal(section) {
-    // Escape JSON for HTML attribute
-    const sectionJson = JSON.stringify(section).replace(/"/g, '&quot;');
-    
     document.getElementById("sectionId").value = section.id;
     document.getElementById("sectionTitle").value = section.title || "";
     document.getElementById("sectionSubtitle").value = section.subtitle || "";
@@ -816,6 +884,8 @@ function getExtraDataInfo(section: PageSection): string[] {
     document.getElementById("buttonUrl").value = section.button_url || "";
     document.getElementById("sectionVisible").checked = section.visible;
     document.getElementById("modalSectionBadge").textContent = section.section_key;
+
+    currentSectionType = section.section_type;
 
     // Extra data
     originalExtraData = section.extra_data;
@@ -829,11 +899,22 @@ function getExtraDataInfo(section: PageSection): string[] {
     }
 
     // Extra tab badge
-    const extraTabBtn = document.getElementById("extraTabBtn");
+    const extraTabBtn = document.getElementById("tabBtnExtra");
     if (section.extra_data && Object.keys(section.extra_data).length > 0) {
-      extraTabBtn.textContent = "Ekstra Veriler ●";
+      extraTabBtn.textContent = "Ekstra Veriler (JSON) ●";
     } else {
-      extraTabBtn.textContent = "Ekstra Veriler";
+      extraTabBtn.textContent = "Ekstra Veriler (JSON)";
+    }
+
+    // Pricing tab
+    const pricingTabBtn = document.getElementById("tabBtnPricing");
+    if (section.section_type === "pricing") {
+      pricingTabBtn.style.display = "";
+      renderPricingForm(section.extra_data?.pricing_categories || []);
+    } else {
+      pricingTabBtn.style.display = "none";
+      const form = document.getElementById("pricingCategoriesForm");
+      if (form) form.innerHTML = "";
     }
 
     updateVisibleField();
@@ -848,14 +929,17 @@ function getExtraDataInfo(section: PageSection): string[] {
   function switchTab(tabName) {
     document.querySelectorAll(".modal-tab").forEach(t => t.classList.remove("active"));
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    
-    const tabs = document.querySelectorAll(".modal-tab");
-    if (tabName === "general") {
-      tabs[0].classList.add("active");
-    } else {
-      tabs[1].classList.add("active");
-    }
-    document.getElementById("tab-" + tabName).classList.add("active");
+
+    const btnGeneral = document.getElementById("tabBtnGeneral");
+    const btnPricing = document.getElementById("tabBtnPricing");
+    const btnExtra = document.getElementById("tabBtnExtra");
+
+    if (btnGeneral) btnGeneral.classList.toggle("active", tabName === "general");
+    if (btnPricing) btnPricing.classList.toggle("active", tabName === "pricing");
+    if (btnExtra) btnExtra.classList.toggle("active", tabName === "extra");
+
+    const panel = document.getElementById("tab-" + tabName);
+    if (panel) panel.classList.add("active");
   }
 
   function updateVisibleField() {
@@ -937,12 +1021,204 @@ function getExtraDataInfo(section: PageSection): string[] {
       this.selectionStart = this.selectionEnd = start + 2;
     }
   });
+  
+  // Pricing form render helpers
+  function renderPricingForm(categories) {
+    const container = document.getElementById("pricingCategoriesForm");
+    if (!container) return;
+    const getType = (cat) => (cat && cat.groups && cat.groups.length) ? "groups" : "items";
+    let html = "";
+    for (let i = 0; i < 6; i++) {
+      const c = categories[i] || {};
+      const type = getType(c);
+      const esc = (v) => (v || "").toString().replace(/"/g, "&quot;");
+      html += '<div class="pricing-cat-card" data-cat-index="' + i + '">';
+      html += '<div class="pricing-cat-header">Kart ' + (i + 1) + '<small>' + (c.title ? " (" + esc(c.title) + ")" : "") + '</small></div>';
+      html += '<div class="admin-form-group"><label class="admin-form-label">Başlık</label><input type="text" class="admin-form-input pc-title" placeholder="Örn: Massage Therapy" value="' + esc(c.title) + '"></div>';
+      html += '<div class="admin-form-group"><label class="admin-form-label">Açıklama</label><textarea rows="2" class="admin-form-textarea pc-desc" placeholder="Kısa açıklama">' + (c.description || "") + '</textarea></div>';
+      html += '<div class="admin-form-group"><label class="admin-form-label">İkon class</label><input type="text" class="admin-form-input pc-icon" placeholder="cmsms-demo-icons-wellness-bliss" value="' + esc(c.icon_class) + '"></div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+      html += '<div class="admin-form-group"><label class="admin-form-label">Detay link</label><input type="text" class="admin-form-input pc-url" placeholder="/prices-page" value="' + esc(c.detail_url) + '"></div>';
+      html += '<div class="admin-form-group"><label class="admin-form-label">Buton metni</label><input type="text" class="admin-form-input pc-btn" placeholder="View Details" value="' + esc(c.detail_text) + '"></div>';
+      html += '</div>';
+      html += '<div class="admin-form-group"><label class="admin-form-label">Fiyat listesi türü</label><select class="admin-form-input pc-type" style="max-width:220px;"><option value="items"' + (type === "items" ? " selected" : "") + '>Düz liste (items)</option><option value="groups"' + (type === "groups" ? " selected" : "") + '>Gruplu (groups)</option></select></div>';
+
+      // Items
+      html += '<div class="pc-items-wrap"' + (type === "groups" ? ' style="display:none;"' : "") + '>';
+      html += '<div class="pc-items-list">';
+      if (c.items && c.items.length) {
+        c.items.forEach((it) => {
+          html += '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad" value="' + esc(it.name) + '"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat" value="' + esc(it.price) + '"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>';
+        });
+      } else {
+        html += '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>';
+      }
+      html += '</div>';
+      html += '<button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-add-item">+ Satır ekle</button>';
+      html += '</div>';
+
+      // Groups
+      html += '<div class="pc-groups-wrap"' + (type === "items" ? ' style="display:none;"' : "") + '>';
+      html += '<div class="pc-groups-list">';
+      if (c.groups && c.groups.length) {
+        c.groups.forEach((g) => {
+          html += '<div class="pc-group">';
+          html += '<input type="text" class="admin-form-input pc-group-title" placeholder="Grup başlığı (örn: Initial Consultation)" value="' + esc(g.group_title) + '">';
+          html += '<div class="pc-group-rows">';
+          (g.items || []).forEach((it) => {
+            html += '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad" value="' + esc(it.name) + '"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat" value="' + esc(it.price) + '"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>';
+          });
+          if (!g.items || !g.items.length) {
+            html += '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>';
+          }
+          html += '</div>';
+          html += '<button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-add-group-row">+ Satır</button>';
+          html += '</div>';
+        });
+      } else {
+        html += '<div class="pc-group">';
+        html += '<input type="text" class="admin-form-input pc-group-title" placeholder="Grup başlığı">';
+        html += '<div class="pc-group-rows">';
+        html += '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>';
+        html += '</div>';
+        html += '<button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-add-group-row">+ Satır</button>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '<button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-add-group">+ Grup ekle</button>';
+      html += '</div>';
+    }
+    container.innerHTML = html;
+    bindPricingFormEvents();
+  }
+
+  function bindPricingFormEvents() {
+    const root = document.getElementById("pricingCategoriesForm");
+    if (!root) return;
+    root.onclick = function (e) {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+      const card = target.closest(".pricing-cat-card");
+      if (!card) return;
+      if (target.classList.contains("pc-add-item")) {
+        const list = card.querySelector(".pc-items-list");
+        if (!list) return;
+        list.insertAdjacentHTML(
+          "beforeend",
+          '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>'
+        );
+      } else if (target.classList.contains("pc-remove-row")) {
+        const row = target.closest(".pc-row");
+        if (row) row.remove();
+      } else if (target.classList.contains("pc-add-group-row")) {
+        const group = target.closest(".pc-group");
+        if (!group) return;
+        const rows = group.querySelector(".pc-group-rows");
+        if (!rows) return;
+        rows.insertAdjacentHTML(
+          "beforeend",
+          '<div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div>'
+        );
+      } else if (target.classList.contains("pc-add-group")) {
+        const list = card.querySelector(".pc-groups-list");
+        if (!list) return;
+        list.insertAdjacentHTML(
+          "beforeend",
+          '<div class="pc-group"><input type="text" class="admin-form-input pc-group-title" placeholder="Grup başlığı"><div class="pc-group-rows"><div class="pc-row"><input type="text" class="admin-form-input pc-item-name" placeholder="Ad"><input type="text" class="admin-form-input pc-item-price" placeholder="Fiyat"><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-remove-row">Sil</button></div></div><button type="button" class="admin-btn admin-btn-secondary admin-btn-sm pc-add-group-row">+ Satır</button></div>'
+        );
+      }
+    };
+    root.onchange = function (e) {
+      const target = e.target;
+      if (!(target instanceof HTMLSelectElement)) return;
+      if (!target.classList.contains("pc-type")) return;
+      const card = target.closest(".pricing-cat-card");
+      if (!card) return;
+      const itemsWrap = card.querySelector(".pc-items-wrap");
+      const groupsWrap = card.querySelector(".pc-groups-wrap");
+      if (!itemsWrap || !groupsWrap) return;
+      if (target.value === "items") {
+        itemsWrap.style.display = "";
+        groupsWrap.style.display = "none";
+      } else {
+        itemsWrap.style.display = "none";
+        groupsWrap.style.display = "";
+      }
+    };
+  }
+
+  function buildPricingCategoriesFromForm() {
+    const formRoot = document.getElementById("pricingCategoriesForm");
+    if (!formRoot) return [];
+    const cards = formRoot.querySelectorAll(".pricing-cat-card");
+    const result = [];
+    cards.forEach((card) => {
+      const cat = {};
+      const getVal = (sel) => {
+        const el = card.querySelector(sel);
+        return el && "value" in el ? el.value.trim() : "";
+      };
+      cat.title = getVal(".pc-title");
+      cat.description = getVal(".pc-desc");
+      cat.icon_class = getVal(".pc-icon");
+      cat.detail_url = getVal(".pc-url") || "/prices-page";
+      cat.detail_text = getVal(".pc-btn") || "View Details";
+      const typeEl = card.querySelector(".pc-type");
+      const type = typeEl && "value" in typeEl ? typeEl.value : "items";
+      if (type === "items") {
+        const rows = card.querySelectorAll(".pc-items-list .pc-row");
+        const items = [];
+        rows.forEach((row) => {
+          const nameEl = row.querySelector(".pc-item-name");
+          const priceEl = row.querySelector(".pc-item-price");
+          const name = nameEl && "value" in nameEl ? nameEl.value.trim() : "";
+          const price = priceEl && "value" in priceEl ? priceEl.value.trim() : "";
+          if (name || price) items.push({ name: name || "-", price: price || "-" });
+        });
+        cat.items = items;
+      } else {
+        const groups = [];
+        const groupEls = card.querySelectorAll(".pc-groups-list .pc-group");
+        groupEls.forEach((gEl) => {
+          const titleEl = gEl.querySelector(".pc-group-title");
+          const group_title = titleEl && "value" in titleEl ? titleEl.value.trim() : "";
+          const items = [];
+          gEl.querySelectorAll(".pc-group-rows .pc-row").forEach((row) => {
+            const nameEl = row.querySelector(".pc-item-name");
+            const priceEl = row.querySelector(".pc-item-price");
+            const name = nameEl && "value" in nameEl ? nameEl.value.trim() : "";
+            const price = priceEl && "value" in priceEl ? priceEl.value.trim() : "";
+            if (name || price) items.push({ name: name || "-", price: price || "-" });
+          });
+          groups.push({ group_title: group_title || "Group", items });
+        });
+        cat.groups = groups;
+      }
+      result.push(cat);
+    });
+    return result;
+  }
 
   // Form validation before submit
   document.getElementById("editForm").addEventListener("submit", function(e) {
     const extraInput = document.getElementById("extraDataInput");
+
+    // Eğer pricing bölümünü düzenliyorsak, formdan pricing_categories üret
+    if (currentSectionType === "pricing") {
+      const built = buildPricingCategoriesFromForm();
+      let extra = {};
+      try {
+        if (extraInput.value.trim()) {
+          extra = JSON.parse(extraInput.value);
+        }
+      } catch (err) {
+        extra = {};
+      }
+      extra.pricing_categories = built;
+      extraInput.value = JSON.stringify(extra, null, 2);
+    }
+
     const value = extraInput.value.trim();
-    
     if (value && !validateJson()) {
       e.preventDefault();
       switchTab("extra");
