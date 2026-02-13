@@ -1,0 +1,44 @@
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("contacts", "ask_question");
+
+if (!section || !section.visible) {
+	return null;
+}
+
+const title = (section.title as string | null) || "Ask a Question";
+const description =
+	(section.description as string | null) ||
+	"If you have any questions, you can contact us. Please, fill out the form below.";
+const imageUrl =
+	(section.image_url as string | null) ||
+	"/assets/light/wp-content/uploads/sites/4/2025/04/61-appointment.webp";
+---
+		<div class="elementor-element elementor-element-c2e80ea e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="c2e80ea" data-element_type="container">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-ce919db e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="ce919db" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;zoomIn&quot;}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-95192f3 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="95192f3" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="1180" height="1730" src={imageUrl} class="attachment-full size-full wp-image-39876" alt="">															</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-67a7d67 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="67a7d67" data-element_type="container">
+				<div class="elementor-element elementor-element-8b960af cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="8b960af" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">{title}</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-ed32c40 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="ed32c40" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:500}" data-widget_type="text-editor.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+									{description}								</div>
+				</div>
+				<div class="elementor-element elementor-element-4cd8c1e cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-forminator" data-id="4cd8c1e" data-element_type="widget" data-settings="{&quot;form_list&quot;:&quot;47&quot;,&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:750}" data-widget_type="cmsmasters-forminator.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<div class="elementor-widget-cmsmasters-contact-form__wrapper elementor-widget-cmsmasters-contact-form cmsmasters-default-color cmsmasters-default-font" id="cmsmasters-widget-form-4cd8c1e">
+			<div class="elementor-widget-cmsmasters-contact-form__inner"><form id="forminator-module-47" class="forminator-ui forminator-custom-form forminator-custom-form-47 forminator-design--default forminator-custom forminator_ajax" method="post" data-forminator-render="0" data-form-id="47" data-design="default" data-color-option="default" data-grid="custom" data-uid="6981e077df6b4" style="" novalidate="novalidate"><div role="alert" aria-live="polite" class="forminator-response-message forminator-error" aria-hidden="true"></div><div class="forminator-row"><div id="name-1" class="forminator-field-name forminator-col forminator-col-6 "><div class="forminator-field"><label for="forminator-field-name-1_6981e077df6b4" id="forminator-field-name-1_6981e077df6b4-label" class="forminator-label">Name</label><input type="text" name="name-1" value="" placeholder="" id="forminator-field-name-1_6981e077df6b4" class="forminator-input forminator-name--field" aria-required="false"></div></div><div id="email-1" class="forminator-field-email forminator-col forminator-col-6 "><div class="forminator-field"><label for="forminator-field-email-1_6981e077df6b4" id="forminator-field-email-1_6981e077df6b4-label" class="forminator-label">E-Mail</label><input type="email" name="email-1" value="" placeholder="" id="forminator-field-email-1_6981e077df6b4" class="forminator-input forminator-email--field" data-required="" aria-required="false"></div></div></div><div class="forminator-row"><div id="textarea-1" class="forminator-field-textarea forminator-col forminator-col-12 "><div class="forminator-field"><label for="forminator-field-textarea-1_6981e077df6b4" id="forminator-field-textarea-1_6981e077df6b4-label" class="forminator-label">Your Message</label><textarea name="textarea-1" placeholder="" id="forminator-field-textarea-1_6981e077df6b4" class="forminator-textarea" rows="6" style="min-height:140px;"></textarea></div></div></div><input type="hidden" name="referer_url" value=""><div class="forminator-row forminator-row-last"><div class="forminator-col"><div class="forminator-field"><button class="forminator-button forminator-button-submit">Send Message</button></div></div></div><input type="hidden" id="forminator_nonce" name="forminator_nonce" value="0da031fd74"><input type="hidden" name="_wp_http_referer" value="/light/wp-admin/admin-ajax.php"><input type="hidden" name="form_id" value="47"><input type="hidden" name="page_id" value="37139"><input type="hidden" name="form_type" value="default"><input type="hidden" name="current_url" value="https://wellness-bliss.cmsmasters.studio/light/contacts/"><input type="hidden" name="render_id" value="0"><input type="hidden" name="action" value="forminator_submit_form_custom-forms"></form></div>
+		</div>				</div>
+				</div>
+				</div>
+					</div>
+				</div>
+

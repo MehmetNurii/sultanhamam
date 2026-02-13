@@ -117,6 +117,8 @@ function getExtraDataSummary(section: (typeof sections)[0]): string[] {
     summaries.push(`${(ed.packages as unknown[]).length} paket`);
   if (ed.images && Array.isArray(ed.images))
     summaries.push(`${(ed.images as unknown[]).length} resim`);
+  if (ed.locations && Array.isArray(ed.locations))
+    summaries.push(`${(ed.locations as unknown[]).length} lokasyon`);
   if (ed.counter_number) summaries.push(`Sayaç: ${ed.counter_number}`);
   if (ed.counter_text) summaries.push(`"${ed.counter_text}"`);
   if (ed.placeholder_image) summaries.push(`Placeholder resim`);
@@ -152,6 +154,8 @@ const sectionTypeLabels: Record<string, string> = {
   story: "Hikaye",
   appointment: "Randevu",
   contact: "İletişim",
+  locations: "Lokasyonlar",
+  contact_form: "İletişim Formu",
 };
 ---
 

@@ -1,0 +1,144 @@
+---
+import { getPageSection } from "../lib/supabase";
+
+const section = await getPageSection("contacts", "locations");
+
+if (!section || !section.visible) {
+	return null;
+}
+
+interface LocationItem {
+	name: string;
+	image_url: string;
+	address_html: string;
+	hours_html: string;
+	button_text?: string;
+	button_url?: string;
+}
+
+const defaultLocations: LocationItem[] = [
+	{
+		name: "Apple Valley",
+		image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-contacts-2.webp",
+		address_html: "14960 Florence Trail<br>Apple Valley, MN 55124",
+		hours_html: "Monday – Sunday, <br>9am – 7pm EST",
+		button_text: "Refer a Patient",
+		button_url: "/about-us"
+	},
+	{
+		name: "White Bear Lake",
+		image_url: "/assets/light/wp-content/uploads/sites/4/2025/04/61-contacts-3.webp",
+		address_html: "2401 East Buffalo St.<br>White Bear Lake, MN 55110",
+		hours_html: "Monday – Sunday, <br>9am – 7pm EST",
+		button_text: "Refer a Patient",
+		button_url: "/about-us"
+	}
+];
+
+const rawLocations = (section.extra_data?.locations as LocationItem[] | undefined) || [];
+
+const locations: LocationItem[] =
+	rawLocations.length > 0
+		? rawLocations.map((loc, i) => ({
+				name: loc.name || defaultLocations[i]?.name || "",
+				image_url: loc.image_url || defaultLocations[i]?.image_url || "",
+				address_html: loc.address_html || defaultLocations[i]?.address_html || "",
+				hours_html: loc.hours_html || defaultLocations[i]?.hours_html || defaultLocations[0].hours_html,
+				button_text: loc.button_text || defaultLocations[i]?.button_text || "Refer a Patient",
+				button_url: loc.button_url || defaultLocations[i]?.button_url || "/about-us"
+		  }))
+		: defaultLocations;
+
+const title = (section.title as string | null) || "All Locations";
+---
+		<div class="elementor-element elementor-element-b80c870 e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="b80c870" data-element_type="container">
+					<div class="e-con-inner">
+				<div class="elementor-element elementor-element-6b840e5 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="6b840e5" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="heading.default" style="visibility: visible; opacity: 1;">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">{title}</h2>				</div>
+				</div>
+					</div>
+				</div>
+		<div class="elementor-element elementor-element-502fabe e-flex e-con-boxed cmsmasters-block-default e-con e-parent" data-id="502fabe" data-element_type="container">
+					<div class="e-con-inner">
+		{locations[0] && (
+			<div class="elementor-element elementor-element-6ccee5e e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="6ccee5e" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:250}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-d4f823d cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="d4f823d" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="1178" height="695" src={locations[0].image_url} class="attachment-full size-full wp-image-39888" alt="">															</div>
+				</div>
+				<div class="elementor-element elementor-element-b928c60 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="b928c60" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">{locations[0].name}</h4>				</div>
+				</div>
+		<div class="elementor-element elementor-element-d5c3a17 e-flex e-con-boxed cmsmasters-block-default e-con e-child" data-id="d5c3a17" data-element_type="container">
+					<div class="e-con-inner">
+		<div class="elementor-element elementor-element-85cc87d e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="85cc87d" data-element_type="container">
+				<div class="elementor-element elementor-element-6b5e495 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title" data-id="6b5e495" data-element_type="widget" data-widget_type="cmsmasters-title.default">
+				<div class="elementor-widget-container">
+					<h6 class="cmsmasters-widget-title__heading "><span class="title-inner-element">Address:</span></h6>				</div>
+				</div>
+				<div class="elementor-element elementor-element-7b73888 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="7b73888" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<div set:html={locations[0].address_html}></div>								</div>
+				</div>
+				<div class="elementor-element elementor-element-2ce3ba6 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="2ce3ba6" data-element_type="widget" data-widget_type="cmsmasters-button.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={locations[0].button_url} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{locations[0].button_text}</span></span></a></div></div>				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-1c67cd4 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="1c67cd4" data-element_type="container">
+				<div class="elementor-element elementor-element-7bc89bc cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title" data-id="7bc89bc" data-element_type="widget" data-widget_type="cmsmasters-title.default">
+				<div class="elementor-widget-container">
+					<h6 class="cmsmasters-widget-title__heading "><span class="title-inner-element">Open:</span></h6>				</div>
+				</div>
+				<div class="elementor-element elementor-element-a93de5a cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="a93de5a" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p set:html={locations[0].hours_html}></p>								</div>
+				</div>
+				</div>
+					</div>
+				</div>
+				</div>
+		)}
+		{locations[1] && (
+			<div class="elementor-element elementor-element-c773261 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="c773261" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:500}" style="visibility: visible; opacity: 1;">
+				<div class="elementor-element elementor-element-aa18898 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-image" data-id="aa18898" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" width="1178" height="695" src={locations[1].image_url} class="attachment-full size-full wp-image-39889" alt="">															</div>
+				</div>
+				<div class="elementor-element elementor-element-b5eb33b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading" data-id="b5eb33b" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">{locations[1].name}</h4>				</div>
+				</div>
+		<div class="elementor-element elementor-element-bbcd3f4 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="bbcd3f4" data-element_type="container">
+		<div class="elementor-element elementor-element-870a3d1 e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="870a3d1" data-element_type="container">
+				<div class="elementor-element elementor-element-b4a4f94 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title" data-id="b4a4f94" data-element_type="widget" data-widget_type="cmsmasters-title.default">
+				<div class="elementor-widget-container">
+					<h6 class="cmsmasters-widget-title__heading "><span class="title-inner-element">Address:</span></h6>				</div>
+				</div>
+				<div class="elementor-element elementor-element-890b01b cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="890b01b" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<div set:html={locations[1].address_html}></div>								</div>
+				</div>
+				<div class="elementor-element elementor-element-ed8e302 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-button" data-id="ed8e302" data-element_type="widget" data-widget_type="cmsmasters-button.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-widget-cmsmasters-button__button-container"><div class="elementor-widget-cmsmasters-button__button-container-inner"><a href={locations[1].button_url} class="cmsmasters-button-link elementor-widget-cmsmasters-button__button cmsmasters-icon-view- cmsmasters-icon-shape- cmsmasters-button-size-sm" role="button" tabindex="0"><span class="elementor-widget-cmsmasters-button__content-wrapper cmsmasters-align-icon-"><span class="elementor-widget-cmsmasters-button__text">{locations[1].button_text}</span></span></a></div></div>				</div>
+				</div>
+				</div>
+		<div class="elementor-element elementor-element-10b648d e-con-full e-flex cmsmasters-block-default e-con e-child" data-id="10b648d" data-element_type="container">
+				<div class="elementor-element elementor-element-27327a1 cmsmasters-color-variation-gradient cmsmasters-line-clamp-no cmsmasters-color-gradient-linear cmsmasters-pointer-none cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-cmsmasters-title cmsmasters-widget-title" data-id="27327a1" data-element_type="widget" data-widget_type="cmsmasters-title.default">
+				<div class="elementor-widget-container">
+					<h6 class="cmsmasters-widget-title__heading "><span class="title-inner-element">Open:</span></h6>				</div>
+				</div>
+				<div class="elementor-element elementor-element-40d311c cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor" data-id="40d311c" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p set:html={locations[1].hours_html}></p>								</div>
+				</div>
+				</div>
+				</div>
+				</div>
+		)}
+					</div>
+				</div>
+
