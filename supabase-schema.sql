@@ -609,15 +609,17 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      '{}'::jsonb, 4, true);
 
 -- Page Sections: Our Team
-INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
+INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
     ('our-team', 'hero', 'hero',
      'Our Team', NULL,
      'A nurturing space where mindful rituals, natural beauty, and healing touch come together to restore your glow—inside and out.',
-     NULL, NULL, 1),
+     NULL, NULL, NULL, '{}'::jsonb, 1, true),
     ('our-team', 'team_list', 'team',
      'Our Specialists', NULL,
-     'Angela Carbone, Mason Goodman, Whitney Pratt, Anne Middleton, Mark Hoffman, Martha Ruiz',
-     NULL, NULL, 2);
+     'Our core team of experienced therapists and wellness practitioners.',
+     NULL, NULL, NULL,
+     '{"placeholder_image":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profiles-placeholder.webp","team_members":[{"name":"Angela Carbone","role":"Soft Tissue Therapist","post_id":"41432","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp","profile_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/angela-carbone/","role_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/soft-tissue-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Mason Goodman","role":"Reflexology Therapist","post_id":"41431","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp","profile_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/mason-goodman/","role_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/reflexology-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Whitney Pratt","role":"Massage Therapist","post_id":"41430","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp","profile_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile/samuel-carter/","role_url":"https://wellness-bliss.cmsmasters.studio/light/cmsms_profile_category/massage-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}}]}'::jsonb,
+     2, true);
 
 -- Page Sections: Prices Page
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
