@@ -564,14 +564,49 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-services-2-1024x820.webp"}'::jsonb, 4, true);
 
 -- Page Sections: Contacts
-INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
+INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
+    -- Hero (contact üstü)
     ('contacts', 'hero', 'hero',
      'Contact Us Easily Online, by Phone or by Dropping In', 'CONTACT US',
-     NULL, NULL, NULL, 1),
+     NULL,
+     NULL, NULL, NULL, '{}'::jsonb, 1, true),
+    -- Üstteki kısa bilgi bloğu
     ('contacts', 'info', 'contact',
      'Contact Information', NULL,
-     'Phone: + 0800 2336 7811 | Address: 14960 Florence Trail Apple Valley, MN 55124 | Hours: Monday – Sunday, 9am – 7pm EST',
-     NULL, NULL, 2);
+     'Learn more about our clinic and doctors and why they are trusted by so many families in our community.',
+     NULL, NULL, NULL, '{}'::jsonb, 2, true),
+    -- All Locations bloğu (iki lokasyon kartı)
+    ('contacts', 'locations', 'locations',
+     'All Locations', NULL,
+     NULL, NULL, NULL, NULL,
+     '{
+        "locations": [
+          {
+            "name": "Apple Valley",
+            "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-contacts-2.webp",
+            "address_html": "14960 Florence Trail<br>Apple Valley, MN 55124",
+            "hours_html": "Monday – Sunday, <br>9am – 7pm EST",
+            "button_text": "Refer a Patient",
+            "button_url": "/about-us"
+          },
+          {
+            "name": "White Bear Lake",
+            "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-contacts-3.webp",
+            "address_html": "2401 East Buffalo St.<br>White Bear Lake, MN 55110",
+            "hours_html": "Monday – Sunday, <br>9am – 7pm EST",
+            "button_text": "Refer a Patient",
+            "button_url": "/about-us"
+          }
+        ]
+      }'::jsonb,
+     3, true),
+    -- Ask a Question bloğu (formun üstündeki başlık + görsel)
+    ('contacts', 'ask_question', 'contact_form',
+     'Ask a Question', NULL,
+     'If you have any questions, you can contact us. Please, fill out the form below.',
+     NULL, NULL,
+     '/assets/light/wp-content/uploads/sites/4/2025/04/61-appointment.webp',
+     '{}'::jsonb, 4, true);
 
 -- Page Sections: Our Team
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, sort_order) VALUES
