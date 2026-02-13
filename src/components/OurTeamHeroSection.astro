@@ -1,0 +1,29 @@
+---
+import { getPageSection } from "../lib/supabase";
+
+const hero = await getPageSection("our-team", "hero");
+
+if (hero && hero.visible === false) {
+	return null;
+}
+
+const title = (hero?.title as string | null) || "Our Team";
+const description =
+	(hero?.description as string | null) ||
+	"A nurturing space where mindful rituals, natural beauty, and healing touch come together to restore your glow—inside and out.";
+---
+				<div class="elementor-element elementor-element-df91be8 e-con-full e-flex cmsmasters-block-default e-con e-parent e-lazyloaded" data-id="df91be8" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+		<div class="elementor-element elementor-element-f9a2ac6 e-flex e-con-boxed cmsmasters-bg-hide-none cmsmasters-bg-hide-none cmsmasters-block-default e-con e-child" data-id="f9a2ac6" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+					<div class="e-con-inner">
+				<div class="elementor-element elementor-element-94bf5f6 cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-heading animated fadeIn" data-id="94bf5f6" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">{title}</h1>				</div>
+				</div>
+				<div class="elementor-element elementor-element-23588e9 elementor-widget__width-initial elementor-widget-tablet__width-initial cmsmasters-block-default cmsmasters-sticky-default elementor-widget elementor-widget-text-editor animated fadeIn" data-id="23588e9" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									{description}								</div>
+				</div>
+					</div>
+				</div>
+				</div>
+
