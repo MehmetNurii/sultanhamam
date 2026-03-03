@@ -162,18 +162,36 @@ const sidebarLinksJson = JSON.stringify(service.sidebar_links || [], null, 2);
 
             <div class="sd-form-grid">
                 <div class="sd-form-group">
-                    <label class="sd-label">Hero Görsel URL</label>
-                    <input type="text" name="hero_image_url" value={service.hero_image_url || ""} class="sd-input" />
-                    {service.hero_image_url && (
-                        <img src={service.hero_image_url} alt="" class="sd-preview-img" />
-                    )}
+                    <label class="sd-label">Hero Görsel</label>
+                    <div class="upload-field">
+                        <input type="text" name="hero_image_url" id="hero_image_url" value={service.hero_image_url || ""} class="sd-input" placeholder="URL girin veya resim yükleyin" />
+                        <div class="upload-dropzone" data-target="hero_image_url" data-folder="services">
+                            <div class="upload-dropzone-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                <span>Sürükle & bırak veya <label class="upload-browse">dosya seç<input type="file" accept="image/*" class="upload-file-input" /></label></span>
+                            </div>
+                            <div class="upload-progress" style="display:none;"><div class="upload-progress-bar"></div><span class="upload-progress-text">Yükleniyor...</span></div>
+                        </div>
+                        <div class="upload-preview" id="preview_hero_image_url">
+                            {service.hero_image_url && <img src={service.hero_image_url} alt="" />}
+                        </div>
+                    </div>
                 </div>
                 <div class="sd-form-group">
-                    <label class="sd-label">İkon URL</label>
-                    <input type="text" name="icon_url" value={service.icon_url || ""} class="sd-input" />
-                    {service.icon_url && (
-                        <img src={service.icon_url} alt="" class="sd-preview-icon" />
-                    )}
+                    <label class="sd-label">İkon</label>
+                    <div class="upload-field">
+                        <input type="text" name="icon_url" id="icon_url" value={service.icon_url || ""} class="sd-input" placeholder="URL girin veya ikon yükleyin" />
+                        <div class="upload-dropzone" data-target="icon_url" data-folder="icons">
+                            <div class="upload-dropzone-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                <span>Sürükle & bırak veya <label class="upload-browse">dosya seç<input type="file" accept="image/*,.svg" class="upload-file-input" /></label></span>
+                            </div>
+                            <div class="upload-progress" style="display:none;"><div class="upload-progress-bar"></div><span class="upload-progress-text">Yükleniyor...</span></div>
+                        </div>
+                        <div class="upload-preview upload-preview--icon" id="preview_icon_url">
+                            {service.icon_url && <img src={service.icon_url} alt="" />}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -374,19 +392,89 @@ const sidebarLinksJson = JSON.stringify(service.sidebar_links || [], null, 2);
         font-size: 0.8rem;
     }
 
-    /* Preview images */
-    .sd-preview-img {
+    /* Upload Field */
+    .upload-field { position: relative; }
+    .upload-dropzone {
         margin-top: 8px;
-        width: 100%;
-        max-height: 120px;
+        border: 2px dashed var(--admin-border-color);
+        border-radius: var(--admin-radius-md);
+        padding: 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: rgba(59, 130, 246, 0.02);
+    }
+    .upload-dropzone:hover, .upload-dropzone.drag-over {
+        border-color: var(--admin-accent);
+        background: rgba(59, 130, 246, 0.06);
+    }
+    .upload-dropzone-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        color: var(--admin-text-muted);
+        font-size: 0.78rem;
+    }
+    .upload-dropzone-content svg { opacity: 0.5; }
+    .upload-browse {
+        color: var(--admin-accent);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .upload-file-input { display: none; }
+    .upload-progress {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+    }
+    .upload-progress-bar {
+        flex: 1;
+        height: 4px;
+        background: var(--admin-border-color);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+    }
+    .upload-progress-bar::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 40%;
+        background: var(--admin-accent);
+        border-radius: 2px;
+        animation: uploadPulse 1s ease-in-out infinite;
+    }
+    @keyframes uploadPulse {
+        0% { width: 20%; left: 0; }
+        50% { width: 40%; left: 30%; }
+        100% { width: 20%; left: 80%; }
+    }
+    .upload-progress-text {
+        font-size: 0.72rem;
+        color: var(--admin-accent);
+        white-space: nowrap;
+    }
+    .upload-preview {
+        margin-top: 8px;
+    }
+    .upload-preview img {
+        max-height: 100px;
+        max-width: 100%;
         object-fit: cover;
         border-radius: 8px;
         border: 1px solid var(--admin-border-color);
     }
-    .sd-preview-icon {
-        margin-top: 8px;
-        width: 40px;
-        height: 40px;
+    .upload-preview--icon img {
+        max-height: 48px;
+        max-width: 48px;
+        border: none;
+    }
+    .upload-error {
+        color: var(--admin-danger, #ef4444);
+        font-size: 0.75rem;
+        margin-top: 4px;
     }
 
     /* FAQ styles */
@@ -471,5 +559,87 @@ const sidebarLinksJson = JSON.stringify(service.sidebar_links || [], null, 2);
         if (editDiv) {
             editDiv.style.display = editDiv.style.display === 'none' ? 'block' : 'none';
         }
+    }
+
+    // === Image Upload Logic ===
+    document.querySelectorAll('.upload-dropzone').forEach(function(dropzone) {
+        var targetId = dropzone.dataset.target;
+        var folder = dropzone.dataset.folder || 'general';
+        var fileInput = dropzone.querySelector('.upload-file-input');
+        var contentEl = dropzone.querySelector('.upload-dropzone-content');
+        var progressEl = dropzone.querySelector('.upload-progress');
+
+        // Drag & drop events
+        dropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropzone.classList.add('drag-over');
+        });
+        dropzone.addEventListener('dragleave', function() {
+            dropzone.classList.remove('drag-over');
+        });
+        dropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length > 0) {
+                uploadFile(e.dataTransfer.files[0], targetId, folder, dropzone);
+            }
+        });
+
+        // File input change
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    uploadFile(fileInput.files[0], targetId, folder, dropzone);
+                    fileInput.value = '';
+                }
+            });
+        }
+    });
+
+    function uploadFile(file, targetId, folder, dropzone) {
+        var contentEl = dropzone.querySelector('.upload-dropzone-content');
+        var progressEl = dropzone.querySelector('.upload-progress');
+        var input = document.getElementById(targetId);
+        var previewEl = document.getElementById('preview_' + targetId);
+
+        // Show progress
+        contentEl.style.display = 'none';
+        progressEl.style.display = 'flex';
+
+        // Remove old error
+        var oldErr = dropzone.parentElement.querySelector('.upload-error');
+        if (oldErr) oldErr.remove();
+
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', folder);
+
+        fetch('/api/upload', { method: 'POST', body: formData })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                contentEl.style.display = 'flex';
+                progressEl.style.display = 'none';
+                if (data.error) {
+                    var errEl = document.createElement('div');
+                    errEl.className = 'upload-error';
+                    errEl.textContent = data.error;
+                    dropzone.parentElement.appendChild(errEl);
+                    return;
+                }
+                // Set URL to input
+                input.value = data.url;
+                // Update preview
+                if (previewEl) {
+                    previewEl.innerHTML = '<img src="' + data.url + '" alt="" />';
+                }
+            })
+            .catch(function(err) {
+                contentEl.style.display = 'flex';
+                progressEl.style.display = 'none';
+                var errEl = document.createElement('div');
+                errEl.className = 'upload-error';
+                errEl.textContent = 'Yükleme başarısız: ' + err.message;
+                dropzone.parentElement.appendChild(errEl);
+            });
     }
 </script>

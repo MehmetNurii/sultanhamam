@@ -1581,6 +1581,11 @@ function getExtraDataInfo(section: PageSection): string[] {
                 section.description || "";
             document.getElementById("sectionImage").value =
                 section.image_url || "";
+    // Update image preview
+    var imgPreview = document.getElementById('preview_sectionImage');
+    if (imgPreview) {
+      imgPreview.innerHTML = section.image_url ? '<img src="' + section.image_url + '" alt="" />' : '';
+    }
             document.getElementById("buttonText").value =
                 section.button_text || "";
             document.getElementById("buttonUrl").value =
@@ -1765,5 +1770,51 @@ function getExtraDataInfo(section: PageSection): string[] {
                 closeEditModal();
             }
         });
-    </script>
+    
+  // === JSON Image Upload Helper ===
+  function jsonUploadImage(input) {
+    if (!input.files || !input.files[0]) return;
+    var file = input.files[0];
+    input.value = '';
+    // Show uploading state in the URL area
+    var area = document.getElementById('jsonUploadedUrls');
+    if (!area) {
+      // Create area below JSON editor if not exists  
+      var editorWrap = document.querySelector('.json-editor-wrap');
+      if (editorWrap) {
+        area = document.createElement('div');
+        area.id = 'jsonUploadedUrls';
+        area.className = 'json-uploaded-urls';
+        area.innerHTML = '<div class="json-uploaded-title">📷 Yüklenen Resimler</div>';
+        editorWrap.parentElement.insertBefore(area, editorWrap.nextSibling);
+      }
+    }
+    var itemId = 'upload-' + Date.now();
+    var itemEl = document.createElement('div');
+    itemEl.className = 'json-uploaded-item uploading';
+    itemEl.id = itemId;
+    itemEl.innerHTML = '⏳ Yükleniyor...';
+    area.appendChild(itemEl);
+    area.style.display = 'block';
+    var fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', 'json-content');
+    fetch('/api/upload', { method: 'POST', body: fd })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var el = document.getElementById(itemId);
+        if (data.error) {
+          el.className = 'json-uploaded-item error';
+          el.textContent = '❌ ' + data.error;
+          return;
+        }
+        el.className = 'json-uploaded-item success';
+        el.innerHTML = '✅ <input type="text" value="' + data.url + '" class="json-uploaded-url" readonly onclick="this.select();document.execCommand(\'copy\');" title="Tıkla kopyala" /> <button type="button" class="json-url-copy-btn" onclick="navigator.clipboard.writeText(\'' + data.url + '\')">Kopyala</button>';
+      })
+      .catch(function(err) {
+        var el = document.getElementById(itemId);
+        el.className = 'json-uploaded-item error';
+        el.textContent = '❌ Hata: ' + err.message;
+      });
+  }</script>
 </AdminLayout>

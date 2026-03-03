@@ -839,6 +839,7 @@ function getExtraDataInfo(section: PageSection): string[] {
               <button type="button" class="json-toolbar-btn" onclick="formatJson()">Formatla</button>
               <button type="button" class="json-toolbar-btn" onclick="compactJson()">Küçült</button>
               <button type="button" class="json-toolbar-btn" onclick="resetJson()">Sıfırla</button>
+                <label class="json-upload-btn" title="Resim yükle ve URL'yi kopyala">📷 Resim Yükle<input type="file" accept="image/*" onchange="jsonUploadImage(this)" /></label>
               <span id="jsonStatus" class="json-status empty">Veri yok</span>
             </div>
             <div class="json-editor-wrap">
@@ -880,6 +881,11 @@ function getExtraDataInfo(section: PageSection): string[] {
     document.getElementById("sectionSubtitle").value = section.subtitle || "";
     document.getElementById("sectionDescription").value = section.description || "";
     document.getElementById("sectionImage").value = section.image_url || "";
+    // Update image preview
+    var imgPreview = document.getElementById('preview_sectionImage');
+    if (imgPreview) {
+      imgPreview.innerHTML = section.image_url ? '<img src="' + section.image_url + '" alt="" />' : '';
+    }
     document.getElementById("buttonText").value = section.button_text || "";
     document.getElementById("buttonUrl").value = section.button_url || "";
     document.getElementById("sectionVisible").checked = section.visible;
@@ -1227,15 +1233,80 @@ function getExtraDataInfo(section: PageSection): string[] {
     }
   });
 
-  document.getElementById("editModal").addEventListener("click", function(e) {
-    if (e.target === this) {
-      closeEditModal();
-    }
-  });
+  // Modal overlay click disabled - only close via X or buttons
 
   document.addEventListener("keydown", function(e) {
     if (e.key === "Escape") {
       closeEditModal();
     }
   });
-</script>
+
+  // === Image Upload Logic ===
+  document.querySelectorAll('.upload-dropzone').forEach(function(dz) {
+    var tid = dz.dataset.target;
+    var fld = dz.dataset.folder || 'general';
+    var fi = dz.querySelector('.upload-file-input');
+    dz.addEventListener('dragover', function(e) { e.preventDefault(); dz.classList.add('drag-over'); });
+    dz.addEventListener('dragleave', function() { dz.classList.remove('drag-over'); });
+    dz.addEventListener('drop', function(e) { e.preventDefault(); dz.classList.remove('drag-over'); if (e.dataTransfer.files.length > 0) doUpload(e.dataTransfer.files[0], tid, fld, dz); });
+    if (fi) fi.addEventListener('change', function() { if (fi.files.length > 0) { doUpload(fi.files[0], tid, fld, dz); fi.value = ''; } });
+  });
+  function doUpload(file, tid, fld, dz) {
+    var c = dz.querySelector('.upload-dropzone-content'), p = dz.querySelector('.upload-progress');
+    var inp = document.getElementById(tid), prev = document.getElementById('preview_' + tid);
+    c.style.display = 'none'; p.style.display = 'flex';
+    var oe = dz.parentElement.querySelector('.upload-error'); if (oe) oe.remove();
+    var fd = new FormData(); fd.append('file', file); fd.append('folder', fld);
+    fetch('/api/upload', { method: 'POST', body: fd }).then(function(r) { return r.json(); }).then(function(d) {
+      c.style.display = 'flex'; p.style.display = 'none';
+      if (d.error) { var e = document.createElement('div'); e.className = 'upload-error'; e.textContent = d.error; dz.parentElement.appendChild(e); return; }
+      inp.value = d.url; if (prev) prev.innerHTML = '<img src="' + d.url + '" alt="" />';
+    }).catch(function(er) { c.style.display = 'flex'; p.style.display = 'none'; var e = document.createElement('div'); e.className = 'upload-error'; e.textContent = 'Hata: ' + er.message; dz.parentElement.appendChild(e); });
+  }
+
+  // === JSON Image Upload Helper ===
+  function jsonUploadImage(input) {
+    if (!input.files || !input.files[0]) return;
+    var file = input.files[0];
+    input.value = '';
+    // Show uploading state in the URL area
+    var area = document.getElementById('jsonUploadedUrls');
+    if (!area) {
+      // Create area below JSON editor if not exists  
+      var editorWrap = document.querySelector('.json-editor-wrap');
+      if (editorWrap) {
+        area = document.createElement('div');
+        area.id = 'jsonUploadedUrls';
+        area.className = 'json-uploaded-urls';
+        area.innerHTML = '<div class="json-uploaded-title">📷 Yüklenen Resimler</div>';
+        editorWrap.parentElement.insertBefore(area, editorWrap.nextSibling);
+      }
+    }
+    var itemId = 'upload-' + Date.now();
+    var itemEl = document.createElement('div');
+    itemEl.className = 'json-uploaded-item uploading';
+    itemEl.id = itemId;
+    itemEl.innerHTML = '⏳ Yükleniyor...';
+    area.appendChild(itemEl);
+    area.style.display = 'block';
+    var fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', 'json-content');
+    fetch('/api/upload', { method: 'POST', body: fd })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var el = document.getElementById(itemId);
+        if (data.error) {
+          el.className = 'json-uploaded-item error';
+          el.textContent = '❌ ' + data.error;
+          return;
+        }
+        el.className = 'json-uploaded-item success';
+        el.innerHTML = '✅ <input type="text" value="' + data.url + '" class="json-uploaded-url" readonly onclick="this.select();document.execCommand(\'copy\');" title="Tıkla kopyala" /> <button type="button" class="json-url-copy-btn" onclick="navigator.clipboard.writeText(\'' + data.url + '\')">Kopyala</button>';
+      })
+      .catch(function(err) {
+        var el = document.getElementById(itemId);
+        el.className = 'json-uploaded-item error';
+        el.textContent = '❌ Hata: ' + err.message;
+      });
+  }</script>

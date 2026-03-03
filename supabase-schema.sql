@@ -905,3 +905,33 @@ CREATE POLICY "Allow all for page_sections" ON page_sections FOR ALL USING (true
 CREATE POLICY "Allow all for services" ON services FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for service_faqs" ON service_faqs FOR ALL USING (true) WITH CHECK (true);
 
+
+-- ============================================
+-- Supabase Storage: site-images bucket
+-- ============================================
+-- Run this in Supabase SQL Editor to create the storage bucket and policies
+
+-- Create the bucket (public = images are publicly accessible via URL)
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('site-images', 'site-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to all files in the bucket
+CREATE POLICY "Public read access for site-images"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'site-images');
+
+-- Allow upload (insert) for anyone (anon key)
+CREATE POLICY "Allow uploads to site-images"
+ON storage.objects FOR INSERT
+WITH CHECK (bucket_id = 'site-images');
+
+-- Allow update for anyone
+CREATE POLICY "Allow updates in site-images"
+ON storage.objects FOR UPDATE
+USING (bucket_id = 'site-images');
+
+-- Allow delete for anyone
+CREATE POLICY "Allow deletes in site-images"
+ON storage.objects FOR DELETE
+USING (bucket_id = 'site-images');
