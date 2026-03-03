@@ -130,7 +130,7 @@ INSERT INTO site_settings (key, value) VALUES
     ('address_label', 'Address'),
     ('work_hours_label', 'Work Hours'),
     ('contacts_label', 'Contacts'),
-    ('header_navigation', '[{"title":"Home","url":"#","visible":true,"menu_type":"mega_menu","children":[{"title":"Home One - Wellness Center","url":"/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-1-light.webp"},{"title":"Home Two - Massage Salon","url":"/home-two/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-2-light.webp"},{"title":"Home Three - Spa Resort","url":"/home-three/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-3-light.webp"}]},{"title":"About Us","url":"/about-us","visible":true,"children":[]},{"title":"Services","url":"#","visible":true,"children":[{"title":"All Services","url":"/services-page","visible":true,"children":[]},{"title":"Wellness Packages","url":"#","visible":true,"children":[{"title":"Balance & Recenter","url":"/services/balance-recenter/","visible":true},{"title":"Blissful Renewal Day","url":"/services/blissful-renewal-day/","visible":true},{"title":"Deep Restoration","url":"/services/deep-restoration/","visible":true},{"title":"Inner Glow Detox","url":"/services/inner-glow-detox/","visible":true},{"title":"Moon & Soul Ritual","url":"/services/moon-soul-ritual/","visible":true},{"title":"Serenity Starter","url":"/services/serenity-starter/","visible":true}]},{"title":"Reflexology Therapy","url":"/services/reflexology-therapy/","visible":true,"children":[]},{"title":"Facial Massage","url":"/services/facial-massage/","visible":true,"children":[]},{"title":"Swedish Relaxation Massage","url":"/services/swedish-relaxation-massage/","visible":true,"children":[]},{"title":"Deep Tissue Therapy","url":"/services/deep-tissue-therapy/","visible":true,"children":[]},{"title":"Hot Stone Massage","url":"/services/hot-stone-massage/","visible":true,"children":[]},{"title":"Aromatherapy Massage","url":"/services/aromatherapy-massage/","visible":true,"children":[]}]},{"title":"Pages","url":"#","visible":true,"children":[{"title":"Appointment","url":"/appointment","visible":true,"children":[]},{"title":"Our Team","url":"/our-team","visible":true,"children":[]},{"title":"Prices Guide","url":"/prices-page","visible":true,"children":[]},{"title":"Shop","url":"/shop","visible":true,"children":[]},{"title":"Events","url":"/events-page","visible":true,"children":[]},{"title":"Blog","url":"/blog-page","visible":true,"children":[]},{"title":"Image Credits","url":"/image-credits","visible":true,"children":[]}]},{"title":"Contacts","url":"/contacts","visible":true,"children":[]}]'),
+    ('header_navigation', '[{"title":"Home","url":"#","visible":true,"menu_type":"mega_menu","children":[{"title":"Home One - Wellness Center","url":"/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-1-light.webp"},{"title":"Home Two - Massage Salon","url":"/home-two/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-2-light.webp"},{"title":"Home Three - Spa Resort","url":"/home-three/","visible":true,"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-3-light.webp"}]},{"title":"About Us","url":"/about-us","visible":true,"children":[]},{"title":"Services","url":"#","visible":true,"children":[{"title":"All Services","url":"/services","visible":true,"children":[]},{"title":"Wellness Packages","url":"#","visible":true,"children":[{"title":"Balance & Recenter","url":"/services/balance-recenter/","visible":true},{"title":"Blissful Renewal Day","url":"/services/blissful-renewal-day/","visible":true},{"title":"Deep Restoration","url":"/services/deep-restoration/","visible":true},{"title":"Inner Glow Detox","url":"/services/inner-glow-detox/","visible":true},{"title":"Moon & Soul Ritual","url":"/services/moon-soul-ritual/","visible":true},{"title":"Serenity Starter","url":"/services/serenity-starter/","visible":true}]},{"title":"Reflexology Therapy","url":"/services/reflexology-therapy/","visible":true,"children":[]},{"title":"Facial Massage","url":"/services/facial-massage/","visible":true,"children":[]},{"title":"Swedish Relaxation Massage","url":"/services/swedish-relaxation-massage/","visible":true,"children":[]},{"title":"Deep Tissue Therapy","url":"/services/deep-tissue-therapy/","visible":true,"children":[]},{"title":"Hot Stone Massage","url":"/services/hot-stone-massage/","visible":true,"children":[]},{"title":"Aromatherapy Massage","url":"/services/aromatherapy-massage/","visible":true,"children":[]}]},{"title":"Pages","url":"#","visible":true,"children":[{"title":"Appointment","url":"/appointment","visible":true,"children":[]},{"title":"Our Team","url":"/our-team","visible":true,"children":[]},{"title":"Prices Guide","url":"/prices-page","visible":true,"children":[]},{"title":"Shop","url":"/shop","visible":true,"children":[]},{"title":"Events","url":"/events-page","visible":true,"children":[]},{"title":"Blog","url":"/blog-page","visible":true,"children":[]},{"title":"Image Credits","url":"/image-credits","visible":true,"children":[]}]},{"title":"Contacts","url":"/contacts","visible":true,"children":[]}]'),
     ('footer_navigation', '[{"title":"Home","url":"/","visible":true},{"title":"About Us","url":"/about-us","visible":true},{"title":"Shop","url":"/shop","visible":true},{"title":"Blog","url":"/blog-page","visible":true},{"title":"Contacts","url":"/contacts","visible":true}]')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 
@@ -158,7 +158,7 @@ INSERT INTO navigation (id, title, url, sort_order, visible, parent_id, location
     (7, 'Home Two - Massage Salon', '/home-two/', 2, true, 1, 'header', '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-2-light.webp"}'),
     (8, 'Home Three - Spa Resort', '/home-three/', 3, true, 1, 'header', '{"image_url":"/assets/light/wp-content/uploads/sites/4/2025/05/61-mega-menu-3-light.webp"}'),
     -- Services sub-menu
-    (9, 'All Services', '/services-page', 1, true, 3, 'header', '{}'),
+    (9, 'All Services', '/services', 1, true, 3, 'header', '{}'),
     (10, 'Wellness Packages', '#', 2, true, 3, 'header', '{}'),
     (11, 'Reflexology Therapy', '/services/reflexology-therapy/', 3, true, 3, 'header', '{}'),
     (12, 'Facial Massage', '/services/facial-massage/', 4, true, 3, 'header', '{}'),
@@ -202,7 +202,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
     ('index', 'hero', 'hero', 
      'Experience the Healing Power of Massage', NULL, NULL,
-     'Explore Our Services', '/services-page', NULL, '{}'::jsonb, 1, true),
+     'Explore Our Services', '/services', NULL, '{}'::jsonb, 1, true),
     ('index', 'intro', 'intro',
      'Welcome to Wellness Bliss',
      'Reconnect with Yourself. Holistic Massage in a Space Inspired by Nature''s Calm',
@@ -214,7 +214,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'More About Us', '/about-us', '/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-3.webp', '{}'::jsonb, 3, true),
     ('index', 'services', 'services',
      'Our Services', NULL, NULL,
-     'View all Services', '/services-page', NULL,
+     'View all Services', '/services', NULL,
      '{"services": [
         {
           "title": "Swedish Relaxation Massage",
@@ -268,7 +268,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('index', 'features', 'features',
      'The Healing Power of Touch',
      'Restore Balance, Ease Tension, and Reconnect with Your Body',
-     NULL, 'Find out More', '/services-page', NULL,
+     NULL, 'Find out More', '/services', NULL,
      '{"features": [
         {"title": "Relieves Stress & Anxiety", "description": "Massage promotes deep relaxation, calming the nervous system and reducing mental fatigue."},
         {"title": "Eases Muscle Tension & Pain", "description": "Targeted techniques release knots, improve flexibility, and help with chronic pain."},
@@ -636,7 +636,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
           "title": "Massage Therapy",
           "description": "Stimulate the body''s own healing response.",
           "icon_class": "cmsms-demo-icons-wellness-bliss",
-          "detail_url": "/services-page/",
+          "detail_url": "/services/",
           "detail_text": "View Details",
           "items": [
             {"name": "Relaxation Massage - 60 mins", "price": "$70"},
