@@ -1,0 +1,604 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getSiteSettings, supabase } from "../../lib/supabase";
+
+let successMessage = "";
+let errorMessage = "";
+
+// Handle form submission
+if (Astro.request.method === "POST") {
+    try {
+        const formData = await Astro.request.formData();
+        const action = formData.get("action");
+
+        if (action === "update_settings") {
+            // Get all form fields and update each setting
+            const keys = formData.getAll("setting_key") as string[];
+            const values = formData.getAll("setting_value") as string[];
+
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                const value = values[i] || "";
+
+                const { error } = await supabase
+                    .from("site_settings")
+                    .upsert({ key, value }, { onConflict: "key" });
+
+                if (error) {
+                    console.error(`Error updating ${key}:`, error);
+                    errorMessage = `Hata: ${key} güncellenemedi - ${error.message}`;
+                    break;
+                }
+            }
+
+            if (!errorMessage) {
+                successMessage = "Ayarlar başarıyla güncellendi!";
+            }
+        }
+    } catch (err) {
+        console.error("Settings update error:", err);
+        errorMessage = "Beklenmeyen bir hata oluştu.";
+    }
+}
+
+const settings = await getSiteSettings();
+
+// Group settings for display
+const settingGroups = [
+    {
+        id: "general",
+        title: "Genel Bilgiler",
+        icon: "🏢",
+        color: "#7c3aed",
+        fields: [
+            { key: "site_title", label: "Site Adı", type: "text" },
+            { key: "site_description", label: "Site Açıklaması", type: "text" },
+            { key: "site_url", label: "Site URL", type: "text" },
+            { key: "home_two_url", label: "Home Two URL", type: "text" },
+            { key: "copyright_text", label: "Telif Hakkı Metni", type: "text" },
+        ],
+    },
+    {
+        id: "logo",
+        title: "Logo",
+        icon: "🎨",
+        color: "#f59e0b",
+        fields: [
+            {
+                key: "logo_url",
+                label: "Logo URL",
+                type: "image",
+                folder: "logo",
+            },
+            { key: "logo_alt", label: "Logo Alt Text", type: "text" },
+            { key: "logo_title", label: "Logo Title", type: "text" },
+        ],
+    },
+    {
+        id: "contact",
+        title: "İletişim Bilgileri",
+        icon: "📞",
+        color: "#10b981",
+        fields: [
+            { key: "phone", label: "Telefon", type: "text" },
+            { key: "email", label: "E-posta", type: "text" },
+            { key: "address", label: "Adres", type: "text" },
+            { key: "address_label", label: "Adres Etiketi", type: "text" },
+            { key: "contacts_label", label: "İletişim Etiketi", type: "text" },
+            { key: "contacts_url", label: "İletişim URL", type: "text" },
+        ],
+    },
+    {
+        id: "hours",
+        title: "Çalışma Saatleri",
+        icon: "🕐",
+        color: "#3b82f6",
+        fields: [
+            {
+                key: "work_hours_label",
+                label: "Çalışma Saatleri Etiketi",
+                type: "text",
+            },
+            { key: "work_hours_weekday", label: "Hafta İçi", type: "text" },
+            { key: "work_hours_saturday", label: "Cumartesi", type: "text" },
+            { key: "work_hours_sunday", label: "Pazar", type: "text" },
+        ],
+    },
+    {
+        id: "social",
+        title: "Sosyal Medya",
+        icon: "📱",
+        color: "#ec4899",
+        fields: [
+            { key: "facebook", label: "Facebook URL", type: "text" },
+            { key: "instagram", label: "Instagram URL", type: "text" },
+            { key: "twitter", label: "Twitter / X URL", type: "text" },
+        ],
+    },
+    {
+        id: "footer",
+        title: "Footer Ayarları",
+        icon: "📄",
+        color: "#6366f1",
+        fields: [
+            {
+                key: "footer_discount_text",
+                label: "İndirim Metni",
+                type: "textarea",
+            },
+            {
+                key: "footer_newsletter_title",
+                label: "Bülten Başlığı",
+                type: "text",
+            },
+            {
+                key: "footer_newsletter_button",
+                label: "Bülten Butonu",
+                type: "text",
+            },
+            {
+                key: "sample_site_text",
+                label: "Örnek Site Metni",
+                type: "text",
+            },
+        ],
+    },
+    {
+        id: "cta",
+        title: "Randevu / CTA",
+        icon: "📅",
+        color: "#f97316",
+        fields: [
+            {
+                key: "book_appointment_text",
+                label: "Randevu Başlığı",
+                type: "text",
+            },
+            {
+                key: "book_appointment_description",
+                label: "Randevu Açıklaması",
+                type: "textarea",
+            },
+            { key: "book_visit_text", label: "Ziyaret Butonu", type: "text" },
+            {
+                key: "book_online_text",
+                label: "Online Rezervasyon Butonu",
+                type: "text",
+            },
+            {
+                key: "view_directions_text",
+                label: "Yol Tarifi Butonu",
+                type: "text",
+            },
+            {
+                key: "view_directions_url",
+                label: "Yol Tarifi URL",
+                type: "text",
+            },
+        ],
+    },
+    {
+        id: "hero",
+        title: "Hero Alanı",
+        icon: "🖼️",
+        color: "#14b8a6",
+        fields: [
+            { key: "hero_title", label: "Hero Başlık", type: "text" },
+            {
+                key: "hero_subtitle",
+                label: "Hero Alt Başlık",
+                type: "textarea",
+            },
+        ],
+    },
+];
+---
+
+<AdminLayout title="Site Ayarları" currentPage="settings">
+    {
+        successMessage && (
+            <div
+                class="admin-alert admin-alert-success"
+                style="margin-bottom: 20px;"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+                {successMessage}
+            </div>
+        )
+    }
+    {
+        errorMessage && (
+            <div
+                class="admin-alert admin-alert-error"
+                style="margin-bottom: 20px;"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+                {errorMessage}
+            </div>
+        )
+    }
+
+    <div class="settings-intro">
+        Site genelindeki ayarları buradan düzenleyebilirsiniz. Header, footer,
+        iletişim bilgileri, çalışma saatleri ve daha fazlası.
+    </div>
+
+    <form method="POST" id="settingsForm">
+        <input type="hidden" name="action" value="update_settings" />
+
+        <div class="settings-grid">
+            {
+                settingGroups.map((group) => (
+                    <div class="settings-group" id={`group-${group.id}`}>
+                        <div
+                            class="settings-group-header"
+                            style={`border-left: 3px solid ${group.color};`}
+                        >
+                            <span class="settings-group-icon">
+                                {group.icon}
+                            </span>
+                            <h3 class="settings-group-title">{group.title}</h3>
+                            <span class="settings-group-count">
+                                {group.fields.length}
+                            </span>
+                        </div>
+                        <div class="settings-group-body">
+                            {group.fields.map((field) => (
+                                <div class="settings-field">
+                                    <label class="settings-label">
+                                        {field.label}
+                                    </label>
+                                    <input
+                                        type="hidden"
+                                        name="setting_key"
+                                        value={field.key}
+                                    />
+                                    {field.type === "textarea" ? (
+                                        <textarea
+                                            name="setting_value"
+                                            class="admin-form-textarea settings-textarea"
+                                            rows="2"
+                                            placeholder={field.label}
+                                        >
+                                            {settings[field.key] || ""}
+                                        </textarea>
+                                    ) : field.type === "image" ? (
+                                        <div class="upload-field">
+                                            <input
+                                                type="text"
+                                                name="setting_value"
+                                                id={`field_${field.key}`}
+                                                class="admin-form-input"
+                                                value={
+                                                    settings[field.key] || ""
+                                                }
+                                                placeholder="URL girin veya resim yükleyin"
+                                            />
+                                            <div
+                                                class="upload-dropzone"
+                                                data-target={`field_${field.key}`}
+                                                data-folder={
+                                                    field.folder || "general"
+                                                }
+                                            >
+                                                <div class="upload-dropzone-content">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="16"
+                                                        height="16"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                        />
+                                                    </svg>
+                                                    <span>
+                                                        Sürükle & bırak veya{" "}
+                                                        <label class="upload-browse">
+                                                            dosya seç
+                                                            <input
+                                                                type="file"
+                                                                accept="image/*,.svg"
+                                                                class="upload-file-input"
+                                                            />
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    class="upload-progress"
+                                                    style="display:none;"
+                                                >
+                                                    <div class="upload-progress-bar" />
+                                                    <span class="upload-progress-text">
+                                                        Yükleniyor...
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="upload-preview"
+                                                id={`preview_field_${field.key}`}
+                                            >
+                                                {settings[field.key] && (
+                                                    <img
+                                                        src={
+                                                            settings[field.key]
+                                                        }
+                                                        alt=""
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            name="setting_value"
+                                            class="admin-form-input"
+                                            value={settings[field.key] || ""}
+                                            placeholder={field.label}
+                                        />
+                                    )}
+                                    <span class="settings-key-badge">
+                                        {field.key}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <div class="settings-save-bar">
+            <button
+                type="submit"
+                class="admin-btn admin-btn-primary settings-save-btn"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"></path>
+                </svg>
+                Tüm Ayarları Kaydet
+            </button>
+        </div>
+    </form>
+</AdminLayout>
+
+<style is:inline>
+    .admin-alert {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        border-radius: var(--admin-radius-md);
+        font-size: 0.875rem;
+    }
+    .admin-alert-success {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--admin-success);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .admin-alert-error {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--admin-danger);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .settings-intro {
+        color: var(--admin-text-muted);
+        font-size: 0.875rem;
+        margin-bottom: 28px;
+        line-height: 1.6;
+    }
+    .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 20px;
+    }
+    .settings-group {
+        background: var(--admin-bg-card);
+        border: 1px solid var(--admin-border-color);
+        border-radius: var(--admin-radius-lg);
+        overflow: hidden;
+        transition: border-color 0.2s;
+    }
+    .settings-group:hover {
+        border-color: rgba(124, 58, 237, 0.3);
+    }
+    .settings-group-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--admin-border-color);
+        background: rgba(0, 0, 0, 0.1);
+    }
+    .settings-group-icon {
+        font-size: 1.2rem;
+    }
+    .settings-group-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+        flex: 1;
+    }
+    .settings-group-count {
+        font-size: 0.65rem;
+        background: rgba(124, 58, 237, 0.15);
+        color: var(--admin-accent-secondary);
+        padding: 2px 8px;
+        border-radius: 9999px;
+        font-weight: 600;
+    }
+    .settings-group-body {
+        padding: 16px 20px;
+    }
+    .settings-field {
+        margin-bottom: 16px;
+        position: relative;
+    }
+    .settings-field:last-child {
+        margin-bottom: 0;
+    }
+    .settings-label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--admin-text-secondary);
+        margin-bottom: 6px;
+    }
+    .settings-textarea {
+        min-height: 60px !important;
+        resize: vertical;
+    }
+    .settings-key-badge {
+        position: absolute;
+        top: 2px;
+        right: 0;
+        font-size: 0.6rem;
+        color: var(--admin-text-muted);
+        font-family: monospace;
+        opacity: 0.5;
+    }
+    .settings-save-bar {
+        position: sticky;
+        bottom: 0;
+        background: var(--admin-bg-primary);
+        border-top: 1px solid var(--admin-border-color);
+        padding: 16px 0;
+        margin-top: 24px;
+        display: flex;
+        justify-content: flex-end;
+        z-index: 10;
+    }
+    .settings-save-btn {
+        padding: 12px 32px;
+        font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+        .settings-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script is:inline>
+    // === Image Upload Logic ===
+    document.querySelectorAll(".upload-dropzone").forEach(function (dropzone) {
+        var targetId = dropzone.dataset.target;
+        var folder = dropzone.dataset.folder || "general";
+        var fileInput = dropzone.querySelector(".upload-file-input");
+
+        dropzone.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            dropzone.classList.add("drag-over");
+        });
+        dropzone.addEventListener("dragleave", function () {
+            dropzone.classList.remove("drag-over");
+        });
+        dropzone.addEventListener("drop", function (e) {
+            e.preventDefault();
+            dropzone.classList.remove("drag-over");
+            if (e.dataTransfer.files.length > 0) {
+                uploadFile(e.dataTransfer.files[0], targetId, folder, dropzone);
+            }
+        });
+
+        if (fileInput) {
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    uploadFile(fileInput.files[0], targetId, folder, dropzone);
+                    fileInput.value = "";
+                }
+            });
+        }
+    });
+
+    function uploadFile(file, targetId, folder, dropzone) {
+        var contentEl = dropzone.querySelector(".upload-dropzone-content");
+        var progressEl = dropzone.querySelector(".upload-progress");
+        var input = document.getElementById(targetId);
+        var previewEl = document.getElementById("preview_" + targetId);
+
+        contentEl.style.display = "none";
+        progressEl.style.display = "flex";
+
+        var oldErr = dropzone.parentElement.querySelector(".upload-error");
+        if (oldErr) oldErr.remove();
+
+        var formData = new FormData();
+        formData.append("file", file);
+        formData.append("folder", folder);
+
+        fetch("/api/upload", { method: "POST", body: formData })
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (data) {
+                contentEl.style.display = "flex";
+                progressEl.style.display = "none";
+                if (data.error) {
+                    var errEl = document.createElement("div");
+                    errEl.className = "upload-error";
+                    errEl.textContent = data.error;
+                    dropzone.parentElement.appendChild(errEl);
+                    return;
+                }
+                input.value = data.url;
+                if (previewEl) {
+                    previewEl.innerHTML =
+                        '<img src="' + data.url + '" alt="" />';
+                }
+            })
+            .catch(function (err) {
+                contentEl.style.display = "flex";
+                progressEl.style.display = "none";
+                var errEl = document.createElement("div");
+                errEl.className = "upload-error";
+                errEl.textContent = "Yükleme başarısız: " + err.message;
+                dropzone.parentElement.appendChild(errEl);
+            });
+    }
+</script>
