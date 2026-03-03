@@ -916,6 +916,12 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('site-images', 'site-images', true)
 ON CONFLICT (id) DO NOTHING;
 
+-- Drop existing policies if they exist (safe re-run)
+DROP POLICY IF EXISTS "Public read access for site-images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow uploads to site-images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow updates in site-images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow deletes in site-images" ON storage.objects;
+
 -- Allow public read access to all files in the bucket
 CREATE POLICY "Public read access for site-images"
 ON storage.objects FOR SELECT
