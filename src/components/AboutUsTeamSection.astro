@@ -3,6 +3,10 @@ import { getPageSection } from '../lib/supabase';
 
 const section = await getPageSection('about-us', 'team');
 
+if (!section || !section.visible) {
+	return null;
+}
+
 const subtitle = section?.subtitle || 'MEET OUR TEAM';
 const title = section?.title || 'Empowering You Through Mindful Wellness';
 const buttonText = section?.button_text || 'Meet the Team';

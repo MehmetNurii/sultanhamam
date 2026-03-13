@@ -31,8 +31,15 @@ export const POST: APIRoute = async ({ request }) => {
             });
         }
 
-        // Generate unique filename
-        const ext = file.name.split('.').pop() || 'jpg';
+        // Generate unique filename - derive extension from MIME type
+        const mimeToExt: Record<string, string> = {
+            'image/jpeg': 'jpg',
+            'image/png': 'png',
+            'image/webp': 'webp',
+            'image/svg+xml': 'svg',
+            'image/gif': 'gif',
+        };
+        const ext = mimeToExt[file.type] || file.name.split('.').pop() || 'jpg';
         const timestamp = Date.now();
         const random = Math.random().toString(36).substring(2, 8);
         const fileName = `${folder}/${timestamp}-${random}.${ext}`;

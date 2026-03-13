@@ -280,8 +280,11 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
         "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-5.webp",
         "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-6.webp",
         "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-7.webp",
+        "https://loytanswpaqcayontuab.supabase.co/storage/v1/object/public/site-images/json-content/1773423512210-5tb8qy.jpg",
         "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-8.webp",
-        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
+        "/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp",
+        "https://loytanswpaqcayontuab.supabase.co/storage/v1/object/public/site-images/json-content/1773423512210-5tb8qy.jpg",
+        "https://loytanswpaqcayontuab.supabase.co/storage/v1/object/public/site-images/json-content/1773423539089-manr0m.jpg"
      ]}'::jsonb, 7, true),
     ('index', 'pricing', 'pricing',
      'Our Prices', NULL, 
