@@ -1,14 +1,15 @@
 {
   "site": {
-    "title": "Wellness Bliss",
-    "description": "Experience the Healing Power of Massage",
-    "phone": "1-800-123-1234",
-    "email": "info@wellnessbliss.com",
-    "address": "123 Wellness Street, Spa City",
+    "title": "Sultan Hamam & Spa Center",
+    "description": "Geleneksel Türk Hamamı ve Spa Deneyimi",
+    "phone": "+90 252 622 0433",
+    "phone_mobile": "+90 507 722 9974",
+    "email": "info@sultanhamamfethiye.com",
+    "address": "Foça Mahallesi, 1030 Sokak No:142, 48300 Fethiye/Muğla",
     "socialMedia": {
-      "facebook": "https://facebook.com/wellnessbliss",
-      "instagram": "https://instagram.com/wellnessbliss",
-      "twitter": "https://twitter.com/wellnessbliss"
+      "facebook": "https://facebook.com/sultanhamamfethiye",
+      "instagram": "https://instagram.com/sultanahammam",
+      "twitter": ""
     }
   },
   "navigation": {

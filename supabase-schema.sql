@@ -99,11 +99,11 @@ CREATE TABLE service_faqs (
 INSERT INTO site_settings (key, value) VALUES
     ('site_title', 'Sultan Hamam Fethiye'),
     ('site_description', 'Authentic Turkish Bath & Spa Experience in Fethiye'),
-    ('phone', '+90 252 614 96 16'),
+    ('phone', '+90 252 622 0433'),
     ('email', 'info@sultanhamamfethiye.com'),
-    ('address', 'Cumhuriyet, Hamam Sk. No:1, 48300 Fethiye/Muğla'),
+    ('address', 'Foça Mahallesi, 1030 Sokak No:142, 48300 Fethiye/Muğla'),
     ('facebook', 'https://facebook.com/sultanhamamfethiye'),
-    ('instagram', 'https://instagram.com/sultanhamamfethiye'),
+    ('instagram', 'https://instagram.com/sultanahammam'),
     ('twitter', ''),
     ('hero_title', 'Authentic Turkish Bath & Spa Experience'),
     ('hero_subtitle', 'Discover the Ancient Tradition of Purification, Renewal, and Deep Relaxation in the Heart of Fethiye'),
@@ -115,9 +115,9 @@ INSERT INTO site_settings (key, value) VALUES
     ('logo_url', '/assets/light/wp-content/uploads/sites/4/2025/05/logo-2.svg'),
     ('logo_alt', 'Sultan Hamam Fethiye'),
     ('logo_title', 'Sultan Hamam Fethiye'),
-    ('work_hours_weekday', 'Monday to Friday: 9AM - 8PM'),
-    ('work_hours_saturday', 'Saturday: 9AM - 8PM'),
-    ('work_hours_sunday', 'Sunday: 9AM - 8PM'),
+    ('work_hours_weekday', 'Her Gün: 10:00 - 23:45'),
+    ('work_hours_saturday', ''),
+    ('work_hours_sunday', ''),
     ('copyright_text', '© 2026 Sultan Hamam Fethiye - All Rights Reserved'),
     ('sample_site_text', ''),
     ('contacts_url', '/contacts'),
@@ -271,7 +271,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'Skilled therapists and hammam attendants dedicated to your well-being.',
      NULL,
      'Meet the Team', '/our-team', NULL,
-     '{"team_members": []}'::jsonb, 6, true),
+     '{"team_members": []}'::jsonb, 6, false),
     ('index', 'gallery', 'gallery',
      'Photo Gallery',
      'A glimpse into the Sultan Hamam experience',
@@ -407,7 +407,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      'Our Experienced Team', 'meet our team',
      NULL,
      'Meet the Team', '/our-team/', NULL,
-     '{"placeholder_image":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profiles-placeholder.webp","team_members":[{"name":"Angela Carbone","role":"Soft Tissue Therapist","post_id":"41432","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp","profile_url":"/cmsms_profile/angela-carbone/","role_url":"/cmsms_profile_category/soft-tissue-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Mason Goodman","role":"Reflexology Therapist","post_id":"41431","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp","profile_url":"/cmsms_profile/mason-goodman/","role_url":"/cmsms_profile_category/reflexology-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Whitney Pratt","role":"Massage Therapist","post_id":"41430","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp","profile_url":"/cmsms_profile/samuel-carter/","role_url":"/cmsms_profile_category/massage-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}}]}'::jsonb, 4, true),
+     '{"placeholder_image":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profiles-placeholder.webp","team_members":[{"name":"Angela Carbone","role":"Soft Tissue Therapist","post_id":"41432","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-1.webp","profile_url":"/cmsms_profile/angela-carbone/","role_url":"/cmsms_profile_category/soft-tissue-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Mason Goodman","role":"Reflexology Therapist","post_id":"41431","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-2.webp","profile_url":"/cmsms_profile/mason-goodman/","role_url":"/cmsms_profile_category/reflexology-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}},{"name":"Whitney Pratt","role":"Massage Therapist","post_id":"41430","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profile-3.webp","profile_url":"/cmsms_profile/samuel-carter/","role_url":"/cmsms_profile_category/massage-therapist/","social_links":{"facebook":"/assets/external_aHR0cHM6Ly93d3cuZmFjZWJvb2suY29t.wpstudio","twitter":"/assets/external_aHR0cHM6Ly90d2l0dGVyLmNvbS9kZXZf.html","linkedin":"https://www.linkedin.com/in/cmsmasters-wordpress-team-44b35940"}}]}'::jsonb, 4, false),
     ('about-us', 'packages', 'packages',
      'Your Journey to Balance Begins Here', 'wellness packages',
      NULL, NULL, NULL, NULL,
@@ -471,8 +471,8 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
           {
             "name": "Sultan Hamam Fethiye",
             "image_url": "/assets/light/wp-content/uploads/sites/4/2025/04/61-contacts-2.webp",
-            "address_html": "Cumhuriyet, Hamam Sk. No:1<br>48300 Fethiye/Muğla, Turkey",
-            "hours_html": "Monday – Sunday, <br>9am – 8pm",
+            "address_html": "Foça Mahallesi, 1030 Sokak No:142<br>48300 Fethiye/Muğla",
+            "hours_html": "Her Gün<br>10:00 – 23:45",
             "button_text": "Get Directions",
             "button_url": "https://maps.google.com/?q=Sultan+Hamam+Fethiye"
           }
@@ -491,13 +491,13 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('our-team', 'hero', 'hero',
      'Our Team', NULL,
      'Meet the skilled therapists and hammam attendants behind the Sultan Hamam experience.',
-     NULL, NULL, NULL, '{}'::jsonb, 1, true),
+     NULL, NULL, NULL, '{}'::jsonb, 1, false),
     ('our-team', 'team_list', 'team',
      'Our Specialists', NULL,
      'Our core team of experienced therapists and wellness practitioners.',
      NULL, NULL, NULL,
      '{"placeholder_image":"/assets/light/wp-content/uploads/sites/4/2025/04/61-profiles-placeholder.webp","team_members":[]}'::jsonb,
-     2, true);
+     2, false);
 
 -- Page Sections: Prices Page
 INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle, description, button_text, button_url, image_url, extra_data, sort_order, visible) VALUES
