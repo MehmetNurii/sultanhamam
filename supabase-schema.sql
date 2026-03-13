@@ -337,33 +337,93 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
      NULL, NULL, NULL, NULL, 
      '{"testimonials": [
         {
-          "name": "Guest Review",
-          "text": "An absolutely wonderful Turkish bath experience. The staff were incredibly professional and the facilities were spotless. The scrub and foam massage left my skin feeling amazing. Highly recommended for anyone visiting Fethiye!",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-1.webp",
+          "name": "TASATE",
+          "text": "İşletme çok ilgiliydi. Sauna, buhar odası ardından hamam geliyor. İkramlar sınırsız çok beğendim. Kesinlikle öneririm. Tellak Hasret bey e de teşekkür ederim ilgisi için.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjUjnXvGO_iZm-RZJ_dWuMqqtmAVQezTbCe0yMSvRoR-aYLvq9g=s100-c-rp-mo-ba3-br100",
           "rating": 5
         },
         {
-          "name": "Guest Review",
-          "text": "Sultan Hamam is a must-visit in Fethiye. The traditional hammam ritual was authentic and rejuvenating. The sauna, steam room, and pool were all excellent. A truly relaxing experience from start to finish.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-2.webp",
+          "name": "MJ",
+          "text": "These guys are on it!! I had the best experience at Sultan Spa & Hamam! From the moment I arrived, Ali made sure everything was perfect. The staff were friendly, professional, and attentive throughout.",
+          "image": "https://lh3.googleusercontent.com/a/ACg8ocKlTjhbw48yokH0aEEZn6slmXSJ9gwha3oq4eKVcHXhqhUQMA=s100-c-rp-mo-ba4-br100",
           "rating": 5
         },
         {
-          "name": "Guest Review",
-          "text": "Best spa experience we have had on our holiday. The massage therapist was very skilled and attentive. The whole atmosphere is calming and welcoming. Will definitely return next time we are in Fethiye.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-3.webp",
+          "name": "Muhiddin Deniz",
+          "text": "Marmaris Organisations Booker balık adamları ekibi olarak, Sultanhamam Spa Fethiye''ye Marmaris''ten geldik ve mükemmel ötesi bir deneyim yaşadık!",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjWE9kT1c8vILmnf86e9qCkuvBHVxiEGgCiyuW1plnFLLPv5_awV=s100-c-rp-mo-ba3-br100",
           "rating": 5
         },
         {
-          "name": "Guest Review",
-          "text": "We booked the Gold Package and it was worth every penny. Turkish bath followed by a full body massage, face mask, and foot treatment. Left feeling completely renewed. The team is wonderful.",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-4.webp",
+          "name": "ahmet unen",
+          "text": "Ya abicim nasıl bir işletme burası. Kapıdan girdiğim andan çıkış yaptığım ana kadar gösterilen ilgi yapılan ikramlar başta işletme sahibi Ali Bey olmak üzere tüm çalışan arkadaşlara çok çok teşekkürler.",
+          "image": "https://lh3.googleusercontent.com/a/ACg8ocJmWfdhB0JQ7r6cwhkde_2BVypFztzLAjk__aUSj0OI8q_rEA=s100-c-rp-mo-br100",
           "rating": 5
         },
         {
-          "name": "Guest Review",
-          "text": "Outstanding hammam experience. The kese scrub was thorough yet gentle, and the foam massage was pure bliss. The facilities including the pool are a great bonus. Top quality service in Fethiye!",
-          "image": "/assets/light/wp-content/uploads/sites/4/2025/04/61-testimonial-5.webp",
+          "name": "Jane Jackson",
+          "text": "We have been staying locally for 10 days and I wanted to get a Turkish bath and massage. I decided to be quite brave and booked via my hotel to go there solo! I was so glad I did - the experience was absolutely wonderful.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjVEU2CYO9uYQ4p1OJBvdHjjFgPA5XaYc-4q5Oe2EAQU-36AZ72u=s100-c-rp-mo-ba3-br100",
+          "rating": 5
+        },
+        {
+          "name": "burhan büyükaşık",
+          "text": "girişten itibaren güler yüzlü personel sayesinde bi rahat oluyorsun, kese sauna hamam paketi 35 euro, bu fiyat Bence normal..",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjXJ6bgbAFwC1nUvrCA7Kzh6mqjDnASff0SBLuks3bsaTSgC068=s100-c-rp-mo-ba5-br100",
+          "rating": 5
+        },
+        {
+          "name": "Tamana savaheli",
+          "text": "Such a good experience, nice welcoming with the hot or cold beverages even when you are in the sauna. Kind and helpful staff, and the most important of all it was clean. Highly recommended!",
+          "image": "https://lh3.googleusercontent.com/a/ACg8ocIegOtwxj7bTuey7Uze7jhpr6wHTCyLHZi1oXvAfgMjpX8chg=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "Selin Merdin",
+          "text": "Bay bayan karışık olmasından ve kesecilerin erkek olmasından dolayı çekinmiştim ancak kime sorsam Sultan hamamı tavsiye ettiği için bir denemek istedim. Çalışan arkadaşların hepsi kibar misafirperver.",
+          "image": "https://lh3.googleusercontent.com/a/ACg8ocLgR2M5d6uwModDpkiHB6CVMBtBFZTIdIsGDQACD0AtAhpoAQ=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "John Rock",
+          "text": "By far the best Hammam! My Barber in Fethiye recommended we go here as it was his favourite. From the moment we arrived, we were looked after brilliantly. Cannot recommend enough!",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjUDbB2ozE59j9QmOiXffEex6z-o1-XYxZjte3YRwNF9Oj8k25Ne=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "BARIŞ CAN YILDIZ",
+          "text": "Müşteri iletişimleri çok iyiydi güler yüzlü ve samimiydiler. İkramları bol ve sıklıkla tekrarladılar. En güzel kısmı kese ve köpüktü kesinlikle denemenizi öneririm.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjU9xNroxpRhzCZayzK49w1hS8og1NioMlZLGI-7w-IqCa0WHriy=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "Lindsey Brown",
+          "text": "A wonderful experience - we did the full sauna, steam, dry rub, foam experience plus an essential oil massage. Still floating on bubbles. Fantastic!",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjU3PG-Z8MjiSuKt1bZuyJh9pfB3aOtRhMJl0NGWQDA0pIlaZDyk=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "Veli A",
+          "text": "Karşılama, yönlendirme ve temizlik 10 numara. İsteğe göre sert veya orta sert gibi medikal masaj yaptırabilirsiniz. Kesinlikle tavsiye ederim.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjXnX7u2Brc2nbnxwCI9VSpUtOuv37wDOcRXUMpqylCGG0RLnBrk=s100-c-rp-mo-ba6-br100",
+          "rating": 5
+        },
+        {
+          "name": "sufa KÖKTEN",
+          "text": "İşletme ilgi alaka hizmet konularında çok başarılı özellikle ateş bey''e ilgilerinden dolayı çok teşekkür ederiz, kesinlikle tavsiye ediyorum.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjWUpTDfDH0It_snFXv176O3k4B6JcXiiG6WKaIwHi3Qd40uiUog=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "Tania Slabbert",
+          "text": "From the moment I walked in I felt welcomed and looked after. I made a booking via WhatsApp which was very quick and professional. When I arrived I was treated like I''m the only one there...very attentive.",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjU3PG-Z8MjiSuKt1bZuyJh9pfB3aOtRhMJl0NGWQDA0pIlaZDyk=s100-c-rp-mo-br100",
+          "rating": 5
+        },
+        {
+          "name": "Nikita Savchenko",
+          "text": "Best experience we have ever had! Definitely one of a kind you would like to have from Turkey! The complex of procedures they have is worth the price they ask: sauna, misty sauna, scrub, foam massage. Highly recommend!",
+          "image": "https://lh3.googleusercontent.com/a-/ALV-UjUO0rjGzDLipOayUlDDBB7pokf6q_jO3vl7GnDCNYu8r6oQ2r0Gdw=s100-c-rp-mo-ba4-br100",
           "rating": 5
         }
      ]}'::jsonb, 9, true),
@@ -415,7 +475,7 @@ INSERT INTO page_sections (page_slug, section_key, section_type, title, subtitle
     ('about-us', 'testimonials', 'testimonials',
      'What Our Guests Say', NULL, NULL,
      'More Reviews', '/', NULL,
-     '{"testimonials":[{"author":"Mary on Hot Stone Massage","text":"Absolutely transformative experience. I felt a deep sense of peace and clarity after just one session. The energy was gentle yet powerful.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-1.webp","rating":5},{"author":"Cassy on Holistic Facial","text":"From the moment I walked in, I felt held and seen. The healing work here is incredibly intuitive and soulful.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-2.webp","rating":5},{"author":"Amanda & Lily on Moon Ritual Session","text":"This space is pure magic. The warmth, professionalism, and spiritual guidance offered are unmatched.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-3.webp","rating":5},{"author":"Noah on Deep Tissue Massage","text":"Every session feels like a reset for my mind, body, and spirit. The healing is deep, and the care is genuine.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-4.webp","rating":5}]}'::jsonb, 6, true),
+     '{"testimonials":[{"author":"ahmet unen","text":"Ya abicim nasıl bir işletme burası. Kapıdan girdiğim andan çıkış yaptığım ana kadar gösterilen ilgi yapılan ikramlar. Tüm çalışan arkadaşlara çok çok teşekkürler.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-1.webp","rating":5},{"author":"Sander bjørvik","text":"Was here with a friend. It was our first hamam experience. The staff sat down with us and talked us through the experience. We found it incredible and highly recommend it!","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-2.webp","rating":5},{"author":"Başak Sakallı","text":"İnanılmaz bir deneyimdi ilk defa sauna ve masaja gittim ve ilgiden ayrı çalışanlardan ayrı hizmet kalitesinden ayrıca memnun kaldık. İyi ki gitmişiz diyorum.","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-3.webp","rating":5},{"author":"ahmet polatöz","text":"Muhteşem samimi ilgi alaka, hiç bir şekilde kendinizi yabancı hissetmiyorsunuz. Kese köpük hayatımda daha önce yaptırmamışım dedirtti. Tavsiye edilir!","image_url":"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-1-testimonial-4.webp","rating":5}]}'::jsonb, 6, true),
     ('about-us', 'appointment', 'appointment',
      'Ready to experience the authentic Turkish bath?', 'Schedule your visit online',
      NULL, NULL, NULL, NULL, '{}'::jsonb, 7, true);
