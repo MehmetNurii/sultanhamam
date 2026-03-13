@@ -2,13 +2,26 @@
 -- WELLNESS SITE - FULL DATABASE SCHEMA
 -- =============================================
 
--- 1. CLEANUP
-DROP TABLE IF EXISTS service_faqs;
-DROP TABLE IF EXISTS services;
-DROP TABLE IF EXISTS page_sections;
-DROP TABLE IF EXISTS navigation;
-DROP TABLE IF EXISTS pages;
-DROP TABLE IF EXISTS site_settings;
+-- 1. CLEANUP: Tüm policy, tablo ve veriyi sıfırla
+-- Önce RLS policy'lerini sil (tablo silinmeden önce)
+DO $$ BEGIN
+    -- Table policies
+    DROP POLICY IF EXISTS "Allow all for site_settings" ON site_settings;
+    DROP POLICY IF EXISTS "Allow all for pages" ON pages;
+    DROP POLICY IF EXISTS "Allow all for navigation" ON navigation;
+    DROP POLICY IF EXISTS "Allow all for page_sections" ON page_sections;
+    DROP POLICY IF EXISTS "Allow all for services" ON services;
+    DROP POLICY IF EXISTS "Allow all for service_faqs" ON service_faqs;
+EXCEPTION WHEN undefined_table THEN NULL;
+END $$;
+
+-- Tabloları CASCADE ile sil (foreign key bağımlılıkları dahil)
+DROP TABLE IF EXISTS service_faqs CASCADE;
+DROP TABLE IF EXISTS services CASCADE;
+DROP TABLE IF EXISTS page_sections CASCADE;
+DROP TABLE IF EXISTS navigation CASCADE;
+DROP TABLE IF EXISTS pages CASCADE;
+DROP TABLE IF EXISTS site_settings CASCADE;
 
 -- 2. TABLE DEFINITIONS
 

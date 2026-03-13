@@ -21,17 +21,21 @@ const defaultGalleryImages = [
 	"/assets/light/wp-content/uploads/sites/4/2025/04/61-home-2-9.webp"
 ];
 
-const galleryImages = section?.extra_data?.gallery_images || defaultGalleryImages;
+const extraData = (section?.extra_data || {}) as Record<string, any>;
+const galleryImages: string[] = (extraData.gallery_images as string[]) || defaultGalleryImages;
 
-// Helper function: Image URL'den srcset oluştur
+function isExternalUrl(url: string): boolean {
+	return url.startsWith('http://') || url.startsWith('https://');
+}
+
 function getImageSrcset(baseUrl: string): string {
-	// URL'nin sonundaki .webp'yi kaldır
+	if (isExternalUrl(baseUrl)) return '';
 	const basePath = baseUrl.endsWith('.webp') ? baseUrl.slice(0, -5) : baseUrl;
 	return `${basePath}-1024x580.webp 1024w, ${basePath}-300x170.webp 300w, ${basePath}-768x435.webp 768w, ${basePath}-530x300.webp 530w, ${basePath}-600x340.webp 600w, ${basePath}.webp 1180w`;
 }
 
 function getImageSrc(baseUrl: string): string {
-	// URL'nin sonundaki .webp'yi kaldır, sonra -1024x580.webp ekle
+	if (isExternalUrl(baseUrl)) return baseUrl;
 	const basePath = baseUrl.endsWith('.webp') ? baseUrl.slice(0, -5) : baseUrl;
 	return `${basePath}-1024x580.webp`;
 }
@@ -135,8 +139,7 @@ function getImageSrc(baseUrl: string): string {
 													src={imgSrc}
 													class="attachment-large size-large"
 													alt=""
-													srcset={imgSrcset}
-													sizes="(max-width: 1024px) 100vw, 1024px"
+													{...(imgSrcset ? { srcset: imgSrcset, sizes: "(max-width: 1024px) 100vw, 1024px" } : {})}
 												/>
 											</div>
 										</a>
